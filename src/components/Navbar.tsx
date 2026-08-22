@@ -4,7 +4,7 @@ import { NavLink, Link } from 'react-router-dom'
 const links = [
   { to: '/inaugural-60', label: 'The Inaugural 60' },
   { to: '/blog', label: 'Project Notes' },
-  { to: '/about', label: 'About & Mission' },
+  { to: '/about', label: 'Our Mission' },
 ]
 
 export default function Navbar() {

@@ -80,7 +80,7 @@ export default function Home() {
               This is where those stories get sourced, recorded, and carried forward.{' '}
               <span className="grad-text">First base was never the finish line.</span>
             </p>
-            <Link to="/about" className="btn btn-ghost">About &amp; Mission</Link>
+            <Link to="/about" className="btn btn-ghost">Our Mission</Link>
           </div>
         </div>
       </section>

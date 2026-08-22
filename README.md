@@ -9,7 +9,7 @@ Marketing + editorial site for **She's On First**, built with **Vite + React + T
 | Route | Page |
 |-------|------|
 | `/` | Home — hero, Inaugural 60 preview, mission, project notes, updates status |
-| `/about` | About the outlet |
+| `/about` | Our Mission |
 | `/inaugural-60` | Provisional 60-player working roster |
 | `/inaugural-60/:slug` | Player profile route, gated until editorial review is complete |
 | `/blog` | Project methodology notes |
