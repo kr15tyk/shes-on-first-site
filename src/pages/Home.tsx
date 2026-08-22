@@ -48,7 +48,6 @@ export default function Home() {
               const inner = (
                 <>
                   <div className="pt-photo" style={{ background: playerHero[p.hero] }}>
-                    <span className="pt-num">{String(p.number).padStart(2, '0')}</span>
                     {!p.published && <span className="pt-soon">Researching</span>}
                   </div>
                   <div className="pt-body">

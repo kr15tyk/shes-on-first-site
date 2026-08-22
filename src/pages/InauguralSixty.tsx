@@ -5,7 +5,6 @@ function PlayerTile({ p }: { p: Player }) {
   const inner = (
     <>
       <div className="pt-photo" style={{ background: playerHero[p.hero] || 'linear-gradient(150deg,#241553,#1c1044)' }}>
-        <span className="pt-num">{String(p.number).padStart(2, '0')}</span>
         {!p.published && <span className="pt-soon">Researching</span>}
       </div>
       <div className="pt-body">

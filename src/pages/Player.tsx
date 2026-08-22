@@ -78,7 +78,6 @@ export default function Player() {
               {others.map((o) => (
                 <Link key={o.number} to={`/inaugural-60/${o.slug}`} className="ptile ptile-live">
                   <div className="pt-photo" style={{ background: playerHero[o.hero] }}>
-                    <span className="pt-num">{String(o.number).padStart(2, '0')}</span>
                   </div>
                   <div className="pt-body"><h3>{o.name}</h3><span className="meta">{o.position}</span></div>
                 </Link>
