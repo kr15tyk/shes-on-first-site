@@ -31,12 +31,6 @@ export default function Footer() {
             )}
             <span className="footer-note">Contact coming soon</span>
           </div>
-          <div>
-            <h4>Status</h4>
-            <span className="footer-note">Roster provisional</span>
-            <span className="footer-note">Profiles in research</span>
-            <span className="footer-note">Independent project</span>
-          </div>
         </div>
       </div>
       <div className="container footer-bottom">
