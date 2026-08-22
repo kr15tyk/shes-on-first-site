@@ -29,7 +29,7 @@ export default function Footer() {
             ) : (
               <span className="footer-note">Instagram · coming soon</span>
             )}
-            <span className="footer-note">Contact coming soon</span>
+            <a href="mailto:info@shesonfirst.com">info@shesonfirst.com</a>
           </div>
         </div>
       </div>

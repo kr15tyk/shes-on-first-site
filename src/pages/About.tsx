@@ -41,10 +41,12 @@ export default function About() {
             <div className="about-contact" id="contact">
               <h3>Get in touch</h3>
               <p className="muted">
-                A public contact channel is being prepared. Until then, the project remains
-                in research and is not accepting submissions through this website.
+                Photographers, journalists, and potential collaborators are invited to
+                reach out with inquiries, reporting leads, or ideas.
               </p>
-              <span className="btn btn-ghost" aria-disabled="true">Contact coming soon</span>
+              <a className="btn btn-ghost" href="mailto:info@shesonfirst.com">
+                info@shesonfirst.com
+              </a>
             </div>
           </div>
 

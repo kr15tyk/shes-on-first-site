@@ -44,9 +44,20 @@ export default function Article() {
         {article.body.map((p, i) => (
           <p key={i} className={i === 0 ? 'lead-para' : ''}>{p}</p>
         ))}
-        <div className="article-note">
-          Project methodology note. Roster and profile status may change as sources are reviewed.
-        </div>
+        {article.contactEmail ? (
+          <div className="article-contact panel">
+            <span className="eyebrow">Get in Touch</span>
+            <h2>Let&rsquo;s work together.</h2>
+            <p>Send inquiries and collaboration ideas to:</p>
+            <a className="btn btn-primary" href={`mailto:${article.contactEmail}`}>
+              {article.contactEmail}
+            </a>
+          </div>
+        ) : (
+          <div className="article-note">
+            Project methodology note. Roster and profile status may change as sources are reviewed.
+          </div>
+        )}
       </div>
 
       <section className="section">

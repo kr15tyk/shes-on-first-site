@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { articles, Article } from '../data/articles'
 import ArticleCard from '../components/ArticleCard'
 
-const cats: (Article['category'] | 'All')[] = ['All', 'Features', 'Analysis']
+const cats: (Article['category'] | 'All')[] = ['All', 'Features', 'Analysis', 'Contact']
 
 export default function Blog() {
   const [cat, setCat] = useState<(typeof cats)[number]>('All')

@@ -129,6 +129,10 @@
 .article-body p { margin-bottom: 1.3em; }
 .lead-para { font-size: 1.3rem; color: var(--text); line-height: 1.5; }
 .article-note { border-left: 3px solid var(--teal); background: rgba(53, 214, 192, 0.06); padding: 14px 18px; border-radius: 0 8px 8px 0; color: var(--lavender); font-size: 0.95rem; margin-top: 20px; }
+.article-contact { margin-top: 34px; padding: 26px; border-color: var(--line-strong); }
+.article-contact .eyebrow { display: block; margin-bottom: 10px; }
+.article-contact h2 { margin-bottom: 8px; font-size: clamp(1.5rem, 4vw, 2rem); font-style: italic; text-transform: uppercase; }
+.article-contact p { color: var(--lavender); margin-bottom: 18px; }
 
 /* ---------- Schedule ---------- */
 .sched-day { margin-bottom: 40px; }
