@@ -4,7 +4,7 @@ import { NavLink, Link } from 'react-router-dom'
 const links = [
   { to: '/inaugural-60', label: 'The Inaugural 60' },
   { to: '/blog', label: 'Project Notes' },
-  { to: '/about', label: 'About' },
+  { to: '/about', label: 'About & Mission' },
 ]
 
 export default function Navbar() {
@@ -14,7 +14,7 @@ export default function Navbar() {
     <header className="nav">
       <div className="container nav-inner">
         <Link to="/" className="brand" onClick={() => setOpen(false)}>
-          <img src="/badge.png" alt="" className="brand-badge" />
+          <img src="/nav-badge.png" alt="" className="brand-badge" />
           <span className="brand-word">
             She&rsquo;s On First
             <em>Women&rsquo;s Baseball</em>

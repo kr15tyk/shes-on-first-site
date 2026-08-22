@@ -175,6 +175,7 @@
 /* ---------- About ---------- */
 .about-wrap { display: grid; grid-template-columns: 1.7fr 1fr; gap: 40px; align-items: start; }
 .about-main .lead-para { font-size: 1.35rem; line-height: 1.5; }
+.about-main h2 { margin: 1.2em 0 0.45em; font-size: 1.9rem; font-style: italic; text-transform: uppercase; }
 .about-cta { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
 .about-side { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 96px; }
 .stat-panel { padding: 24px; text-align: center; }

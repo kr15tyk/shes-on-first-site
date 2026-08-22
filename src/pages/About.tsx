@@ -5,8 +5,8 @@ export default function About() {
     <>
       <section className="page-head">
         <div className="container">
-          <span className="eyebrow">Who We Are</span>
-          <h1>About She&rsquo;s On First</h1>
+          <span className="eyebrow">Who We Are &amp; Why We&rsquo;re Here</span>
+          <h1>About &amp; Our Mission</h1>
           <p className="muted page-lede">
             An independent, sourced record of the players opening a new chapter in
             women&rsquo;s baseball.
@@ -22,10 +22,12 @@ export default function About() {
               records the players reported across the four opening-day WPBL rosters while
               the authoritative cohort is still being confirmed.
             </p>
+
+            <h2>Our Mission</h2>
             <p>
               Women have played baseball for as long as the game has existed, and for just as long their
-              stories have gone under-told. We exist to change that: to put these players on the record, in
-              through careful sourcing, visible uncertainty, and responsible image use, and
+              stories have gone under-told. We exist to change that: to put these players on the record
+              through careful sourcing, visible uncertainty, responsible image use, and
               to follow the game forward as it grows.
             </p>
             <p>

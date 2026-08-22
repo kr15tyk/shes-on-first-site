@@ -133,17 +133,6 @@ hr.rule { border: none; border-top: 1px solid var(--line); margin: 0; }
 /* Focus visibility for keyboard users */
 :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; border-radius: 6px; }
 
-/* Sample-content banner */
-.sample-banner {
-  background: rgba(139, 124, 242, 0.12);
-  border-bottom: 1px solid var(--line);
-  color: var(--lavender);
-  font-size: 0.82rem;
-  text-align: center;
-  padding: 7px 16px;
-}
-.sample-banner strong { color: var(--mint); }
-
 @media (max-width: 640px) {
   body { font-size: 16px; }
   .section { padding: 52px 0; }

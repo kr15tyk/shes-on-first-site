@@ -56,5 +56,5 @@ To update the site later: `npm run build` again and re-upload the new `dist/` co
 - **Content:** `src/data/articles.ts`, `players.ts`
 - **Brand colors / fonts:** CSS variables at the top of `src/index.css`
 - **Source logo:** `assets/brand/shes-on-first-logo-transparent.png`
-- **Website logo assets:** `public/logo-lockup.png`, `public/badge.png`, `public/favicon.png`
+- **Website logo assets:** `public/logo-lockup.png`, `public/nav-badge.png`, `public/badge.png`, `public/favicon.png`
 - **Newsletter:** currently shown as coming soon; add a provider before restoring an email form.
