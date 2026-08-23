@@ -14,7 +14,7 @@ export default function Navbar() {
     <header className="nav">
       <div className="container nav-inner">
         <Link to="/" className="brand" onClick={() => setOpen(false)}>
-          <img src="/nav-badge.png" alt="" className="brand-badge" />
+          <img src="/nav-badge.png?v=21e762b" alt="" className="brand-badge" />
           <span className="brand-word">
             She&rsquo;s On First
             <em>Women&rsquo;s Baseball</em>

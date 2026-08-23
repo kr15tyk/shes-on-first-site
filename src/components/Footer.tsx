@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer-inner">
         <div className="footer-brand">
-          <img src="/logo-lockup-sm.png" alt="She's On First" className="footer-logo" />
+          <img src="/logo-lockup-sm.png?v=21e762b" alt="She's On First" className="footer-logo" />
           <p className="muted">
             Independent documentation of women&rsquo;s baseball history.
           </p>

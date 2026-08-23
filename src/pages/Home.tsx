@@ -28,7 +28,7 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-art">
-            <img src="/logo-lockup.png" alt="She's On First" />
+            <img src="/logo-lockup.png?v=21e762b" alt="She's On First" />
           </div>
         </div>
       </section>
