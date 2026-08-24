@@ -44,8 +44,8 @@ export default function About() {
                 Photographers, journalists, and potential collaborators are invited to
                 reach out with inquiries, reporting leads, or ideas.
               </p>
-              <a className="btn btn-ghost" href="mailto:info@shesonfirst.com">
-                info@shesonfirst.com
+              <a className="btn btn-ghost" href="mailto:baseball@shesonfirst.com">
+                baseball@shesonfirst.com
               </a>
             </div>
           </div>

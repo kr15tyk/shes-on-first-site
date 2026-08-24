@@ -60,7 +60,7 @@ export const articles: Article[] = [
       'Journalists can reach out with reporting leads, interview opportunities, corrections, media inquiries, or ideas for collaboration.',
       'Please include your name, outlet or portfolio link, what you’re working on, and any relevant deadline. We’ll respond as soon as we can.',
     ],
-    contactEmail: 'info@shesonfirst.com',
+    contactEmail: 'baseball@shesonfirst.com',
   },
 ]
 
