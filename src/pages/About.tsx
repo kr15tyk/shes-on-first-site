@@ -38,6 +38,28 @@ export default function About() {
               <Link to="/blog" className="btn btn-ghost">Read Project Notes</Link>
             </div>
 
+            <section className="founder-card panel" aria-labelledby="founder-heading">
+              <div className="founder-portrait">
+                <img
+                  src="/kristy-founder-portrait-v1.png"
+                  alt="Illustrated portrait of Kristy at a baseball field"
+                />
+              </div>
+              <div className="founder-copy">
+                <span className="eyebrow">Behind the project</span>
+                <h2 id="founder-heading">Meet Kristy</h2>
+                <p>
+                  She&rsquo;s On First was founded by Kristy, whose career in women&rsquo;s
+                  sports began in her twenties with the WTA Tour. Her first job took her
+                  to tournaments around the world, where she managed competition data and
+                  produced statistics for the media. Today, as founder of K10 Labs and the
+                  builder behind Shufflr, WoSoLive, and WoSpo, she continues turning
+                  overlooked sports information into useful products and trustworthy public
+                  records.
+                </p>
+              </div>
+            </section>
+
             <div className="about-contact" id="contact">
               <h3>Get in touch</h3>
               <p className="muted">
