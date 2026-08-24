@@ -264,6 +264,10 @@
   border: 1px solid rgba(53,214,192,0.35);
 }
 .ptile-pending .pt-photo { filter: saturate(0.55) brightness(0.8); }
+.ptile-stats { transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease; }
+.ptile-stats:hover { transform: translateY(-4px); border-color: rgba(53,214,192,0.4); box-shadow: var(--shadow); }
+.ptile-stats:hover .pt-photo { filter: saturate(0.85) brightness(0.92); }
+.ptile-stats:hover .pt-body h3 { color: var(--mint); }
 .pt-body { padding: 12px 14px 16px; }
 .pt-body h3 { font-size: 1.08rem; font-style: italic; text-transform: uppercase; line-height: 1.05; margin: 0 0 3px; }
 .ptile-live:hover .pt-body h3 { color: var(--mint); }
@@ -324,6 +328,46 @@
 }
 .about-contact { margin-top: 34px; padding-top: 26px; border-top: 1px solid var(--line); }
 .about-contact h3 { font-style: italic; text-transform: uppercase; font-size: 1.3rem; }
+
+.player-stats-section { padding-top: 38px; }
+.player-stats-head { align-items: center; margin-bottom: 22px; }
+.player-stats-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+.player-stats-two-way { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.player-stat-card { padding: 0 22px 22px; overflow: hidden; border-color: var(--line-strong); }
+.player-stat-card h3 {
+  margin: 0 -22px 20px;
+  padding: 15px 22px;
+  border-bottom: 3px solid var(--teal);
+  background: rgba(11,6,32,0.22);
+  font-size: 1.28rem;
+  font-style: italic;
+  text-transform: uppercase;
+}
+.player-stat-metrics { display: grid; grid-template-columns: repeat(9, minmax(58px, 1fr)); gap: 8px; }
+.player-stat-metrics.pitching { grid-template-columns: repeat(5, minmax(68px, 1fr)); }
+.player-stat {
+  min-width: 0;
+  padding: 10px 5px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: rgba(11,6,32,0.28);
+  text-align: center;
+}
+.player-stat b { display: block; color: var(--text); font-family: var(--font-display); font-size: 1.25rem; font-style: italic; line-height: 1; }
+.player-stat span { display: block; margin-top: 5px; color: var(--muted); font-family: var(--font-display); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.profile-coming { padding: 25px 28px; border-left: 3px solid var(--violet); }
+.profile-coming .eyebrow { display: block; margin-bottom: 7px; }
+.profile-coming p { margin: 0; color: var(--lavender); }
+
+@media (max-width: 900px) {
+  .player-stats-two-way { grid-template-columns: 1fr; }
+  .player-stat-metrics { grid-template-columns: repeat(5, minmax(58px, 1fr)); }
+}
+@media (max-width: 560px) {
+  .player-stat-metrics, .player-stat-metrics.pitching { grid-template-columns: repeat(3, minmax(58px, 1fr)); }
+  .player-stat-card { padding-inline: 14px; }
+  .player-stat-card h3 { margin-inline: -14px; padding-inline: 14px; }
+}
 
 @media (max-width: 720px) {
   .player-hero-grid { grid-template-columns: 1fr; gap: 22px; }

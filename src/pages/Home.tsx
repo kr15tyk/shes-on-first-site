@@ -115,7 +115,7 @@ export default function Home() {
               const inner = (
                 <>
                   <div className="pt-photo" style={{ background: playerHero[p.hero] }}>
-                    {!p.published && <span className="pt-soon">Researching</span>}
+                    {!p.published && <span className="pt-soon">Season data</span>}
                   </div>
                   <div className="pt-body">
                     <h3>{p.name}</h3>
@@ -123,10 +123,8 @@ export default function Home() {
                   </div>
                 </>
               )
-              return p.published ? (
-                <Link key={p.number} to={`/inaugural-60/${p.slug}`} className="ptile ptile-live">{inner}</Link>
-              ) : (
-                <div key={p.number} className="ptile ptile-pending">{inner}</div>
+              return (
+                <Link key={p.number} to={`/inaugural-60/${p.slug}`} className={`ptile ${p.published ? 'ptile-live' : 'ptile-pending ptile-stats'}`}>{inner}</Link>
               )
             })}
           </div>

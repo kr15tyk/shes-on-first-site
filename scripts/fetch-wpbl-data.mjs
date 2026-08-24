@@ -38,6 +38,16 @@ const slugify = (name) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '')
 
+const playerSlugAliases = {
+  'maggie-fox': 'maggie-foxx',
+  'val-perez': 'valerie-perez',
+}
+
+const playerSlug = (name) => {
+  const sourceSlug = slugify(name)
+  return playerSlugAliases[sourceSlug] || sourceSlug
+}
+
 const isFinal = (game) => /final/i.test(game.status || '') || Boolean(game.completed_at)
 
 const hasNamedTeams = (game) =>
@@ -122,7 +132,7 @@ function playerRecord(map, player, team, gameDate) {
   const key = player.id || `${slugify(player.name)}:${team.id}`
   const existing = map.get(key) || {
     id: player.id || slugify(player.name),
-    slug: slugify(player.name),
+    slug: playerSlug(player.name),
     name: player.name,
     team: team.name,
     teamAbbr: teamAbbreviations[team.name] || team.code || '',
@@ -142,7 +152,7 @@ function playerRecord(map, player, team, gameDate) {
   return existing
 }
 
-function buildLeaderboards(boxscores, completedGames, fetchedAt) {
+function buildSeasonStats(boxscores, completedGames, fetchedAt) {
   const hitters = new Map()
   const pitchers = new Map()
   const teamGames = new Map()
@@ -193,7 +203,7 @@ function buildLeaderboards(boxscores, completedGames, fetchedAt) {
   const battingMinPa = maxTeamGames * 2
   const pitchingMinInnings = maxTeamGames * 0.5
 
-  const batting = [...hitters.values()]
+  const allBatting = [...hitters.values()]
     .map((record) => {
       const pa = record.ab + record.bb + record.hbp + record.sf + record.sh
       const singles = Math.max(0, record.h - record.double - record.triple - record.hr)
@@ -212,21 +222,29 @@ function buildLeaderboards(boxscores, completedGames, fetchedAt) {
         g: record.games.size,
         pa,
         ab: record.ab,
+        r: record.r,
+        h: record.h,
+        doubles: record.double,
+        triples: record.triple,
         avg,
         obp,
         slg,
         ops: obp + slg,
         hr: record.hr,
         rbi: record.rbi,
+        bb: record.bb,
+        so: record.so,
         sb: record.sb,
       }
     })
+
+  const batting = allBatting
     .filter((record) => record.pa >= battingMinPa)
     .sort((a, b) => b.ops - a.ops || b.hr - a.hr || b.rbi - a.rbi)
     .slice(0, 10)
     .map((record, index) => ({ ...record, rank: index + 1 }))
 
-  const pitching = [...pitchers.values()]
+  const allPitching = [...pitchers.values()]
     .map((record) => {
       const innings = record.outs / 3
       return {
@@ -243,23 +261,58 @@ function buildLeaderboards(boxscores, completedGames, fetchedAt) {
         so: record.so,
         bb: record.bb,
         h: record.h,
+        er: record.er,
       }
     })
+
+  const pitching = allPitching
     .filter((record) => number(record.ip) >= pitchingMinInnings)
     .sort((a, b) => a.era - b.era || a.whip - b.whip || b.so - a.so)
     .slice(0, 10)
     .map((record, index) => ({ ...record, rank: index + 1 }))
 
+  const playersBySlug = new Map()
+
+  for (const record of allBatting) {
+    playersBySlug.set(record.slug, {
+      id: record.id,
+      slug: record.slug,
+      name: record.name,
+      team: record.team,
+      teamAbbr: record.teamAbbr,
+      position: record.position,
+      batting: record,
+      pitching: null,
+    })
+  }
+
+  for (const record of allPitching) {
+    const existing = playersBySlug.get(record.slug)
+    playersBySlug.set(record.slug, {
+      id: record.id,
+      slug: record.slug,
+      name: record.name,
+      team: record.team,
+      teamAbbr: record.teamAbbr,
+      position: record.position,
+      batting: existing?.batting || null,
+      pitching: record,
+    })
+  }
+
   return {
-    source: { label: 'Official WPBL statistics feed', url: `${BASE_URL}/games` },
-    fetchedAt,
-    qualifications: {
-      batting: `Minimum ${battingMinPa} plate appearances`,
-      pitching: `Minimum ${pitchingMinInnings} innings pitched`,
-      note: 'She’s On First qualification rules for this inaugural-season view.',
+    leaderboards: {
+      source: { label: 'Official WPBL statistics feed', url: `${BASE_URL}/games` },
+      fetchedAt,
+      qualifications: {
+        batting: `Minimum ${battingMinPa} plate appearances`,
+        pitching: `Minimum ${pitchingMinInnings} innings pitched`,
+        note: 'She’s On First qualification rules for this inaugural-season view.',
+      },
+      batting,
+      pitching,
     },
-    batting,
-    pitching,
+    players: [...playersBySlug.values()].sort((a, b) => a.name.localeCompare(b.name)),
   }
 }
 
@@ -335,9 +388,21 @@ async function main() {
 
   const finalDates = schedule.games.filter((game) => game.status === 'Final').map((game) => game.start)
   const throughDate = finalDates.length ? dateKey(new Date(finalDates.sort().at(-1))) : ''
+  const { leaderboards, players: playerRecords } = buildSeasonStats(
+    verifiedBoxscores,
+    completedGames,
+    fetchedAt,
+  )
   const leaders = {
-    ...buildLeaderboards(verifiedBoxscores, completedGames, fetchedAt),
+    ...leaderboards,
     throughDate,
+  }
+  const players = {
+    source: schedule.source,
+    fetchedAt,
+    throughDate,
+    method: 'Calculated from box scores marked complete by the official WPBL statistics feed.',
+    players: playerRecords,
   }
 
   const manifest = {
@@ -348,7 +413,7 @@ async function main() {
     transformations: [
       `Adjusted 2026 scheduled_start values by ${START_TIME_ADJUSTMENT_MINUTES} minutes after source testing.`,
       'Removed unplayed duplicate records when a completed record existed for the same date and matchup.',
-      'Calculated leaderboards from completed game box scores only.',
+      'Calculated leaderboards and player snapshots from completed game box scores only.',
     ],
     quality: {
       feedGames: payload.games?.length || 0,
@@ -365,12 +430,13 @@ async function main() {
     [
       ['schedule.json', schedule],
       ['leaders.json', leaders],
+      ['players.json', players],
       ['manifest.json', manifest],
     ].map(([file, data]) => writeFile(resolve(OUTPUT_DIR, file), `${JSON.stringify(data, null, 2)}\n`)),
   )
 
   console.log(
-    `WPBL snapshot: ${schedule.games.length} games, ${leaders.batting.length} batting leaders, ${leaders.pitching.length} pitching leaders, through ${throughDate}`,
+    `WPBL snapshot: ${schedule.games.length} games, ${players.players.length} players, ${leaders.batting.length} batting leaders, ${leaders.pitching.length} pitching leaders, through ${throughDate}`,
   )
   if (errors.length) console.warn(`Boxscore errors: ${errors.length}`)
 }

@@ -55,6 +55,30 @@ export type PitchingLeader = {
   rank: number
 }
 
+export type PlayerBattingStats = Omit<BattingLeader, 'rank'> & {
+  r: number
+  h: number
+  doubles: number
+  triples: number
+  bb: number
+  so: number
+}
+
+export type PlayerPitchingStats = Omit<PitchingLeader, 'rank'> & {
+  er: number
+}
+
+export type PlayerSeasonRecord = {
+  id: string
+  slug: string
+  name: string
+  team: string
+  teamAbbr: string
+  position: string
+  batting: PlayerBattingStats | null
+  pitching: PlayerPitchingStats | null
+}
+
 type Source = { label: string; url: string }
 
 export type WpblData = {
@@ -76,6 +100,13 @@ export type WpblData = {
     }
     batting: BattingLeader[]
     pitching: PitchingLeader[]
+  }
+  players: {
+    source: Source
+    fetchedAt: string
+    throughDate: string
+    method: string
+    players: PlayerSeasonRecord[]
   }
   manifest: {
     source: Source
@@ -101,15 +132,17 @@ function loadWpblData() {
     dataPromise = Promise.all([
       fetch('/data/wpbl/schedule.json'),
       fetch('/data/wpbl/leaders.json'),
+      fetch('/data/wpbl/players.json'),
       fetch('/data/wpbl/manifest.json'),
-    ]).then(async ([schedule, leaders, manifest]) => {
-      if (![schedule, leaders, manifest].every((response) => response.ok)) {
+    ]).then(async ([schedule, leaders, players, manifest]) => {
+      if (![schedule, leaders, players, manifest].every((response) => response.ok)) {
         throw new Error('The inaugural-season data could not be loaded.')
       }
 
       return {
         schedule: await schedule.json(),
         leaders: await leaders.json(),
+        players: await players.json(),
         manifest: await manifest.json(),
       }
     })

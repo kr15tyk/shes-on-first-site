@@ -13,13 +13,14 @@ Marketing + editorial site for **She's On First**, built with **Vite + React + T
 | `/schedule` | 2026 WPBL schedule and completed results |
 | `/leaders` | Qualified batting and pitching leaders |
 | `/inaugural-60` | Provisional 60-player working roster |
-| `/inaugural-60/:slug` | Player profile route, gated until editorial review is complete |
+| `/inaugural-60/:slug` | Player-specific 2026 season snapshot; sourced editorial profile appears after review |
 | `/blog` | Project methodology notes |
 | `/blog/:slug` | Project note reader |
 | `*` | 404 |
 
-The roster is a **provisional working reconstruction**. Player profiles remain unpublished until
-their source, editorial, and image-rights reviews are complete.
+The roster is a **provisional working reconstruction**. Player-specific season data can appear
+before the narrative profile; biographies and imagery remain unpublished until their source,
+editorial, factual-review, and image-rights work is complete.
 
 ## Run locally
 
@@ -28,10 +29,12 @@ npm install
 npm run dev      # http://localhost:5173
 ```
 
-## WPBL schedule and leaders data
+## WPBL schedule, leaders, and player data
 
-The fan-facing schedule and leaderboard pages read normalized static snapshots from
-`public/data/wpbl/`. Refresh those files from the official WPBL public statistics feed with:
+The fan-facing schedule, leaderboard, and player pages read normalized static snapshots from
+`public/data/wpbl/`. The same `players.json` snapshot also supplies the three staged player-review
+pages so public and review figures do not drift apart. Refresh those files from the official WPBL
+public statistics feed with:
 
 ```bash
 npm run data:wpbl
@@ -40,9 +43,9 @@ npm run data:wpbl
 The refresh script is `scripts/fetch-wpbl-data.mjs`. It stores the retrieval time, source URL,
 through-date, qualification rules, and quality notes alongside the data. The current normalization
 adjusts the feed's 2026 start times by one hour, removes duplicate placeholder games, and calculates
-leaders only from box scores marked complete by the source. Review those rules whenever the feed
-changes. Public access to the feed is not a grant to reuse league or team marks; this build uses
-text-only team labels and links back to the official source.
+leaderboards and player snapshots only from box scores marked complete by the source. Review those
+rules whenever the feed changes. Public access to the feed is not a grant to reuse league or team
+marks; this build uses text-only team labels and links back to the official source.
 
 ## Build
 

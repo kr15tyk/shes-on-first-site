@@ -3,13 +3,13 @@
     "label": "Official WPBL statistics feed",
     "url": "https://stats.womensprobaseballleague.com/v1/games"
   },
-  "fetchedAt": "2026-08-24T14:19:50.104Z",
+  "fetchedAt": "2026-08-24T14:56:36.469Z",
   "throughDate": "2026-08-23",
   "timeZone": "America/New_York",
   "transformations": [
     "Adjusted 2026 scheduled_start values by 60 minutes after source testing.",
     "Removed unplayed duplicate records when a completed record existed for the same date and matchup.",
-    "Calculated leaderboards from completed game box scores only."
+    "Calculated leaderboards and player snapshots from completed game box scores only."
   ],
   "quality": {
     "feedGames": 50,

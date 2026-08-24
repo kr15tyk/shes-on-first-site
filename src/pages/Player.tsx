@@ -1,23 +1,57 @@
 import { useParams, Link } from 'react-router-dom'
 import { getPlayer, playerHero, linkMeta, PlayerLinks, publishedPlayers } from '../data/players'
+import PlayerSeasonStats from '../components/PlayerSeasonStats'
+import { useWpblData } from '../data/wpbl'
 
 export default function Player() {
   const { slug } = useParams()
   const p = slug ? getPlayer(slug) : undefined
+  const { data, error, loading } = useWpblData()
+  const stats = p ? data?.players.players.find((record) => record.slug === p.slug) : undefined
 
-  if (!p || !p.published) {
+  if (!p) {
     return (
       <section className="section container notfound">
         <span className="eyebrow">The Inaugural 60</span>
-        <h1>Profile coming soon</h1>
-        <p className="muted">
-          This player&rsquo;s profile is still being researched. Profiles go live only after
-          source, editorial, and image-rights review.
-        </p>
+        <h1>Player not found</h1>
         <div className="hero-cta">
           <Link to="/inaugural-60" className="btn btn-primary">Back to the 60</Link>
         </div>
       </section>
+    )
+  }
+
+  if (!p.published) {
+    return (
+      <article>
+        <section className="player-hero">
+          <div className="container player-hero-grid">
+            <div className="player-photo" style={{ background: playerHero[p.hero] }}>
+              <span className="player-photo-note">Player image pending rights review</span>
+            </div>
+            <div className="player-intro">
+              <Link to="/inaugural-60" className="back-link">← The Inaugural 60</Link>
+              <span className="tag">Season data</span>
+              <h1>{p.name}</h1>
+              <div className="player-facts">
+                <span><b>Team</b>{p.team}</span>
+                <span><b>Position</b>{p.position}</span>
+              </div>
+              <p className="page-lede muted">Her sourced editorial profile is still in review. The season-data panel below shows the current official-feed status.</p>
+            </div>
+          </div>
+        </section>
+        <PlayerSeasonStats
+          stats={stats}
+          throughDate={data?.players.throughDate}
+          sourceUrl={data?.players.source.url}
+          loading={loading}
+          error={error}
+        />
+        <section className="section pt-0">
+          <div className="container"><div className="profile-coming panel"><span className="eyebrow">Full profile coming soon</span><p>Biography, sources, and imagery publish after editorial, factual-review, and image-rights work is complete.</p></div></div>
+        </section>
+      </article>
     )
   }
 
@@ -56,6 +90,14 @@ export default function Player() {
           </div>
         </div>
       </section>
+
+      <PlayerSeasonStats
+        stats={stats}
+        throughDate={data?.players.throughDate}
+        sourceUrl={data?.players.source.url}
+        loading={loading}
+        error={error}
+      />
 
       <section className="section">
         <div className="container player-body">

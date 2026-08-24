@@ -5,7 +5,7 @@ function PlayerTile({ p }: { p: Player }) {
   const inner = (
     <>
       <div className="pt-photo" style={{ background: playerHero[p.hero] || 'linear-gradient(150deg,#241553,#1c1044)' }}>
-        {!p.published && <span className="pt-soon">Researching</span>}
+        {!p.published && <span className="pt-soon">Season data</span>}
       </div>
       <div className="pt-body">
         <h3>{p.name}</h3>
@@ -13,10 +13,8 @@ function PlayerTile({ p }: { p: Player }) {
       </div>
     </>
   )
-  return p.published ? (
-    <Link to={`/inaugural-60/${p.slug}`} className="ptile ptile-live">{inner}</Link>
-  ) : (
-    <div className="ptile ptile-pending">{inner}</div>
+  return (
+    <Link to={`/inaugural-60/${p.slug}`} className={`ptile ${p.published ? 'ptile-live' : 'ptile-pending ptile-stats'}`}>{inner}</Link>
   )
 }
 

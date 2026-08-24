@@ -3,7 +3,7 @@
     "label": "Official WPBL statistics feed",
     "url": "https://stats.womensprobaseballleague.com/v1/games"
   },
-  "fetchedAt": "2026-08-24T14:19:50.104Z",
+  "fetchedAt": "2026-08-24T14:56:36.469Z",
   "timeZone": "America/New_York",
   "timeAdjustmentMinutes": 60,
   "games": [
