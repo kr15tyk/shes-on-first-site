@@ -1,0 +1,164 @@
+import { useEffect, useState } from 'react'
+
+export type Team = {
+  id: string
+  name: string
+  abbr: string
+}
+
+export type Game = {
+  id: string
+  start: string
+  rawStart: string
+  status: 'Final' | 'Live' | 'Upcoming'
+  venue: string
+  homeTeam: Team
+  awayTeam: Team
+  homeScore: number | null
+  awayScore: number | null
+}
+
+export type BattingLeader = {
+  id: string
+  slug: string
+  name: string
+  team: string
+  teamAbbr: string
+  position: string
+  g: number
+  pa: number
+  ab: number
+  avg: number
+  obp: number
+  slg: number
+  ops: number
+  hr: number
+  rbi: number
+  sb: number
+  rank: number
+}
+
+export type PitchingLeader = {
+  id: string
+  slug: string
+  name: string
+  team: string
+  teamAbbr: string
+  position: string
+  g: number
+  ip: string
+  era: number
+  whip: number
+  so: number
+  bb: number
+  h: number
+  rank: number
+}
+
+type Source = { label: string; url: string }
+
+export type WpblData = {
+  schedule: {
+    source: Source
+    fetchedAt: string
+    timeZone: string
+    timeAdjustmentMinutes: number
+    games: Game[]
+  }
+  leaders: {
+    source: Source
+    fetchedAt: string
+    throughDate: string
+    qualifications: {
+      batting: string
+      pitching: string
+      note: string
+    }
+    batting: BattingLeader[]
+    pitching: PitchingLeader[]
+  }
+  manifest: {
+    source: Source
+    fetchedAt: string
+    throughDate: string
+    timeZone: string
+    transformations: string[]
+    quality: {
+      feedGames: number
+      publishedGames: number
+      duplicateOrPlaceholderGamesRemoved: number
+      completedGames: number
+      verifiedBoxscores: number
+      boxscoreErrors: string[]
+    }
+  }
+}
+
+let dataPromise: Promise<WpblData> | null = null
+
+function loadWpblData() {
+  if (!dataPromise) {
+    dataPromise = Promise.all([
+      fetch('/data/wpbl/schedule.json'),
+      fetch('/data/wpbl/leaders.json'),
+      fetch('/data/wpbl/manifest.json'),
+    ]).then(async ([schedule, leaders, manifest]) => {
+      if (![schedule, leaders, manifest].every((response) => response.ok)) {
+        throw new Error('The inaugural-season data could not be loaded.')
+      }
+
+      return {
+        schedule: await schedule.json(),
+        leaders: await leaders.json(),
+        manifest: await manifest.json(),
+      }
+    })
+  }
+
+  return dataPromise
+}
+
+export function useWpblData() {
+  const [data, setData] = useState<WpblData | null>(null)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let mounted = true
+    loadWpblData()
+      .then((value) => mounted && setData(value))
+      .catch((reason: Error) => mounted && setError(reason.message))
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  return { data, error, loading: !data && !error }
+}
+
+export const formatGameDate = (value: string, options?: Intl.DateTimeFormatOptions) =>
+  new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    ...options,
+  }).format(new Date(value))
+
+export const formatGameTime = (value: string) =>
+  new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZoneName: 'short',
+  }).format(new Date(value))
+
+export const formatThroughDate = (value: string) =>
+  new Intl.DateTimeFormat('en-US', {
+    timeZone: 'UTC',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(new Date(`${value}T12:00:00Z`))
+
+export const formatRate = (value: number) => value.toFixed(3).replace(/^0/, '')

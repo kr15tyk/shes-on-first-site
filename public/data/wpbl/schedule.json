@@ -1,0 +1,562 @@
+{
+  "source": {
+    "label": "Official WPBL statistics feed",
+    "url": "https://stats.womensprobaseballleague.com/v1/games"
+  },
+  "fetchedAt": "2026-08-24T14:19:50.104Z",
+  "timeZone": "America/New_York",
+  "timeAdjustmentMinutes": 60,
+  "games": [
+    {
+      "id": "8alsgvzc90ypwphl",
+      "start": "2026-08-01T22:00:00.000Z",
+      "rawStart": "2026-08-01T21:00:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "awayTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "homeScore": 8,
+      "awayScore": 10
+    },
+    {
+      "id": "qk2oug9ikob2a1hl",
+      "start": "2026-08-03T00:30:00.000Z",
+      "rawStart": "2026-08-02T23:30:00Z",
+      "status": "Final",
+      "venue": "Robin Roberts",
+      "homeTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "awayTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "homeScore": 3,
+      "awayScore": 11
+    },
+    {
+      "id": "v7zr9elz0xc5lqbw",
+      "start": "2026-08-06T00:30:00.000Z",
+      "rawStart": "2026-08-05T23:30:00Z",
+      "status": "Final",
+      "venue": "Robin Roberts",
+      "homeTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "awayTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "homeScore": 12,
+      "awayScore": 4
+    },
+    {
+      "id": "tcvtrxvuqrl488nu",
+      "start": "2026-08-06T23:30:00.000Z",
+      "rawStart": "2026-08-06T22:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "awayTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "homeScore": 8,
+      "awayScore": 13
+    },
+    {
+      "id": "qik38y6p8336rqzc",
+      "start": "2026-08-08T00:30:00.000Z",
+      "rawStart": "2026-08-07T23:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "awayTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "homeScore": 12,
+      "awayScore": 3
+    },
+    {
+      "id": "dmgjo870o24ty4q8",
+      "start": "2026-08-08T19:00:00.000Z",
+      "rawStart": "2026-08-08T18:00:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "awayTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "homeScore": 6,
+      "awayScore": 9
+    },
+    {
+      "id": "8m8qyyfytlcngh7s",
+      "start": "2026-08-09T00:30:00.000Z",
+      "rawStart": "2026-08-08T23:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "awayTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "homeScore": 10,
+      "awayScore": 3
+    },
+    {
+      "id": "uqnlzivjhyjg4cj9",
+      "start": "2026-08-10T00:30:00.000Z",
+      "rawStart": "2026-08-09T23:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "awayTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "homeScore": 6,
+      "awayScore": 7
+    },
+    {
+      "id": "rr37bu1ieptkbzhp",
+      "start": "2026-08-13T00:30:00.000Z",
+      "rawStart": "2026-08-12T23:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "awayTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "homeScore": 8,
+      "awayScore": 2
+    },
+    {
+      "id": "oxmfgfm084vlisfi",
+      "start": "2026-08-14T00:30:00.000Z",
+      "rawStart": "2026-08-13T23:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "awayTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "homeScore": 1,
+      "awayScore": 6
+    },
+    {
+      "id": "7sh6ncqvuaz87451",
+      "start": "2026-08-15T00:30:00.000Z",
+      "rawStart": "2026-08-14T23:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "awayTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "homeScore": 17,
+      "awayScore": 3
+    },
+    {
+      "id": "kije6tnlnl71eocg",
+      "start": "2026-08-15T19:00:00.000Z",
+      "rawStart": "2026-08-15T18:00:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "awayTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "homeScore": 6,
+      "awayScore": 11
+    },
+    {
+      "id": "20f8lv4g5kfttfg1",
+      "start": "2026-08-16T00:30:00.000Z",
+      "rawStart": "2026-08-15T23:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "awayTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "homeScore": 3,
+      "awayScore": 13
+    },
+    {
+      "id": "ppkwakaltuvio20t",
+      "start": "2026-08-17T00:30:00.000Z",
+      "rawStart": "2026-08-16T23:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "awayTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "homeScore": 7,
+      "awayScore": 9
+    },
+    {
+      "id": "193phvm8rl9cf53w",
+      "start": "2026-08-19T23:30:00.000Z",
+      "rawStart": "2026-08-19T22:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "awayTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "homeScore": 8,
+      "awayScore": 11
+    },
+    {
+      "id": "dtksss0az7dpa97f",
+      "start": "2026-08-21T00:30:00.000Z",
+      "rawStart": "2026-08-20T23:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "awayTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "homeScore": 4,
+      "awayScore": 9
+    },
+    {
+      "id": "awbrugq1q63c3uph",
+      "start": "2026-08-22T00:30:00.000Z",
+      "rawStart": "2026-08-21T23:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "awayTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "homeScore": 8,
+      "awayScore": 6
+    },
+    {
+      "id": "swof9w8fb4z5n6yz",
+      "start": "2026-08-22T19:00:00.000Z",
+      "rawStart": "2026-08-22T18:00:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "awayTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "homeScore": 5,
+      "awayScore": 12
+    },
+    {
+      "id": "n89hf3ji823n4p07",
+      "start": "2026-08-23T00:30:00.000Z",
+      "rawStart": "2026-08-22T23:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "awayTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "homeScore": 7,
+      "awayScore": 8
+    },
+    {
+      "id": "19k396na7ad9r561",
+      "start": "2026-08-24T00:30:00.000Z",
+      "rawStart": "2026-08-23T23:30:00Z",
+      "status": "Final",
+      "venue": "",
+      "homeTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "awayTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "homeScore": 7,
+      "awayScore": 3
+    },
+    {
+      "id": "7dpofy9p6e5820n6",
+      "start": "2026-08-26T23:30:00.000Z",
+      "rawStart": "2026-08-26T22:30:00Z",
+      "status": "Upcoming",
+      "venue": "",
+      "homeTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "awayTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "id": "8p1wb02nn8fmg2bd",
+      "start": "2026-08-27T23:30:00.000Z",
+      "rawStart": "2026-08-27T22:30:00Z",
+      "status": "Upcoming",
+      "venue": "",
+      "homeTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "awayTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "id": "oajzrobzkcskphmt",
+      "start": "2026-08-28T23:30:00.000Z",
+      "rawStart": "2026-08-28T22:30:00Z",
+      "status": "Upcoming",
+      "venue": "",
+      "homeTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "awayTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "id": "dju038v5qxw7qy98",
+      "start": "2026-08-29T23:30:00.000Z",
+      "rawStart": "2026-08-29T22:30:00Z",
+      "status": "Upcoming",
+      "venue": "",
+      "homeTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "awayTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "id": "pvp728vuqo0l7sh2",
+      "start": "2026-08-30T23:30:00.000Z",
+      "rawStart": "2026-08-30T22:30:00Z",
+      "status": "Upcoming",
+      "venue": "",
+      "homeTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "awayTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "id": "2xvrxw34p2zcs393",
+      "start": "2026-09-02T23:30:00.000Z",
+      "rawStart": "2026-09-02T22:30:00Z",
+      "status": "Upcoming",
+      "venue": "",
+      "homeTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "awayTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "id": "sq38zkgwktwktgu1",
+      "start": "2026-09-03T23:30:00.000Z",
+      "rawStart": "2026-09-03T22:30:00Z",
+      "status": "Upcoming",
+      "venue": "",
+      "homeTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "awayTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "id": "5neiu4wgsg14irxu",
+      "start": "2026-09-04T23:30:00.000Z",
+      "rawStart": "2026-09-04T22:30:00Z",
+      "status": "Upcoming",
+      "venue": "",
+      "homeTeam": {
+        "id": "fttth861nft1j2s7",
+        "name": "New York Heights",
+        "abbr": "NY"
+      },
+      "awayTeam": {
+        "id": "vhubhz8li07tmgq8",
+        "name": "San Francisco Firebells",
+        "abbr": "SF"
+      },
+      "homeScore": null,
+      "awayScore": null
+    },
+    {
+      "id": "2accdtqwx8iaqw6z",
+      "start": "2026-09-05T23:30:00.000Z",
+      "rawStart": "2026-09-05T22:30:00Z",
+      "status": "Upcoming",
+      "venue": "",
+      "homeTeam": {
+        "id": "9f08or2mffx81409",
+        "name": "Boston Hunters",
+        "abbr": "BOS"
+      },
+      "awayTeam": {
+        "id": "v4gisr4rbgmn67b0",
+        "name": "Los Angeles Queens",
+        "abbr": "LA"
+      },
+      "homeScore": null,
+      "awayScore": null
+    }
+  ]
+}

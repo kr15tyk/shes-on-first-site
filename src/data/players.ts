@@ -31,8 +31,7 @@ type RosterGroup = {
   players: Array<[name: string, position: string]>
 }
 
-// Working reconstruction of the four 15-player opening-day rosters. The cohort
-// remains provisional until an authoritative league roster is obtained.
+// Working reconstruction of the four 15-player opening-day rosters.
 const rosterGroups: RosterGroup[] = [
   {
     team: 'Boston Hunters',

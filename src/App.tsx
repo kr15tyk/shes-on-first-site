@@ -7,6 +7,8 @@ import Article from './pages/Article'
 import InauguralSixty from './pages/InauguralSixty'
 import Player from './pages/Player'
 import About from './pages/About'
+import Schedule from './pages/Schedule'
+import Leaders from './pages/Leaders'
 import NotFound from './pages/NotFound'
 
 function ScrollManager() {
@@ -32,6 +34,8 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/inaugural-60" element={<InauguralSixty />} />
         <Route path="/inaugural-60/:slug" element={<Player />} />
+        <Route path="/schedule" element={<Schedule />} />
+        <Route path="/leaders" element={<Leaders />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<Article />} />
         <Route path="/about" element={<About />} />

@@ -5,6 +5,7 @@
   "type": "module",
   "description": "She's On First — women's baseball media site",
   "scripts": {
+    "data:wpbl": "node scripts/fetch-wpbl-data.mjs",
     "stage:reviews": "node scripts/stage-private-reviews.mjs",
     "dev": "npm run stage:reviews && vite",
     "build": "npm run stage:reviews && tsc --noEmit && vite build",

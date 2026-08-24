@@ -3,10 +3,30 @@ import { articles } from '../data/articles'
 import { allPlayers, playerHero } from '../data/players'
 import ArticleCard from '../components/ArticleCard'
 import Newsletter from '../components/Newsletter'
+import { formatGameDate, formatGameTime, formatRate, Game, useWpblData } from '../data/wpbl'
+
+function SeasonGame({ game, label }: { game: Game; label: string }) {
+  const final = game.status === 'Final'
+  return (
+    <div className="season-game">
+      <span className="season-card-label">{label}</span>
+      <div className="season-game-meta">
+        <strong>{formatGameDate(game.start, { weekday: 'short', month: 'short' })}</strong>
+        <span>{final ? 'Final' : formatGameTime(game.start)}</span>
+      </div>
+      <div className="season-team"><span className="team-code">{game.awayTeam.abbr}</span><span>{game.awayTeam.name}</span><b>{final ? game.awayScore : '—'}</b></div>
+      <div className="season-team"><span className="team-code">{game.homeTeam.abbr}</span><span>{game.homeTeam.name}</span><b>{final ? game.homeScore : '—'}</b></div>
+    </div>
+  )
+}
 
 export default function Home() {
   const latest = articles.slice(0, 3)
   const showcase = allPlayers.slice(0, 6)
+  const { data, error, loading } = useWpblData()
+  const nextGame = data?.schedule.games.find((game) => game.status !== 'Final')
+  const completedGames = data?.schedule.games.filter((game) => game.status === 'Final') || []
+  const lastFinal = completedGames[completedGames.length - 1]
 
   return (
     <>
@@ -30,6 +50,53 @@ export default function Home() {
           <div className="hero-art">
             <img src="/logo-lockup.png?v=21e762b" alt="She's On First" />
           </div>
+        </div>
+      </section>
+
+      {/* Inaugural season pulse */}
+      <section className="section season-section">
+        <div className="container">
+          <div className="section-head season-head">
+            <div>
+              <span className="eyebrow">On the Field Now</span>
+              <h2>The Inaugural Season</h2>
+            </div>
+            <div className="season-actions">
+              <Link to="/schedule" className="btn btn-ghost">Full Schedule</Link>
+              <Link to="/leaders" className="btn btn-primary">View Leaders</Link>
+            </div>
+          </div>
+
+          {loading && <div className="data-state panel">Loading the season pulse…</div>}
+          {error && <div className="data-state panel">{error}</div>}
+          {data && (
+            <div className="season-dashboard panel">
+              <div className="season-games">
+                {nextGame && <SeasonGame game={nextGame} label="Up Next" />}
+                {lastFinal && <SeasonGame game={lastFinal} label="Latest Final" />}
+              </div>
+              <div className="season-leaders">
+                <div className="season-leaders-head">
+                  <span className="season-card-label">Batting Leaders</span>
+                  <span className="meta">By OPS</span>
+                </div>
+                {data.leaders.batting.slice(0, 3).map((player) => (
+                  <div className="season-leader" key={player.id}>
+                    <span className="season-rank">{player.rank}</span>
+                    <div><strong>{player.name}</strong><span>{player.teamAbbr} · {player.position}</span></div>
+                    <b>{formatRate(player.ops)}</b>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {data && (
+            <p className="data-source season-source">
+              Results through {new Date(`${data.leaders.throughDate}T12:00:00Z`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}.{' '}
+              <a href={data.leaders.source.url} target="_blank" rel="noopener noreferrer">Official WPBL statistics feed</a>.
+            </p>
+          )}
         </div>
       </section>
 
