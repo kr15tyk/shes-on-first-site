@@ -1,8 +1,20 @@
 import { Link } from 'react-router-dom'
+import Seo from '../components/Seo'
 
 export default function About() {
   return (
     <>
+      <Seo
+        title="Our Mission | She's On First"
+        description="Why She's On First is building a sourced, independent record of women’s baseball and the WPBL’s Inaugural 60."
+        path="/about"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'AboutPage',
+          name: "Our Mission — She's On First",
+          url: 'https://shesonfirst.com/about',
+        }}
+      />
       <section className="page-head">
         <div className="container">
           <span className="eyebrow">Why We&rsquo;re Here</span>

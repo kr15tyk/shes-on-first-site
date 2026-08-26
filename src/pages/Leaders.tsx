@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { allPlayers } from '../data/players'
 import { formatRate, formatThroughDate, useWpblData } from '../data/wpbl'
+import Seo from '../components/Seo'
 
 const profileSlugs = new Set(allPlayers.map((player) => player.slug))
 
@@ -17,6 +18,18 @@ export default function Leaders() {
 
   return (
     <>
+      <Seo
+        title="2026 WPBL Batting & Pitching Leaders | She's On First"
+        description="Qualified 2026 WPBL batting and pitching leaders calculated from completed official box scores."
+        path="/leaders"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Dataset',
+          name: '2026 WPBL batting and pitching leaders',
+          description: 'Qualified leaderboards calculated from completed official WPBL box scores.',
+          url: 'https://shesonfirst.com/leaders',
+        }}
+      />
       <header className="page-head">
         <div className="container">
           <span className="eyebrow">Inaugural Season</span>

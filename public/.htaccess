@@ -1,5 +1,6 @@
-# She's On First — Hostinger (Apache/LiteSpeed) config
-# Ensures the React single-page app routes work on direct load / refresh.
+# She's On First — Hostinger (Apache/LiteSpeed) base config.
+# The production build replaces this file with exact generated route rules so
+# valid deep links load directly and unknown URLs return a real 404 response.
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -9,14 +10,14 @@
   RewriteCond %{HTTPS} off
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # Don't rewrite real files or directories
+  # Don't rewrite real files or directories.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  # Send everything else to the SPA entry point
-  RewriteRule ^ index.html [L]
 </IfModule>
+
+ErrorDocument 404 /404.html
 
 # Gzip compression
 <IfModule mod_deflate.c>

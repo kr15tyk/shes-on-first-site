@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { formatGameDate, formatGameTime, Game, useWpblData } from '../data/wpbl'
+import Seo from '../components/Seo'
 
 const teamNames = ['Boston Hunters', 'Los Angeles Queens', 'New York Heights', 'San Francisco Firebells']
 
@@ -49,6 +50,11 @@ export default function Schedule() {
 
   return (
     <>
+      <Seo
+        title="2026 WPBL Schedule & Results | She's On First"
+        description="Browse the inaugural WPBL schedule and completed results by date, status, and team."
+        path="/schedule"
+      />
       <header className="page-head">
         <div className="container">
           <span className="eyebrow">Inaugural Season</span>

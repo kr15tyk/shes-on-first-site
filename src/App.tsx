@@ -10,6 +10,8 @@ import About from './pages/About'
 import Schedule from './pages/Schedule'
 import Leaders from './pages/Leaders'
 import NotFound from './pages/NotFound'
+import DenaeFeature from './pages/DenaeFeature'
+import WpblFirstMonthAnalysis from './pages/WpblFirstMonthAnalysis'
 
 function ScrollManager() {
   const { pathname, hash } = useLocation()
@@ -38,6 +40,8 @@ export default function App() {
         <Route path="/leaders" element={<Leaders />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<Article />} />
+        <Route path="/features/denae-benites" element={<DenaeFeature />} />
+        <Route path="/analysis/wpbl-first-month" element={<WpblFirstMonthAnalysis />} />
         <Route path="/about" element={<About />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

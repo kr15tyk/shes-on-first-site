@@ -1,2 +1,4 @@
 User-agent: *
 Disallow: /review/
+
+Sitemap: https://shesonfirst.com/sitemap.xml

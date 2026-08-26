@@ -16,6 +16,8 @@ Marketing + editorial site for **She's On First**, built with **Vite + React + T
 | `/inaugural-60/:slug` | Player-specific 2026 season snapshot; sourced editorial profile appears after review |
 | `/blog` | Project methodology notes |
 | `/blog/:slug` | Project note reader |
+| `/features/denae-benites` | Unpublished, noindex flagship-profile draft |
+| `/analysis/wpbl-first-month` | Unpublished, noindex data-story draft |
 | `*` | 404 |
 
 The roster is a **provisional working reconstruction**. Player-specific season data can appear
@@ -50,22 +52,38 @@ marks; this build uses text-only team labels and links back to the official sour
 ## Build
 
 ```bash
-npm run build    # type-checks, then outputs static site to dist/
-npm run preview  # preview the production build locally
+npm run build                 # public build; excludes the unlisted review pages
+npm run build:with-reviews    # explicit review build; includes the three staged review pages
+npm test                      # data, roster, route, sitemap, 404, and review-protection checks
+npm run check                 # public build followed by the full test suite
+npm run preview               # preview the production build locally
 ```
+
+The build generates exact static entry shells for the core routes, all 60 player pages, and project
+notes. Each shell carries its own title, description, canonical, social metadata, and available
+structured data. It also generates `sitemap.xml` and exact Apache/LiteSpeed rewrite rules. Unknown
+paths use `404.html` with a genuine 404 status instead of the former catch-all 200 response.
+
+Private factual-review pages are deliberately separated from the normal public build. Use
+`build:with-reviews` only when intentionally updating those unlisted pages. A normal public upload
+does not include review files, but it also does not delete review pages already present on Hostinger;
+removing live review paths is a separate action that requires an explicit decision.
 
 ## Deploy to Hostinger (shesonfirst.com)
 
-This is a static single-page app, so it deploys as plain files — no Node runtime needed on the server.
+This is a static React site with generated route entry shells, so it deploys as plain files — no Node
+runtime is needed on the server.
 
-1. `npm run build` locally. The finished site is the **contents of `dist/`**.
+1. Run `npm run check` locally. The finished public site is the **contents of `dist/`**. Use
+   `npm run build:with-reviews && npm test` only when the private review pages are intentionally part
+   of the upload.
 2. In hPanel → **Files → File Manager** (or via FTP), open `public_html` for `shesonfirst.com`.
 3. Delete any placeholder files there (e.g. Hostinger's `default.php`), then upload **everything
    inside `dist/`** — including the `assets/` folder — into `public_html`. Upload the whole
    folder contents, not the `dist` folder itself.
 4. The included **`.htaccess`** is copied into `dist/` by the build. It must land in `public_html`
-   so deep links / refreshes (e.g. `/inaugural-60`) resolve to the SPA instead of a 404. File Manager
-   hides dotfiles by default — enable "show hidden files" if you don't see it.
+   so valid deep links / refreshes resolve to their generated route shell and unknown paths return a
+   real 404. File Manager hides dotfiles by default — enable "show hidden files" if you don't see it.
 
 To update the site later: `npm run build` again and re-upload the new `dist/` contents.
 

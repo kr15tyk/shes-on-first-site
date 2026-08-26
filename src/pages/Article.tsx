@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { getArticle, articles, heroGradients } from '../data/articles'
 import ArticleCard from '../components/ArticleCard'
+import Seo from '../components/Seo'
 
 const fmtDate = (iso: string) =>
   new Date(iso + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
@@ -12,6 +13,7 @@ export default function Article() {
   if (!article) {
     return (
       <section className="section container">
+        <Seo title="Story Not Found | She's On First" description="The requested story could not be found." path={`/blog/${slug || ''}`} noindex />
         <h1>Story not found</h1>
         <p className="muted">That post doesn&rsquo;t exist. <Link to="/blog" className="inline-link">Back to the Blog →</Link></p>
       </section>
@@ -22,6 +24,23 @@ export default function Article() {
 
   return (
     <article>
+      <Seo
+        title={`${article.title} | She's On First`}
+        description={article.dek}
+        path={`/blog/${article.slug}`}
+        type="article"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Article',
+          headline: article.title,
+          description: article.dek,
+          datePublished: article.date,
+          dateModified: article.date,
+          author: { '@type': 'Organization', name: article.author },
+          publisher: { '@type': 'Organization', name: "She's On First" },
+          mainEntityOfPage: `https://shesonfirst.com/blog/${article.slug}`,
+        }}
+      />
       <div className="article-hero" style={{ background: heroGradients[article.hero] }}>
         <div className="article-hero-overlay">
           <div className="container">

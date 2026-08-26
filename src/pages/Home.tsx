@@ -4,6 +4,7 @@ import { allPlayers, playerHero } from '../data/players'
 import ArticleCard from '../components/ArticleCard'
 import Newsletter from '../components/Newsletter'
 import { formatGameDate, formatGameTime, formatRate, Game, useWpblData } from '../data/wpbl'
+import Seo from '../components/Seo'
 
 function SeasonGame({ game, label }: { game: Game; label: string }) {
   const final = game.status === 'Final'
@@ -30,6 +31,19 @@ export default function Home() {
 
   return (
     <>
+      <Seo
+        title="She's On First — Women's Baseball Profiles, Data & Stories"
+        description="Independent women’s baseball coverage built around sourced player profiles, transparent WPBL data, and original stories."
+        path="/"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: "She's On First",
+          url: 'https://shesonfirst.com/',
+          description: 'Independent women’s baseball coverage built around sourced player profiles, transparent WPBL data, and original stories.',
+          publisher: { '@type': 'Organization', name: "She's On First" },
+        }}
+      />
       {/* Hero */}
       <section className="hero">
         <div className="container hero-grid">

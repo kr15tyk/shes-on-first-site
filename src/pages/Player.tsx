@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import { getPlayer, playerHero, linkMeta, PlayerLinks, publishedPlayers } from '../data/players'
 import PlayerSeasonStats from '../components/PlayerSeasonStats'
 import { useWpblData } from '../data/wpbl'
+import Seo from '../components/Seo'
 
 export default function Player() {
   const { slug } = useParams()
@@ -12,6 +13,7 @@ export default function Player() {
   if (!p) {
     return (
       <section className="section container notfound">
+        <Seo title="Player Not Found | She's On First" description="The requested player page could not be found." path={`/inaugural-60/${slug || ''}`} noindex />
         <span className="eyebrow">The Inaugural 60</span>
         <h1>Player not found</h1>
         <div className="hero-cta">
@@ -24,6 +26,20 @@ export default function Player() {
   if (!p.published) {
     return (
       <article>
+        <Seo
+          title={`${p.name} — ${p.team} | She's On First`}
+          description={`${p.name} is a ${p.position} for the ${p.team}. View her dated WPBL season snapshot and developing sourced profile.`}
+          path={`/inaugural-60/${p.slug}`}
+          type="profile"
+          structuredData={{
+            '@context': 'https://schema.org',
+            '@type': 'Person',
+            name: p.name,
+            jobTitle: `Professional baseball ${p.position}`,
+            memberOf: { '@type': 'SportsTeam', name: p.team },
+            url: `https://shesonfirst.com/inaugural-60/${p.slug}`,
+          }}
+        />
         <section className="player-hero">
           <div className="container player-hero-grid">
             <div className="player-photo" style={{ background: playerHero[p.hero] }}>
@@ -61,6 +77,20 @@ export default function Player() {
 
   return (
     <article>
+      <Seo
+        title={`${p.name} — ${p.team} | She's On First`}
+        description={`${p.name} is a ${p.position} for the ${p.team}. Read her sourced women’s baseball profile and dated season record.`}
+        path={`/inaugural-60/${p.slug}`}
+        type="profile"
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'Person',
+          name: p.name,
+          jobTitle: `Professional baseball ${p.position}`,
+          memberOf: { '@type': 'SportsTeam', name: p.team },
+          url: `https://shesonfirst.com/inaugural-60/${p.slug}`,
+        }}
+      />
       <section className="player-hero">
         <div className="container player-hero-grid">
           <div className="player-photo" style={{ background: playerHero[p.hero] }}>

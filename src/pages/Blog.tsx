@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { articles, Article } from '../data/articles'
 import ArticleCard from '../components/ArticleCard'
+import Seo from '../components/Seo'
 
 const cats: (Article['category'] | 'All')[] = ['All', 'Features', 'Analysis', 'Contact']
 
@@ -10,6 +11,11 @@ export default function Blog() {
 
   return (
     <>
+      <Seo
+        title="Project Notes | She's On First"
+        description="Reporting, methodology, sourcing notes, and collaboration information from She's On First."
+        path="/blog"
+      />
       <section className="page-head">
         <div className="container">
           <span className="eyebrow">Behind the Record</span>

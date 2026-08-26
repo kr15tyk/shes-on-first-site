@@ -34,6 +34,7 @@ export type BattingLeader = {
   ops: number
   hr: number
   rbi: number
+  bb: number
   sb: number
   rank: number
 }
