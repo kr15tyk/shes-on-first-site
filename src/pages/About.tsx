@@ -69,6 +69,12 @@ export default function About() {
                   overlooked sports information into useful products and trustworthy public
                   records.
                 </p>
+                <p>
+                  Baseball and soccer are also part of everyday life for Kristy and her
+                  wife&mdash;the sports they follow, talk about, and love together. She&rsquo;s
+                  On First brings that shared fandom together with Kristy&rsquo;s background in
+                  sports data and public records.
+                </p>
               </div>
             </section>
 
