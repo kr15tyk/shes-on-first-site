@@ -60,6 +60,27 @@ const sources = [
     url: 'https://stats.womensprobaseballleague.com/v1/games',
     note: 'Source data for the dated season snapshot calculated by She’s On First.',
   },
+  {
+    id: 9,
+    publisher: 'beIN Sports',
+    title: 'Who is Denae Benites? The Big Star of Women’s Professional Baseball',
+    url: 'https://www.beinsports.com/en-us/baseball/articles/who-is-denae-benites-the-big-star-of-women-s-professional-baseball-2026-08-25',
+    note: 'Attributed evidence of Benites’s early-season media prominence and a dated .658 average, eight home runs and 25 runs batted in. The short profile has no visible byline or citations, so its stronger claims were not adopted.',
+  },
+  {
+    id: 10,
+    publisher: 'Philadelphia Inquirer',
+    title: 'See Her Be Her: Documentary focuses on women’s baseball. Can it grow the game?',
+    url: 'https://www.inquirer.com/sports/women-baseball-documentary-see-her-be-her-20250609.html',
+    note: 'Directly identifies Benites as a featured player and documents her participation in a Philadelphia screening panel.',
+  },
+  {
+    id: 11,
+    publisher: 'See Her Be Her',
+    title: 'Watch the Film',
+    url: 'https://www.seeherbeher.org/watchthefilm',
+    note: 'Official film description, director and producer credits, MLB Network premiere and Prime Video availability.',
+  },
 ]
 
 function Cite({ id }: { id: number }) {
@@ -73,7 +94,7 @@ const structuredData = [
     headline: 'Denae Benites Found the Stage Baseball Had Denied Her',
     description: 'The Team USA catcher carried years of self-made opportunity into the WPBL, then hit the first home run in league history.',
     dateCreated: '2026-08-25',
-    dateModified: '2026-08-25',
+    dateModified: '2026-08-27',
     author: { '@type': 'Organization', name: "She's On First", url: 'https://shesonfirst.com/' },
     publisher: { '@type': 'Organization', name: "She's On First", url: 'https://shesonfirst.com/' },
     mainEntityOfPage: 'https://shesonfirst.com/features/denae-benites',
@@ -123,7 +144,7 @@ export default function DenaeFeature() {
             <h1>Denae Benites found the stage baseball had denied her</h1>
             <p className="feature-dek">The Team USA catcher spent years finding her own places to play. In the WPBL’s first game, she authored the league’s first home run.</p>
             <div className="feature-byline">
-              <span>By She&rsquo;s On First</span><span>•</span><span>Drafted August 25, 2026</span><span>•</span><span>8 min read</span>
+              <span>By She&rsquo;s On First</span><span>•</span><span>Updated August 27, 2026</span><span>•</span><span>8 min read</span>
             </div>
           </div>
 
@@ -159,6 +180,9 @@ export default function DenaeFeature() {
           <p>Benites was part of the undefeated 2019 team that won the COPABE Women&rsquo;s Pan-American Championship and the 2024 team that earned World Cup silver.<Cite id={4} /><Cite id={7} /></p>
         </div>
 
+        <h2>Visibility through <em>See Her Be Her</em></h2>
+        <p>Jean Fruth&rsquo;s feature-length documentary <em>See Her Be Her</em> follows women&rsquo;s baseball players and national teams across seven countries. The <em>Philadelphia Inquirer</em> directly identifies Benites as a featured player and reported on her participation in a 2025 Philadelphia screening panel, where the conversation centered on visibility and growing the game.<Cite id={10} /> The film premiered on MLB Network in October 2024 and is now available through Prime Video.<Cite id={11} /></p>
+
         <h2>A louder version of the game</h2>
         <p>Banana Ball supplied something different in 2026: regular training, a stage built around personality and another place to play baseball. Benites joined the Loco Beach Coconuts while preparing for Team USA and the WPBL. She described the environment as a place where the performance and the baseball could reinforce each other instead of competing.<Cite id={1} /><Cite id={6} /></p>
 
@@ -175,6 +199,8 @@ export default function DenaeFeature() {
         </div>
 
         <p className="feature-method">“Documented span” describes the competitive record supported by the reviewed sources. It does not imply uninterrupted participation in every intervening season.</p>
+
+        <p>By August 25, beIN Sports had published a dedicated profile presenting Benites as one of the inaugural season&rsquo;s early standouts and citing a .658 average, eight home runs and 25 runs batted in.<Cite id={9} /> That coverage reflects the attention surrounding her start; the statistics on this page remain tied to the completed-box-score calculation and its visible through-date.</p>
       </div>
 
       <PlayerSeasonStats
@@ -193,7 +219,7 @@ export default function DenaeFeature() {
 
           <div className="feature-editorial-note">
             <span className="eyebrow">Editorial note</span>
-            <p>This draft uses published and official sources checked through August 25, 2026. The statistics panel is a separate dated calculation from completed official WPBL box scores. Denae Benites has not yet been invited to review this draft, and the project has not obtained rights to a player photograph.</p>
+            <p>This draft uses published and official sources checked through August 27, 2026. The statistics panel is a separate dated calculation from completed official WPBL box scores. Denae Benites has not yet been invited to review this draft, and the project has not obtained rights to a player photograph.</p>
           </div>
 
           <section className="feature-sources" aria-labelledby="feature-sources-title">

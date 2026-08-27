@@ -35,16 +35,16 @@ const formatDate = (value) => new Intl.DateTimeFormat('en-US', {
 }).format(new Date(`${value}T12:00:00Z`))
 
 const metric = (label, value) => `
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">${value}</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">${label}</span>
   </div>`
 
 function statsCard(title, values) {
   return `
-    <article style="overflow:hidden;padding:0 18px 18px;border:1px solid var(--line);border-radius:15px;background:var(--panel)">
+    <article class="stat-card" style="overflow:hidden;padding:0 18px 18px;border:1px solid var(--line);border-radius:15px;background:var(--panel)">
       <h3 style="margin:0 -18px 18px;padding:14px 18px;border-bottom:3px solid var(--teal);font-style:italic;text-transform:uppercase">${title}</h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(68px,1fr));gap:8px">${values.join('')}</div>
+      <div class="stat-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(68px,1fr));gap:8px">${values.join('')}</div>
     </article>`
 }
 
@@ -79,7 +79,7 @@ function statsSnapshot(slug) {
   }
 
   return `
-    <section class="section">
+    <section class="section stats-section">
       <div class="shell">
         <span class="eyebrow">2026 WPBL season</span>
         <h2>Dated statistics snapshot</h2>

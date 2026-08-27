@@ -134,31 +134,21 @@
       padding: 18px 0 58px;
     }
 
-    .photo-placeholder {
-      position: relative;
-      aspect-ratio: 4 / 5;
-      overflow: hidden;
+    .profile-art { margin: 0; }
+    .profile-art img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
       border: 1px solid var(--line-strong);
       border-radius: 18px;
       background: linear-gradient(150deg, #101e58, var(--teal));
       box-shadow: 0 24px 58px -28px rgba(0, 0, 0, .95);
     }
-
-    .photo-placeholder::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 42%, rgba(11, 6, 32, .78));
-    }
-
-    .photo-note {
-      position: absolute;
-      z-index: 1;
-      left: 18px;
-      right: 18px;
-      bottom: 17px;
-      color: rgba(244, 242, 252, .76);
-      font-size: .78rem;
+    .profile-art figcaption {
+      margin: 11px 4px 0;
+      color: var(--muted);
+      font-size: .76rem;
+      line-height: 1.45;
       text-align: center;
     }
 
@@ -251,7 +241,7 @@
       .masthead img { width: 170px; }
       .review-panel { margin-bottom: 36px; }
       .profile-hero { grid-template-columns: 1fr; padding-bottom: 42px; }
-      .photo-placeholder { max-width: 245px; }
+      .profile-art { max-width: 360px; }
       .section { padding: 48px 0; }
       .question-list li { grid-template-columns: 36px 1fr; gap: 10px; }
     }
@@ -266,8 +256,9 @@
       a { color: #3c2680; }
     }
   </style>
+  <link rel="stylesheet" href="/review-comic.css">
 </head>
-<body>
+<body class="comic-profile">
   <div class="private-bar">
     <div class="shell">
       <span class="private-label">Private factual review · Not published</span>
@@ -303,15 +294,16 @@
         </div>
         <div class="reply-box">
           <h2>How to reply</h2>
-          <p>Reply in the Instagram conversation where you received this link. Use the question numbers for any items you choose to answer. Answer only what you are comfortable answering&mdash;no form or special format is required.</p>
+          <p>Reply in the Instagram conversation where you received this link, or email <a href="mailto:baseball@shesonfirst.com">baseball@shesonfirst.com</a>. Use the question numbers for any items you choose to answer. Answer only what you are comfortable answering&mdash;no form or special format is required.</p>
         </div>
       </div>
     </section>
 
-    <section class="shell profile-hero" aria-labelledby="player-name">
-      <div class="photo-placeholder" aria-label="Player image pending rights review">
-        <span class="photo-note">Image withheld pending rights review</span>
-      </div>
+    <section class="shell profile-hero comic-cover" aria-labelledby="player-name">
+      <figure class="profile-art">
+        <img src="/claire-eccles-pitching-editorial-v2.png" alt="Proposed editorial illustration of Claire Eccles pitching left-handed from the mound">
+        <figcaption>Proposed AI-assisted editorial illustration · Likeness feedback and separate rights review requested</figcaption>
+      </figure>
       <div>
         <span class="tag">The Inaugural 60</span>
         <h1 class="player-name grad-text" id="player-name">Claire Eccles</h1>
@@ -328,6 +320,12 @@
         </div>
         <p class="body-copy">*Documented elite record; not necessarily continuous. A 2015 Team Canada profile listed 55 kg / 121 lb; that historical value is not presented as a current measurement. Pronunciation and pronouns remain to be confirmed.</p>
       </div>
+    </section>
+
+    <section class="shell milestone-strip" aria-label="Career milestones">
+      <div class="milestone"><b>2017</b>First woman to play in the West Coast League</div>
+      <div class="milestone"><b>11</b>Victoria mound appearances</div>
+      <div class="milestone"><b>No. 21</b>New York Heights</div>
     </section>
 
     <section class="section">
@@ -390,72 +388,72 @@
     </section>
 
 
-    <section class="section">
+    <section class="section stats-section">
       <div class="shell">
         <span class="eyebrow">2026 WPBL season</span>
         <h2>Dated statistics snapshot</h2>
         <p class="stats-note" style="color:var(--lavender);max-width:800px">Calculated from box scores marked complete by the official WPBL statistics feed through <strong>August 23, 2026</strong>. These league figures are included for context and are not something we are asking the player to validate.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
-    <article style="overflow:hidden;padding:0 18px 18px;border:1px solid var(--line);border-radius:15px;background:var(--panel)">
+    <article class="stat-card" style="overflow:hidden;padding:0 18px 18px;border:1px solid var(--line);border-radius:15px;background:var(--panel)">
       <h3 style="margin:0 -18px 18px;padding:14px 18px;border-bottom:3px solid var(--teal);font-style:italic;text-transform:uppercase">Batting</h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(68px,1fr));gap:8px">
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+      <div class="stat-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(68px,1fr));gap:8px">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">8</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">G</span>
   </div>
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">24</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">PA</span>
   </div>
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">.286</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">AVG</span>
   </div>
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">.304</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">OBP</span>
   </div>
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">.333</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">SLG</span>
   </div>
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">.638</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">OPS</span>
   </div>
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">0</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">HR</span>
   </div>
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">4</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">RBI</span>
   </div>
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">1</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">SB</span>
   </div></div>
     </article>
-    <article style="overflow:hidden;padding:0 18px 18px;border:1px solid var(--line);border-radius:15px;background:var(--panel)">
+    <article class="stat-card" style="overflow:hidden;padding:0 18px 18px;border:1px solid var(--line);border-radius:15px;background:var(--panel)">
       <h3 style="margin:0 -18px 18px;padding:14px 18px;border-bottom:3px solid var(--teal);font-style:italic;text-transform:uppercase">Pitching</h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(68px,1fr));gap:8px">
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+      <div class="stat-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(68px,1fr));gap:8px">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">2</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">G</span>
   </div>
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">6.0</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">IP</span>
   </div>
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">4.50</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">ERA</span>
   </div>
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">1.83</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">WHIP</span>
   </div>
-  <div style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
+  <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
     <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">5</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">SO</span>
   </div></div>
@@ -489,21 +487,31 @@
           <li>WPBL, <em>2026 Preseason Prospectus</em> &mdash; New York roster, number, position, and hometown.</li>
           <li><a href="https://www.cbssports.com/mlb/news/knuckleballer-claire-eccles-becomes-first-woman-to-compete-in-west-coast-league/" target="_blank" rel="noopener noreferrer">CBS Sports, May 17, 2017</a> &mdash; West Coast League signing and historical context.</li>
           <li><a href="https://www.sportsnet.ca/baseball/mlb/claire-eccles-becomes-first-woman-pitch-west-coast-league/" target="_blank" rel="noopener noreferrer">Sportsnet, June 8, 2017</a> &mdash; HarbourCats debut and pitching line.</li>
+          <li><a href="https://www.sportsnet.ca/baseball/mlb/interview-claire-eccles-takes-knuckler-west-coast-league/" target="_blank" rel="noopener noreferrer">Sportsnet: Interview with Claire Eccles</a> &mdash; starting baseball, pitching, the knuckleball, barriers, and motivation.</li>
+          <li><a href="https://www.sportsnet.ca/baseball/mlb/female-knuckleballer-claire-eccles-joins-victoria-mens-baseball-team/" target="_blank" rel="noopener noreferrer">Sportsnet, May 2017</a> &mdash; HarbourCats signing, repertoire, and career background.</li>
+          <li><a href="https://dailyhive.com/vancouver/claire-eccles-jersey-retirement-victoria-harbourcats-2018" target="_blank" rel="noopener noreferrer">Daily Hive, July 19, 2018</a> &mdash; retrospective interview covering two Victoria seasons, identity, and influence.</li>
+          <li><a href="https://ca.sports.yahoo.com/news/canadians-ready-play-ball-1st-080000732.html" target="_blank" rel="noopener noreferrer">CBC News, August 1, 2026</a> &mdash; current WPBL entry and perspective.</li>
           <li><a href="https://www.mlb.com/cut4/claire-eccles-made-history-in-west-coast-league-as-first-female-player-c23518772" target="_blank" rel="noopener noreferrer">MLB, June 8, 2017</a> &mdash; HarbourCats debut and historical significance.</li>
           <li><a href="https://olympic.ca/team-canada/claire-eccles/" target="_blank" rel="noopener noreferrer">Canadian Olympic Committee: Claire Eccles</a> &mdash; birth date, birthplace, hometown, height, and a historical 2015 weight listing.</li>
           <li><a href="https://gothunderbirds.ca/sports/softball/roster/claire-eccles/7177" target="_blank" rel="noopener noreferrer">UBC Athletics: Claire Eccles</a> and its all-time honors record &mdash; four softball seasons, role, height, hometown, and conference honors.</li>
           <li>Archived official WBSC and Toronto 2015 records, plus Baseball Canada&rsquo;s 2018, 2019, 2022, and 2026 rosters &mdash; national-team appearances and results.</li>
           <li><a href="https://thisiswomensbaseball.com/features%2Frecaps/f/claire-eccles-new-york-heights" target="_blank" rel="noopener noreferrer">This Is Women&rsquo;s Baseball, July 18, 2026</a> &mdash; additional career-history leads. The article has no named byline or visible citations, so its uncorroborated details have not been added to the narrative as verified facts.</li>
         </ul>
-        <p class="verified">Last verified: August 24, 2026</p>
+        <p class="verified">Last verified: August 27, 2026</p>
       </div>
     </section>
 
     <section class="section">
       <div class="shell reading">
         <span class="eyebrow">Separate from factual review</span>
-        <h2>Image permission</h2>
-        <p class="image-note">If you or a photographer you work with controls a photo you would like us to consider, we can send a separate permission request describing website and social-media use.</p>
+        <h2>Proposed illustration</h2>
+        <p>She&rsquo;s On First created the AI-assisted editorial illustration shown above from publicly available visual references. It is a proposal, not a published or player-approved image.</p>
+        <ol>
+          <li>Does the illustration feel recognizably and respectfully like you?</li>
+          <li>Is the uniform, number, pitching motion, or any other visual detail inaccurate or something you would like changed?</li>
+          <li>May She&rsquo;s On First use the final approved illustration on your profile and in posts that link to it?</li>
+        </ol>
+        <p class="image-note">Your response applies only to the proposed illustration. It does not grant rights to any underlying photograph, and we will not treat factual-review participation as image permission. If you prefer a photograph whose rights you or a photographer control, we can send a separate permission request.</p>
       </div>
     </section>
   </main>
