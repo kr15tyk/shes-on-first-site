@@ -105,19 +105,30 @@ test('the public build contains exact deep routes, metadata, sitemap, and a true
   }
 })
 
-test('staged review sources retain privacy headers and removed copy stays removed', async () => {
+test('staged review sources retain privacy headers and use the consistent question structure', async () => {
   const reviewRoot = resolve(siteDir, 'public/review')
   const reviewEntries = (await readdir(reviewRoot, { withFileTypes: true })).filter((entry) => entry.isDirectory())
   assert.equal(reviewEntries.length, 3)
 
   const reviewConfig = await read('public/review/.htaccess')
+  const reviewTemplate = await read('../docs/PLAYER_REVIEW_PRESENTATION_TEMPLATE.md')
   assert.match(reviewConfig, /X-Robots-Tag "noindex, nofollow, noarchive"/)
   assert.match(reviewConfig, /Referrer-Policy "no-referrer"/)
+  assert.match(reviewTemplate, /Use one continuous five-item list/)
+  assert.match(reviewTemplate, /not being asked to validate league-calculated totals/)
 
   for (const entry of reviewEntries) {
     const html = await read(`public/review/${entry.name}/index.html`)
+    const questionList = html.match(/<ol class="question-list">([\s\S]*?)<\/ol>/)?.[1]
     assert.match(html, /<meta name="robots" content="noindex,nofollow,noarchive">/)
     assert.match(html, /<meta name="referrer" content="no-referrer">/)
+    assert.match(html, /baseball@shesonfirst\.com/)
+    assert.match(html, /Dated league statistics are included as sourced context; we are not asking you to validate league-calculated totals\./)
+    assert.match(html, /class="image-checks"/)
+    assert.ok(questionList, `review ${entry.name} is missing its player question list`)
+    assert.equal((questionList.match(/<li><span class="question-copy">/g) || []).length, 5)
+    assert.equal((questionList.match(/Your perspective &mdash; optional:/g) || []).length, 2)
+    assert.ok(!questionList.includes('<li><strong>'), `review ${entry.name} has an unwrapped optional label`)
     assert.ok(!html.includes('Permission for She’s On First would not automatically permit use on Wikimedia Commons.'))
   }
 })

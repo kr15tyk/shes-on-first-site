@@ -42,6 +42,11 @@ body.comic-profile .review-panel .pill {
   border: 2px solid rgba(16, 9, 34, .28);
 }
 body.comic-profile .review-panel .pill strong { color: #5539c9; }
+body.comic-profile .review-panel .stats-review-note {
+  margin: 12px 0 0;
+  color: #61536f;
+  font-size: .86rem;
+}
 
 body.comic-profile .comic-cover {
   position: relative;
@@ -218,6 +223,14 @@ body.comic-profile .questions > p,
 body.comic-profile .question-list li { color: #51435f; }
 body.comic-profile .question-list li { border-color: rgba(16, 9, 34, .17); }
 body.comic-profile .question-list li::before { background: var(--comic-yellow); }
+body.comic-profile .question-copy { min-width: 0; }
+body.comic-profile .question-copy strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #5539c9;
+}
+body.comic-profile .image-checks { margin: 20px 0; padding-left: 1.4rem; }
+body.comic-profile .image-checks li { margin: 8px 0; }
 
 body.comic-profile .wpbl-stats-snapshot,
 body.comic-profile .stats-snapshot,
