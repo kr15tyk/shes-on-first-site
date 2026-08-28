@@ -60,8 +60,8 @@ export default function About() {
             <section className="founder-card panel" aria-labelledby="founder-heading">
               <div className="founder-portrait">
                 <img
-                  src="/kristy-founder-portrait-v1.png"
-                  alt="Illustrated portrait of Kristy at a baseball field"
+                  src="/kristy-founder-portrait-v2.png"
+                  alt="Comic-style illustrated portrait of Kristy against neon baseball graphics"
                 />
               </div>
               <div className="founder-copy">
