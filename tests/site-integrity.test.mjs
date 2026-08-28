@@ -131,4 +131,18 @@ test('staged review sources retain privacy headers and use the consistent questi
     assert.ok(!questionList.includes('<li><strong>'), `review ${entry.name} has an unwrapped optional label`)
     assert.ok(!html.includes('Permission for She’s On First would not automatically permit use on Wikimedia Commons.'))
   }
+
+  const denaeReview = await read('public/review/7dfd33614924a92eaf996c0b/index.html')
+  const denaeFeature = await read('src/pages/DenaeFeature.tsx')
+  assert.match(denaeReview, /Unlisted factual review · Not published/)
+  assert.match(denaeReview, /Reply by September 3, 2026/)
+  assert.match(denaeReview, /four inaugural team captains/)
+  assert.match(denaeReview, /Denae&rsquo;s is the first profile in that round/)
+  assert.match(denaeReview, /aria-label="She&rsquo;s On First home"/)
+  assert.match(denaeReview, /class="home-link" href="\/"/)
+  assert.doesNotMatch(denaeReview, /Deadline to be set when sent/)
+  assert.doesNotMatch(denaeReview, /Your private profile preview/)
+  assert.match(denaeFeature, /Player factual review pending/)
+  assert.doesNotMatch(denaeFeature, /Factual review not yet sent/)
+  assert.doesNotMatch(denaeFeature, /has not yet been invited/)
 })

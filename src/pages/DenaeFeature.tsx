@@ -134,7 +134,7 @@ export default function DenaeFeature() {
         structuredData={structuredData}
       />
 
-      <div className="draft-banner">Editorial draft · Not published · Factual review not yet sent</div>
+      <div className="draft-banner">Editorial draft · Not published · Player factual review pending</div>
 
       <header className="feature-hero">
         <div className="container feature-hero-grid">
@@ -219,7 +219,7 @@ export default function DenaeFeature() {
 
           <div className="feature-editorial-note">
             <span className="eyebrow">Editorial note</span>
-            <p>This draft uses published and official sources checked through August 27, 2026. The statistics panel is a separate dated calculation from completed official WPBL box scores. Denae Benites has not yet been invited to review this draft, and the project has not obtained rights to a player photograph.</p>
+            <p>This draft uses published and official sources checked through August 27, 2026. The statistics panel is a separate dated calculation from completed official WPBL box scores. Player factual review is pending; participation is optional and is not treated as approval or endorsement. The project has not obtained rights to a player photograph.</p>
           </div>
 
           <section className="feature-sources" aria-labelledby="feature-sources-title">
