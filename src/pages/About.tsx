@@ -41,6 +41,13 @@ export default function About() {
               to follow the game forward as it grows.
             </p>
             <p>
+              Alongside player profiles and stories, She&rsquo;s On First is building a
+              trustworthy record of the WPBL&mdash;its players, rosters, games, and statistics.
+              We preserve where information came from, when it was checked, and where sources
+              disagree, with human review before anything is published. The goal is to make
+              women&rsquo;s baseball easier to follow, report on, and understand.
+            </p>
+            <p>
               This is where their story gets written down, followed, and carried forward. We start with sixty,
               and we don&rsquo;t plan to stop there. <span className="grad-text">First base was never the finish line.</span>
             </p>
