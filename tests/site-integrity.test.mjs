@@ -99,7 +99,7 @@ test('the public build contains exact deep routes, metadata, sitemap, and a true
 
   if (buildManifest.privateReviewsIncluded) {
     const builtReviews = (await readdir(resolve(siteDir, 'dist/review'), { withFileTypes: true })).filter((entry) => entry.isDirectory())
-    assert.equal(builtReviews.length, 3)
+    assert.equal(builtReviews.length, 4)
   } else {
     await assert.rejects(readdir(resolve(siteDir, 'dist/review')))
   }
@@ -108,7 +108,7 @@ test('the public build contains exact deep routes, metadata, sitemap, and a true
 test('staged review sources retain privacy headers and use the consistent question structure', async () => {
   const reviewRoot = resolve(siteDir, 'public/review')
   const reviewEntries = (await readdir(reviewRoot, { withFileTypes: true })).filter((entry) => entry.isDirectory())
-  assert.equal(reviewEntries.length, 3)
+  assert.equal(reviewEntries.length, 4)
 
   const reviewConfig = await read('public/review/.htaccess')
   const reviewTemplate = await read('../docs/PLAYER_REVIEW_PRESENTATION_TEMPLATE.md')
@@ -120,6 +120,7 @@ test('staged review sources retain privacy headers and use the consistent questi
 
   for (const entry of reviewEntries) {
     const html = await read(`public/review/${entry.name}/index.html`)
+    const playerFacingHtml = html.replace(/<style[\s\S]*?<\/style>/g, '')
     const questionList = html.match(/<ol class="question-list">([\s\S]*?)<\/ol>/)?.[1]
     assert.match(html, /<meta name="robots" content="noindex,nofollow,noarchive">/)
     assert.match(html, /<meta name="referrer" content="no-referrer">/)
@@ -134,6 +135,7 @@ test('staged review sources retain privacy headers and use the consistent questi
     assert.equal((questionList.match(/<strong>Optional:<\/strong>/g) || []).length, 2)
     assert.ok(!questionList.includes('<li><strong>'), `review ${entry.name} has an unwrapped optional label`)
     assert.doesNotMatch(html, /not endorsement|approval or endorsement|independently check|published record does not answer cleanly|Separate from factual review|separate rights review|image rights|underlying photograph|May we use the finished illustration|photographer has permission/i)
+    assert.doesNotMatch(playerFacingHtml, /\bweight\b/i)
     assert.ok(!html.includes('Permission for She’s On First would not automatically permit use on Wikimedia Commons.'))
   }
 

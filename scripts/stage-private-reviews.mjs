@@ -23,6 +23,11 @@ const reviews = [
     slug: 'ashton-lansdell',
     token: '2633f9498e3494d8e03cb16d',
   },
+  {
+    source: 'kelsie-whitmore-private-review.html',
+    slug: 'kelsie-whitmore',
+    token: '7dc516a364834d0d7614340a',
+  },
 ]
 
 const statsPayload = JSON.parse(await readFile(playerStatsPath, 'utf8'))

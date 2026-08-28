@@ -177,6 +177,7 @@ body.comic-profile .milestone b {
 }
 
 body.comic-profile .section { border-top: 2px solid var(--comic-line); }
+body.comic-profile .section .eyebrow { display: block; }
 body.comic-profile .section h2 {
   display: inline-block;
   color: var(--comic-paper);
