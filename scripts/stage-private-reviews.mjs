@@ -83,7 +83,7 @@ function statsSnapshot(slug) {
       <div class="shell">
         <span class="eyebrow">2026 WPBL season</span>
         <h2>Dated statistics snapshot</h2>
-        <p class="stats-note" style="color:var(--lavender);max-width:800px">Calculated from box scores marked complete by the official WPBL statistics feed through <strong>${formatDate(statsPayload.throughDate)}</strong>. These league figures are included for context and are not something we are asking the player to validate.</p>
+        <p class="stats-note" style="color:var(--lavender);max-width:800px">Calculated from completed official WPBL box scores through <strong>${formatDate(statsPayload.throughDate)}</strong>. You can skip this section&mdash;we keep the numbers updated from league data.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">${cards.join('')}</div>
         <p style="margin:18px 0 0;color:var(--muted);font-size:.82rem"><a href="${statsPayload.source.url}" target="_blank" rel="noopener noreferrer">Official WPBL statistics feed</a> · Retrieved ${formatDate(statsPayload.fetchedAt.slice(0, 10))}</p>
       </div>
