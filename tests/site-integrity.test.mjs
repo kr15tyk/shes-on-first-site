@@ -143,8 +143,13 @@ test('staged review sources retain privacy headers and use the consistent low-fr
   assert.match(reviewComicCss, /--comic-teal: #26d7cc/)
   assert.match(reviewComicCss, /--comic-mint: #76f0d8/)
   assert.match(reviewComicCss, /--comic-lavender: #d4cff2/)
-  assert.match(reviewComicCss, /--comic-paper: #fff2d5/)
+  assert.match(reviewComicCss, /--comic-ice: #eef2ff/)
+  assert.match(reviewComicCss, /--comic-paper: var\(--comic-ice\)/)
+  assert.doesNotMatch(reviewComicCss, /#fff2d5|#fffaf0/)
   assert.match(reviewComicCss, /body\.comic-profile \.review-panel > \.eyebrow \{\n  display: block;/)
+  assert.match(reviewComicCss, /body\.comic-profile \.review-panel \{[\s\S]*margin-right: auto;[\s\S]*margin-left: auto;/)
+  assert.match(reviewComicCss, /body\.comic-profile \.history-row \{[\s\S]*background: var\(--comic-paper\);/)
+  assert.match(reviewComicCss, /body\.comic-profile \.story-card::before \{[\s\S]*position: static;[\s\S]*margin: 0 0 18px;/)
   assert.match(reviewComicCss, /body\.comic-profile \.section h2 \{\n  display: block;/)
   assert.match(reviewComicCss, /object-fit: contain/)
   assert.match(reviewComicCss, /width: max-content/)
@@ -177,7 +182,7 @@ test('staged review sources retain privacy headers and use the consistent low-fr
     assert.ok(!html.includes('Permission for She’s On First would not automatically permit use on Wikimedia Commons.'))
     if (html.includes('class="comic-profile')) {
       sharedComicProfiles += 1
-      assert.match(html, /\/review-comic\.css\?v=20260829-simple-review/)
+      assert.match(html, /\/review-comic\.css\?v=20260829-layout-fix/)
       assert.doesNotMatch(html, /body\.comic-profile\.[^{]+\{--comic-/)
     }
   }

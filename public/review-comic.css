@@ -3,7 +3,8 @@ body.comic-profile {
   --comic-ink: #090719;
   --comic-deep: #100b2c;
   --comic-panel: #21184d;
-  --comic-paper: #fff2d5;
+  --comic-ice: #eef2ff;
+  --comic-paper: var(--comic-ice);
   --comic-violet: #8b7cf2;
   --comic-violet-deep: #6e5ce6;
   --comic-teal: #26d7cc;
@@ -24,7 +25,7 @@ body.comic-profile {
   --cream: var(--comic-paper);
   --lav: var(--comic-lavender);
   --lavender: var(--comic-lavender);
-  --text: #fffaf0;
+  --text: #f8f7ff;
   --muted: #aaa2d0;
   --line: rgba(255, 242, 213, .2);
   --line-strong: rgba(255, 242, 213, .5);
@@ -73,6 +74,8 @@ body.comic-profile .home-link:hover {
 }
 
 body.comic-profile .review-panel {
+  margin-right: auto;
+  margin-left: auto;
   color: #25183e;
   background: var(--comic-paper);
   border: 3px solid var(--comic-ink);
@@ -96,7 +99,7 @@ body.comic-profile .review-panel li,
 body.comic-profile .review-panel .reply-box { color: #4a3d5d; }
 body.comic-profile .review-panel .pill {
   color: #25183e;
-  background: #fffaf0;
+  background: #f8f7ff;
   border: 2px solid rgba(16, 9, 34, .28);
 }
 body.comic-profile .review-panel .pill strong { color: #5539c9; }
@@ -283,14 +286,17 @@ body.comic-profile .story-card:nth-child(even) { transform: rotate(.45deg); }
 body.comic-profile .story-card:nth-child(odd) { transform: rotate(-.3deg); }
 body.comic-profile .story-card::before {
   content: "CHAPTER";
+  position: static;
+  inset: auto;
   display: inline-block;
-  margin: -38px 0 18px;
+  margin: 0 0 18px;
   padding: 4px 9px;
   color: var(--comic-paper);
   background: var(--comic-violet-deep);
   border: 2px solid var(--comic-ink);
   font: italic 900 .66rem/1 system-ui, sans-serif;
   letter-spacing: .12em;
+  transform: none;
 }
 body.comic-profile .story-card span,
 body.comic-profile .story-card h3,
@@ -299,7 +305,11 @@ body.comic-profile .stat b { color: #5539c9; }
 body.comic-profile .story-card p,
 body.comic-profile .history-row span,
 body.comic-profile .table-note { color: #554962; }
-body.comic-profile .history-row { border-color: rgba(16, 9, 34, .17); }
+body.comic-profile .history-row {
+  color: var(--comic-ink);
+  background: var(--comic-paper);
+  border-color: rgba(16, 9, 34, .17);
+}
 body.comic-profile .history-row strong { color: var(--comic-ink); }
 body.comic-profile table { color: var(--comic-ink); background: var(--comic-paper); }
 body.comic-profile th,
@@ -509,7 +519,7 @@ body.comic-profile .stats-section .stat-card h3 {
 }
 body.comic-profile .stats-section .stat-metric {
   color: var(--comic-ink) !important;
-  background: #fffaf0 !important;
+  background: #f8f7ff !important;
   border: 2px solid rgba(16, 9, 34, .24) !important;
   border-radius: 4px !important;
 }
