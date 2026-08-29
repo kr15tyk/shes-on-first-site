@@ -30,44 +30,28 @@
     @media(max-width:900px){.cover-grid{grid-template-columns:1fr}.profile-art{border-right:0;border-bottom:5px solid var(--cream)}.profile-art img{height:auto;min-height:0;aspect-ratio:16/10}.cover-copy{padding:38px}.player-name{font-size:clamp(3.7rem,12vw,6.4rem)}.cover-strip,.story-grid{grid-template-columns:1fr}.review-grid{grid-template-columns:1fr}.history-list{grid-template-columns:1fr}}
     @media(max-width:680px){body{font-size:16px}.shell{width:min(100% - 28px,1160px)}.private-bar .shell{align-items:flex-start;flex-direction:column;gap:1px;padding:8px 0}.masthead{min-height:92px}.masthead img{width:170px}.review-panel{margin-bottom:42px;box-shadow:6px 6px 0 rgba(38,215,204,.13)}.comic-cover,.cover-strip{width:calc(100% - 20px)}.comic-cover{border-width:3px;box-shadow:6px 6px 0 var(--violet)}.profile-art{border-bottom-width:3px}.profile-art img{aspect-ratio:1;object-position:center}.profile-art figcaption{position:static;max-width:none;background:var(--ink)}.cover-copy{padding:28px 22px}.tag{font-size:.72rem}.player-name{font-size:clamp(3.5rem,18vw,5.3rem);text-shadow:3px 3px 0 rgba(139,124,242,.5)}.facts{display:grid;grid-template-columns:repeat(2,1fr);width:100%}.fact{min-width:0}.cover-strip{gap:10px;margin-bottom:50px}.cover-beat{min-height:0}.section{padding:50px 0}.reading-panel,.questions{padding:26px 20px;border-width:3px;box-shadow:6px 6px 0 rgba(139,124,242,.25)}.history-row{grid-template-columns:1fr;min-height:0}.history-row span{grid-column:1}.story-card{min-height:0}.question-list li{grid-template-columns:40px 1fr;gap:10px}.stats-section .stat-grid{grid-template-columns:repeat(3,1fr)!important}.stats-section .stat-card{border-width:3px!important}}
   </style>
+  <link rel="stylesheet" href="/review-comic.css?v=20260828-denae-palette">
 </head>
-<body>
+<body class="comic-profile denae-profile">
   <div class="private-bar"><div class="shell"><span class="private-label">Private profile preview · Not published</span><span>Denae Benites</span></div></div>
-  <header class="masthead shell"><a href="/" aria-label="She&rsquo;s On First home"><img src="/logo-lockup.png?v=21e762b" alt="She&rsquo;s On First"></a><a class="home-link" href="/">Visit She&rsquo;s On First <span aria-hidden="true">&rarr;</span></a></header>
+  <header class="masthead shell"><a class="brand-home" href="/" aria-label="She&rsquo;s On First home"><img src="/logo-lockup.png?v=21e762b" alt="She&rsquo;s On First"></a><a class="home-link" href="/">Visit She&rsquo;s On First <span aria-hidden="true">&rarr;</span></a></header>
   <main>
     <section class="shell review-panel" aria-labelledby="review-title">
       <span class="eyebrow">A quick look before we publish</span><h1 id="review-title">Hi Denae &mdash; here&rsquo;s your profile preview</h1>
       <p class="lede">We made this profile to celebrate your baseball story. Before we share it, we&rsquo;d love your help catching anything that feels wrong, missing, or not quite how you would say it.</p>
       <p class="lede">A short reply is perfect. You can skip anything you do not want to answer.</p>
-      <div class="review-meta"><span class="pill"><strong>Your choice:</strong> Optional</span><span class="pill"><strong>Time:</strong> About 5 minutes</span><span class="pill"><strong>If you can:</strong> Reply by September 3</span></div>
+      <div class="review-meta"><span class="pill"><strong>Your choice:</strong> Optional</span><span class="pill"><strong>Time:</strong> About 5 minutes</span><span class="pill"><strong>Reply:</strong> Instagram or email</span></div>
       <div class="review-grid"><div><h2>Three quick things to check</h2><ol><li>Are the basic facts right?</li><li>Is an important team, season, or achievement missing?</li><li>Is there anything you would like changed or left out?</li></ol><p class="stats-review-note">You can skip the statistics&mdash;we keep those updated from league data.</p></div><div class="reply-box"><h2>How to reply</h2><p>Send a quick Instagram reply where you received this link, or email <a href="mailto:baseball@shesonfirst.com">baseball@shesonfirst.com</a>. For example: &ldquo;2 &mdash; I mainly play shortstop.&rdquo;</p></div></div>
     </section>
 
-    <section class="comic-cover" aria-labelledby="player-name">
-      <div class="cover-grid">
-        <figure class="profile-art"><img src="/denae-benites-running-editorial-v3.png" alt="Proposed editorial illustration of Denae Benites wearing No. 2 and running the bases"><figcaption>Proposed She&rsquo;s On First comic illustration · Please tell us what you think</figcaption></figure>
-        <div class="cover-copy">
-          <span class="tag">The Inaugural 60</span>
-          <h1 class="player-name" id="player-name">Denae<br>Benites</h1>
-          <div class="cover-rule" aria-hidden="true"></div>
-          <div class="cover-primary">
-            <strong><span class="cover-icon" aria-hidden="true">◆</span>New York Heights</strong>
-            <strong><span class="cover-icon" aria-hidden="true">#</span>No. 2 · Catcher / Utility</strong>
-            <strong><span class="cover-icon" aria-hidden="true">★</span>Captain</strong>
-          </div>
-          <div class="facts"><div class="fact"><b>Bats / throws</b>Right / Right</div><div class="fact"><b>Born</b>Sept. 10, 2001</div><div class="fact"><b>Hometown</b>Las Vegas, Nevada</div><div class="fact"><b>Height</b>5 ft 7 in</div><div class="fact"><b>Active</b>2017–present*</div><div class="fact"><b>Country</b>United States</div></div>
-          <p class="note">*Documented competitive record; not necessarily continuous. Birthplace, pronunciation, and pronouns remain unresolved.</p>
-        </div>
-      </div>
+    <section class="shell profile-hero comic-cover" aria-labelledby="player-name">
+      <figure class="profile-art"><img src="/denae-benites-running-editorial-v3.png" alt="Proposed editorial illustration of Denae Benites wearing No. 2 and running the bases"><figcaption>Proposed She&rsquo;s On First illustration · Please tell us what you think</figcaption></figure>
+      <div><span class="tag">The Inaugural 60</span><h1 class="player-name" id="player-name">Denae Benites</h1><div class="facts"><div class="fact"><b>Team</b>New York Heights</div><div class="fact"><b>Leadership</b>Captain</div><div class="fact"><b>Position</b>C / Utility</div><div class="fact"><b>Bats / throws</b>Right / Right</div><div class="fact"><b>Born</b>Sept. 10, 2001</div><div class="fact"><b>Hometown</b>Las Vegas, Nevada</div><div class="fact"><b>Height</b>5 ft 7 in</div><div class="fact"><b>Active</b>2017–present*</div><div class="fact"><b>Country</b>United States</div></div><p class="note">*Documented competitive record; not necessarily continuous. Birthplace, pronunciation, and pronouns remain unresolved.</p></div>
     </section>
 
-    <div class="cover-strip" aria-label="Career highlights">
-      <div class="cover-beat"><span>Inaugural WPBL draft</span><strong>Round 1 · Pick 6</strong></div>
-      <div class="cover-beat"><span>Opening day · August 1, 2026</span><strong>First home run in WPBL history</strong></div>
-      <div class="cover-beat"><span>Team USA</span><strong>Five documented national-team seasons</strong></div>
-    </div>
+    <section class="shell milestone-strip" aria-label="Career milestones"><div class="milestone"><b>Round 1</b>Pick 6 · inaugural WPBL draft</div><div class="milestone"><b>First HR</b>First home run in WPBL history</div><div class="milestone"><b>5</b>Documented Team USA seasons</div></section>
 
-    <section class="section"><div class="shell reading"><div class="reading-panel"><span class="eyebrow">Player snapshot</span><h2>Making history her way</h2><p class="lead">Denae Benites is an American catcher whose career connects the United States women&rsquo;s national team, Banana Ball, and the inaugural Women&rsquo;s Pro Baseball League season.</p><div class="body-copy"><p>Benites represented the United States in 2019, 2022, 2023, 2024, and 2026. The team won the 2019 COPABE Women&rsquo;s Pan-American Championship and earned silver at the 2024 Women&rsquo;s Baseball World Cup.</p><p>New York selected her in the first round with the sixth overall pick in the inaugural WPBL draft. She was named the Heights&rsquo; captain and hit the first home run in league history on opening day, August 1, 2026.</p><p>Published reporting also traces her path through varsity baseball in Las Vegas, EMT and volunteer-firefighter work in Delaware, and the Loco Beach Coconuts in Banana Ball.</p></div></div></div></section>
+    <section class="section"><div class="shell reading"><span class="eyebrow">Player snapshot</span><h2>Making history her way</h2><p class="lead">Denae Benites is an American catcher whose career connects the United States women&rsquo;s national team, Banana Ball, and the inaugural Women&rsquo;s Pro Baseball League season.</p><div class="body-copy"><p>Benites represented the United States in 2019, 2022, 2023, 2024, and 2026. The team won the 2019 COPABE Women&rsquo;s Pan-American Championship and earned silver at the 2024 Women&rsquo;s Baseball World Cup.</p><p>New York selected her in the first round with the sixth overall pick in the inaugural WPBL draft. She was named the Heights&rsquo; captain and hit the first home run in league history on opening day, August 1, 2026.</p><p>Published reporting also traces her path through varsity baseball in Las Vegas, EMT and volunteer-firefighter work in Delaware, and the Loco Beach Coconuts in Banana Ball.</p></div></div></section>
 
     <section class="section"><div class="shell"><span class="eyebrow">Documented team history</span><h2>The teams and dates we found</h2><div class="history-list"><div class="history-row"><b>2017–2019</b><strong>Centennial High School</strong><span>Nevada high-school baseball · catcher / utility</span></div><div class="history-row"><b>2019</b><strong>United States</strong><span>COPABE Women&rsquo;s Pan-American Championship · catcher / utility</span></div><div class="history-row"><b>2022–2024</b><strong>United States</strong><span>National-team seasons, including the 2023 World Cup group stage and 2024 finals</span></div><div class="history-row"><b>2026</b><strong>United States</strong><span>Women&rsquo;s Baseball World Cup group stage · catcher</span></div><div class="history-row"><b>2026–present</b><strong>Loco Beach Coconuts</strong><span>Banana Ball Championship League</span></div><div class="history-row"><b>2026–present</b><strong>New York Heights</strong><span>WPBL · No. 2 catcher and captain</span></div></div></div></section>
 
@@ -78,33 +62,33 @@
       <div class="shell">
         <span class="eyebrow">2026 WPBL season</span>
         <h2>Dated statistics snapshot</h2>
-        <p class="stats-note" style="color:var(--lavender);max-width:800px">Calculated from completed official WPBL box scores through <strong>August 23, 2026</strong>. You can skip this section&mdash;we keep the numbers updated from league data.</p>
+        <p class="stats-note" style="color:var(--lavender);max-width:800px">Calculated from completed official WPBL box scores through <strong>August 27, 2026</strong>. You can skip this section&mdash;we keep the numbers updated from league data.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
     <article class="stat-card" style="overflow:hidden;padding:0 18px 18px;border:1px solid var(--line);border-radius:15px;background:var(--panel)">
       <h3 style="margin:0 -18px 18px;padding:14px 18px;border-bottom:3px solid var(--teal);font-style:italic;text-transform:uppercase">Batting</h3>
       <div class="stat-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(68px,1fr));gap:8px">
   <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
-    <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">10</b>
+    <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">11</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">G</span>
   </div>
   <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
-    <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">44</b>
+    <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">48</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">PA</span>
   </div>
   <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
-    <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">.658</b>
+    <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">.610</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">AVG</span>
   </div>
   <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
-    <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">.682</b>
+    <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">.646</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">OBP</span>
   </div>
   <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
-    <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">1.316</b>
+    <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">1.220</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">SLG</span>
   </div>
   <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
-    <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">1.998</b>
+    <b style="display:block;color:var(--text);font:italic 800 1.2rem/1 var(--display,Impact,sans-serif)">1.865</b>
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">OPS</span>
   </div>
   <div class="stat-metric" style="padding:10px 6px;border:1px solid var(--line);border-radius:9px;background:rgba(11,6,32,.28);text-align:center">
@@ -120,7 +104,7 @@
     <span style="display:block;margin-top:5px;color:var(--muted);font:800 .68rem var(--display,Impact,sans-serif);letter-spacing:.08em;text-transform:uppercase">SB</span>
   </div></div>
     </article></div>
-        <p style="margin:18px 0 0;color:var(--muted);font-size:.82rem"><a href="https://stats.womensprobaseballleague.com/v1/games" target="_blank" rel="noopener noreferrer">Official WPBL statistics feed</a> · Retrieved August 24, 2026</p>
+        <p style="margin:18px 0 0;color:var(--muted);font-size:.82rem"><a href="https://stats.womensprobaseballleague.com/v1/games" target="_blank" rel="noopener noreferrer">Official WPBL statistics feed</a> · Retrieved August 29, 2026</p>
       </div>
     </section>
 

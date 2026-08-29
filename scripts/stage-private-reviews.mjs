@@ -28,6 +28,11 @@ const reviews = [
     slug: 'kelsie-whitmore',
     token: '7dc516a364834d0d7614340a',
   },
+  {
+    source: 'alli-schroder-private-review.html',
+    slug: 'alli-schroder',
+    token: '1da96e47829df578193e9ba5',
+  },
 ]
 
 const statsPayload = JSON.parse(await readFile(playerStatsPath, 'utf8'))

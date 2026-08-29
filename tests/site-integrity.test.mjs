@@ -99,7 +99,7 @@ test('the public build contains exact deep routes, metadata, sitemap, and a true
 
   if (buildManifest.privateReviewsIncluded) {
     const builtReviews = (await readdir(resolve(siteDir, 'dist/review'), { withFileTypes: true })).filter((entry) => entry.isDirectory())
-    assert.equal(builtReviews.length, 4)
+    assert.equal(builtReviews.length, 5)
   } else {
     await assert.rejects(readdir(resolve(siteDir, 'dist/review')))
   }
@@ -108,15 +108,33 @@ test('the public build contains exact deep routes, metadata, sitemap, and a true
 test('staged review sources retain privacy headers and use the consistent question structure', async () => {
   const reviewRoot = resolve(siteDir, 'public/review')
   const reviewEntries = (await readdir(reviewRoot, { withFileTypes: true })).filter((entry) => entry.isDirectory())
-  assert.equal(reviewEntries.length, 4)
+  assert.equal(reviewEntries.length, 5)
+  let sharedComicProfiles = 0
 
   const reviewConfig = await read('public/review/.htaccess')
   const reviewTemplate = await read('../docs/PLAYER_REVIEW_PRESENTATION_TEMPLATE.md')
+  const reviewComicCss = await read('public/review-comic.css')
   assert.match(reviewConfig, /X-Robots-Tag "noindex, nofollow, noarchive"/)
   assert.match(reviewConfig, /Referrer-Policy "no-referrer"/)
   assert.match(reviewTemplate, /Three quick things to check/)
   assert.match(reviewTemplate, /Use one continuous five-item list/)
   assert.match(reviewTemplate, /You can skip the statistics/)
+  assert.match(reviewTemplate, /She's On First website palette/)
+  assert.match(reviewComicCss, /--comic-ink: #090719/)
+  assert.match(reviewComicCss, /--comic-deep: #100b2c/)
+  assert.match(reviewComicCss, /--comic-panel: #21184d/)
+  assert.match(reviewComicCss, /--comic-violet: #8b7cf2/)
+  assert.match(reviewComicCss, /--comic-teal: #26d7cc/)
+  assert.match(reviewComicCss, /--comic-mint: #76f0d8/)
+  assert.match(reviewComicCss, /--comic-lavender: #d4cff2/)
+  assert.match(reviewComicCss, /--comic-paper: #fff2d5/)
+  assert.match(reviewComicCss, /body\.comic-profile \.review-panel > \.eyebrow \{\n  display: block;/)
+  assert.match(reviewComicCss, /body\.comic-profile \.section h2 \{\n  display: block;/)
+  assert.match(reviewComicCss, /object-fit: contain/)
+  assert.match(reviewComicCss, /width: max-content/)
+  assert.match(reviewComicCss, /margin-bottom: 8px/)
+  assert.match(reviewTemplate, /single source of truth for page colors/)
+  assert.match(reviewTemplate, /Every review or section label and its heading must occupy separate visual lines/)
 
   for (const entry of reviewEntries) {
     const html = await read(`public/review/${entry.name}/index.html`)
@@ -137,17 +155,33 @@ test('staged review sources retain privacy headers and use the consistent questi
     assert.doesNotMatch(html, /not endorsement|approval or endorsement|independently check|published record does not answer cleanly|Separate from factual review|separate rights review|image rights|underlying photograph|May we use the finished illustration|photographer has permission/i)
     assert.doesNotMatch(playerFacingHtml, /\bweight\b/i)
     assert.ok(!html.includes('Permission for She’s On First would not automatically permit use on Wikimedia Commons.'))
+    if (html.includes('class="comic-profile')) {
+      sharedComicProfiles += 1
+      assert.match(html, /\/review-comic\.css\?v=20260828-denae-palette/)
+      assert.doesNotMatch(html, /body\.comic-profile\.[^{]+\{--comic-/)
+    }
   }
+  assert.equal(sharedComicProfiles, 5)
 
   const denaeReview = await read('public/review/7dfd33614924a92eaf996c0b/index.html')
+  const ashtonReview = await read('public/review/2633f9498e3494d8e03cb16d/index.html')
+  const kelsieReview = await read('public/review/7dc516a364834d0d7614340a/index.html')
+  const alliReview = await read('public/review/1da96e47829df578193e9ba5/index.html')
   const denaeFeature = await read('src/pages/DenaeFeature.tsx')
+  for (const captainReview of [denaeReview, ashtonReview, kelsieReview, alliReview]) {
+    assert.match(captainReview, /class="brand-home" href="\/"/)
+    assert.match(captainReview, /class="home-link" href="\/"/)
+    assert.equal((captainReview.match(/class="fact"/g) || []).length, 9)
+    assert.equal((captainReview.match(/class="milestone"/g) || []).length, 3)
+  }
+  assert.match(kelsieReview, /kelsie-whitmore-pitching-editorial-v3\.png/)
   assert.match(denaeReview, /Private profile preview · Not published/)
   assert.match(denaeReview, /Hi Denae &mdash; here&rsquo;s your profile preview/)
-  assert.match(denaeReview, /Reply by September 3/)
+  assert.match(denaeReview, /<strong>Reply:<\/strong> Instagram or email/)
   assert.match(denaeReview, /About 5 minutes/)
   assert.match(denaeReview, /aria-label="She&rsquo;s On First home"/)
   assert.match(denaeReview, /class="home-link" href="\/"/)
-  assert.doesNotMatch(denaeReview, /Deadline to be set when sent/)
+  assert.doesNotMatch(denaeReview, /September 3|Reply by|Deadline to be set when sent/)
   assert.doesNotMatch(denaeReview, /Your private profile preview/)
   assert.match(denaeFeature, /Player factual review pending/)
   assert.doesNotMatch(denaeFeature, /Factual review not yet sent/)
