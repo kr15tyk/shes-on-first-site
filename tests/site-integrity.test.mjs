@@ -120,7 +120,7 @@ test('the public build contains exact deep routes, metadata, sitemap, and a true
   }
 })
 
-test('staged review sources retain privacy headers and use the consistent question structure', async () => {
+test('staged review sources retain privacy headers and use the consistent low-friction response flow', async () => {
   const reviewRoot = resolve(siteDir, 'public/review')
   const reviewEntries = (await readdir(reviewRoot, { withFileTypes: true })).filter((entry) => entry.isDirectory())
   assert.equal(reviewEntries.length, 5)
@@ -131,8 +131,9 @@ test('staged review sources retain privacy headers and use the consistent questi
   const reviewComicCss = await read('public/review-comic.css')
   assert.match(reviewConfig, /X-Robots-Tag "noindex, nofollow, noarchive"/)
   assert.match(reviewConfig, /Referrer-Policy "no-referrer"/)
-  assert.match(reviewTemplate, /Three quick things to check/)
-  assert.match(reviewTemplate, /Use one continuous five-item list/)
+  assert.match(reviewTemplate, /Everything looks right/)
+  assert.match(reviewTemplate, /I spotted something/)
+  assert.match(reviewTemplate, /Nothing is sent or saved automatically/)
   assert.match(reviewTemplate, /You can skip the statistics/)
   assert.match(reviewTemplate, /She's On First website palette/)
   assert.match(reviewComicCss, /--comic-ink: #090719/)
@@ -154,25 +155,29 @@ test('staged review sources retain privacy headers and use the consistent questi
   for (const entry of reviewEntries) {
     const html = await read(`public/review/${entry.name}/index.html`)
     const playerFacingHtml = html.replace(/<style[\s\S]*?<\/style>/g, '')
-    const questionList = html.match(/<ol class="question-list">([\s\S]*?)<\/ol>/)?.[1]
     assert.match(html, /<meta name="robots" content="noindex,nofollow,noarchive">/)
     assert.match(html, /<meta name="referrer" content="no-referrer">/)
     assert.match(html, /baseball@shesonfirst\.com/)
-    assert.match(html, /Three quick things to check/)
+    assert.match(html, /Unlisted profile preview · Not published/)
+    assert.match(html, /data-review-feedback/)
+    assert.match(html, /Did we get it right\?/)
+    assert.equal((html.match(/<span>&#10003; Everything looks right<\/span>/g) || []).length, 1)
+    assert.equal((html.match(/<span>&#9998; I spotted something<\/span>/g) || []).length, 1)
+    assert.match(html, /data-review-correction/)
+    assert.match(html, /data-review-artwork/)
+    assert.match(html, /No account\. Nothing is sent or saved automatically/)
+    assert.match(html, /Copy for Instagram/)
+    assert.match(html, /Open email draft/)
+    assert.match(html, /\/review-feedback\.js\?v=20260829-simple-review/)
     assert.match(html, /You can skip the statistics&mdash;we keep those updated from league data\./)
-    assert.match(html, /Only answer the ones you want\. Short answers are great\./)
-    assert.match(html, /class="image-checks"/)
-    assert.equal((html.match(/class="image-checks"[\s\S]*?<\/ol>/)?.[0].match(/<li>/g) || []).length, 2)
-    assert.ok(questionList, `review ${entry.name} is missing its player question list`)
-    assert.equal((questionList.match(/<li><span class="question-copy">/g) || []).length, 5)
-    assert.equal((questionList.match(/<strong>Optional:<\/strong>/g) || []).length, 2)
-    assert.ok(!questionList.includes('<li><strong>'), `review ${entry.name} has an unwrapped optional label`)
+    assert.doesNotMatch(playerFacingHtml, /class="question-list"/)
+    assert.doesNotMatch(playerFacingHtml, /class="image-checks"/)
     assert.doesNotMatch(html, /not endorsement|approval or endorsement|independently check|published record does not answer cleanly|Separate from factual review|separate rights review|image rights|underlying photograph|May we use the finished illustration|photographer has permission/i)
     assert.doesNotMatch(playerFacingHtml, /\bweight\b/i)
     assert.ok(!html.includes('Permission for She’s On First would not automatically permit use on Wikimedia Commons.'))
     if (html.includes('class="comic-profile')) {
       sharedComicProfiles += 1
-      assert.match(html, /\/review-comic\.css\?v=20260828-denae-palette/)
+      assert.match(html, /\/review-comic\.css\?v=20260829-simple-review/)
       assert.doesNotMatch(html, /body\.comic-profile\.[^{]+\{--comic-/)
     }
   }
@@ -182,6 +187,7 @@ test('staged review sources retain privacy headers and use the consistent questi
   const ashtonReview = await read('public/review/2633f9498e3494d8e03cb16d/index.html')
   const kelsieReview = await read('public/review/7dc516a364834d0d7614340a/index.html')
   const alliReview = await read('public/review/1da96e47829df578193e9ba5/index.html')
+  const claireReview = await read('public/review/e1584d8c2f05a4afcf6d6cc0/index.html')
   const denaeFeature = await read('src/pages/DenaeFeature.tsx')
   for (const captainReview of [denaeReview, ashtonReview, kelsieReview, alliReview]) {
     assert.match(captainReview, /class="brand-home" href="\/"/)
@@ -190,7 +196,7 @@ test('staged review sources retain privacy headers and use the consistent questi
     assert.equal((captainReview.match(/class="milestone"/g) || []).length, 3)
   }
   assert.match(kelsieReview, /kelsie-whitmore-pitching-editorial-v3\.png/)
-  assert.match(denaeReview, /Private profile preview · Not published/)
+  assert.match(denaeReview, /Unlisted profile preview · Not published/)
   assert.match(denaeReview, /Hi Denae &mdash; here&rsquo;s your profile preview/)
   assert.match(denaeReview, /<strong>Reply:<\/strong> Instagram or email/)
   assert.match(denaeReview, /About 5 minutes/)
@@ -198,6 +204,9 @@ test('staged review sources retain privacy headers and use the consistent questi
   assert.match(denaeReview, /class="home-link" href="\/"/)
   assert.doesNotMatch(denaeReview, /September 3|Reply by|Deadline to be set when sent/)
   assert.doesNotMatch(denaeReview, /Your private profile preview/)
+  assert.match(claireReview, /<tr><td>2026<\/td><td>Canada<\/td><td>Women&rsquo;s Baseball World Cup qualifier<\/td><td>OF<\/td><\/tr>/)
+  assert.doesNotMatch(claireReview, /Women&rsquo;s Baseball World Cup qualifier<\/td><td>OF \/ LHP/)
+  assert.doesNotMatch(claireReview, /55 kg|121 lb/)
   assert.match(denaeFeature, /Player factual review pending/)
   assert.doesNotMatch(denaeFeature, /Factual review not yet sent/)
   assert.doesNotMatch(denaeFeature, /has not yet been invited/)
