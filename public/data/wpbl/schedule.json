@@ -3,7 +3,7 @@
     "label": "Official WPBL statistics feed",
     "url": "https://stats.womensprobaseballleague.com/v1/games"
   },
-  "fetchedAt": "2026-08-29T00:17:39.843Z",
+  "fetchedAt": "2026-08-29T20:10:25.985Z",
   "timeZone": "America/New_York",
   "timeAdjustmentMinutes": 60,
   "games": [
@@ -429,7 +429,7 @@
       "id": "aqe6d881m2xt0khm",
       "start": "2026-08-29T00:30:00.000Z",
       "rawStart": "2026-08-28T23:30:00Z",
-      "status": "Live",
+      "status": "Final",
       "venue": "",
       "homeTeam": {
         "id": "vhubhz8li07tmgq8",
@@ -441,8 +441,8 @@
         "name": "Boston Hunters",
         "abbr": "BOS"
       },
-      "homeScore": 0,
-      "awayScore": 0
+      "homeScore": 14,
+      "awayScore": 6
     },
     {
       "id": "dju038v5qxw7qy98",
