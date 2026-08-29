@@ -2,17 +2,21 @@ import { Link } from 'react-router-dom'
 import Seo from '../components/Seo'
 import { formatRate, formatThroughDate, useWpblData } from '../data/wpbl'
 
-const structuredData = {
+const baseStructuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: 'What the WPBL’s First Month Can Tell Us — and What It Cannot',
   description: 'A transparent look at the early WPBL leaderboards, the sample sizes behind them, and the conclusions the first month cannot yet support.',
   dateCreated: '2026-08-25',
-  dateModified: '2026-08-25',
   author: { '@type': 'Organization', name: "She's On First", url: 'https://shesonfirst.com/' },
   publisher: { '@type': 'Organization', name: "She's On First", url: 'https://shesonfirst.com/' },
   mainEntityOfPage: 'https://shesonfirst.com/analysis/wpbl-first-month',
   about: { '@type': 'SportsOrganization', name: "Women's Professional Baseball League" },
+}
+
+const inningsAsOuts = (value: string) => {
+  const [innings = '0', outs = '0'] = value.split('.')
+  return Number(innings) * 3 + Number(outs)
 }
 
 const formatRetrieved = (value: string) => new Intl.DateTimeFormat('en-US', {
@@ -34,6 +38,16 @@ export default function WpblFirstMonthAnalysis() {
   const benites = data?.leaders.batting.find((player) => player.slug === 'denae-benites')
   const whitmore = data?.leaders.batting.find((player) => player.slug === 'kelsie-whitmore')
   const lansdell = data?.leaders.batting.find((player) => player.slug === 'ashton-lansdell')
+  const battingMinimum = data?.leaders.qualifications.batting.match(/\d+(?:\.\d+)?/)?.[0] ?? '—'
+  const pitchingMinimum = data?.leaders.qualifications.pitching.match(/\d+(?:\.\d+)?/)?.[0] ?? '—'
+  const pitchingByWorkload = [...pitching].sort((a, b) => inningsAsOuts(a.ip) - inningsAsOuts(b.ip))
+  const pitchingRange = pitchingByWorkload.length
+    ? `${pitchingByWorkload[0].ip} and ${pitchingByWorkload[pitchingByWorkload.length - 1].ip}`
+    : '—'
+  const structuredData = {
+    ...baseStructuredData,
+    dateModified: data?.manifest.fetchedAt.slice(0, 10) ?? baseStructuredData.dateCreated,
+  }
 
   return (
     <article className="analysis-page">
@@ -46,7 +60,7 @@ export default function WpblFirstMonthAnalysis() {
         structuredData={structuredData}
       />
 
-      <div className="draft-banner">Editorial draft · Not published · Data and context reporting still in review</div>
+      <div className="draft-banner">Editorial draft · Data and context reporting still in review</div>
 
       <header className="analysis-hero">
         <div className="container analysis-hero-grid">
@@ -77,8 +91,8 @@ export default function WpblFirstMonthAnalysis() {
             <div className="analysis-snapshot-grid">
               <div><strong>{data.manifest.quality.completedGames}</strong><span>completed games</span></div>
               <div><strong>{data.manifest.quality.verifiedBoxscores}</strong><span>verified box scores</span></div>
-              <div><strong>{data.leaders.qualifications.batting.match(/\d+/)?.[0] ?? '20'}</strong><span>minimum plate appearances</span></div>
-              <div><strong>{data.leaders.qualifications.pitching.match(/\d+/)?.[0] ?? '5'}</strong><span>minimum innings pitched</span></div>
+              <div><strong>{battingMinimum}</strong><span>minimum plate appearances</span></div>
+              <div><strong>{pitchingMinimum}</strong><span>minimum innings pitched</span></div>
             </div>
           )}
         </div>
@@ -89,7 +103,7 @@ export default function WpblFirstMonthAnalysis() {
           <div className="container analysis-prose">
             <p className="analysis-lead">The first month of a new league invites oversized conclusions. Through {formatThroughDate(data.leaders.throughDate)}, the official WPBL box scores support something more useful: a snapshot of exceptional starts, different forms of offensive value and a pitching leaderboard still shaped by limited innings.</p>
 
-            <p>This analysis uses only games marked complete in the official feed. She&rsquo;s On First removed duplicate or placeholder records, calculated player totals from the completed box scores and applied a minimum of 20 plate appearances for hitters and five innings for pitchers. Those choices make the comparison reproducible. They do not make the sample large.</p>
+            <p>This analysis uses only games marked complete in the official feed. She&rsquo;s On First removed duplicate or placeholder records, calculated player totals from the completed box scores and applied a minimum of {battingMinimum} plate appearances for hitters and {pitchingMinimum} innings for pitchers. Those choices make the comparison reproducible. They do not make the sample large.</p>
 
             <h2>The clearest signal is elite early offense</h2>
             <p>Denae Benites and Kelsie Whitmore share the early home-run lead, but the top of the batting table is not one-dimensional. Benites pairs power with stolen bases, while Ashton Lansdell&rsquo;s combination of walks, speed and extra-base impact creates another route to a top-five OPS.</p>
@@ -137,7 +151,7 @@ export default function WpblFirstMonthAnalysis() {
                 <div className="analysis-shape-card panel">
                   <span>Power at the top</span>
                   <strong>{benites?.hr ?? '—'} + {whitmore?.hr ?? '—'}</strong>
-                  <p>Home runs for Benites and Whitmore, respectively. Both reached that total in 10 games.</p>
+                  <p>Home runs for Benites and Whitmore, respectively. Benites reached that total in {benites?.g ?? '—'} games; Whitmore did it in {whitmore?.g ?? '—'}.</p>
                 </div>
                 <div className="analysis-shape-card panel">
                   <span>Power plus pressure</span>
@@ -155,7 +169,7 @@ export default function WpblFirstMonthAnalysis() {
 
           <div className="container analysis-prose">
             <h2>Pitching rates need their innings beside them</h2>
-            <p>The qualified ERA leaders have thrown between roughly 10 and 19 innings. That is enough to describe what happened, but not enough to treat each rate as settled ability. One difficult appearance can still move an early ERA or WHIP sharply.</p>
+            <p>The qualified ERA leaders have thrown between {pitchingRange} innings. That is enough to describe what happened, but not enough to treat each rate as settled ability. One difficult appearance can still move an early ERA or WHIP sharply.</p>
           </div>
 
           <section className="section analysis-visual-section" aria-labelledby="pitching-visual-title">
@@ -224,11 +238,6 @@ export default function WpblFirstMonthAnalysis() {
 
           <section className="section analysis-close">
             <div className="container analysis-prose">
-              <div className="feature-editorial-note">
-                <span className="eyebrow">Before publication</span>
-                <p>The official feed needs a fresh pull, the documented one-hour schedule adjustment needs rechecking, and independent reporting should be added for league context. No team logos or player images are used in this draft.</p>
-              </div>
-
               <div className="analysis-links">
                 <Link className="btn btn-primary" to="/leaders">Explore the full leaders</Link>
                 <Link className="btn btn-secondary" to="/schedule">View the schedule</Link>

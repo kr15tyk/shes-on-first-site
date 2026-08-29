@@ -60,6 +60,20 @@ test('the WPBL snapshot is internally consistent', async () => {
   assert.ok(leaders.pitching.every((player) => Number.parseFloat(player.ip) >= 5))
 })
 
+test('the first-month analysis derives changing claims from the current snapshot', async () => {
+  const analysis = await read('src/pages/WpblFirstMonthAnalysis.tsx')
+
+  assert.match(analysis, /const battingMinimum = data\?\.leaders\.qualifications\.batting/)
+  assert.match(analysis, /const pitchingMinimum = data\?\.leaders\.qualifications\.pitching/)
+  assert.match(analysis, /const pitchingRange = pitchingByWorkload\.length/)
+  assert.match(analysis, /Benites reached that total in \{benites\?\.g/)
+  assert.match(analysis, /Whitmore did it in \{whitmore\?\.g/)
+  assert.doesNotMatch(analysis, /minimum of 20 plate appearances/)
+  assert.doesNotMatch(analysis, /Both reached that total in 10 games/)
+  assert.doesNotMatch(analysis, /roughly 10 and 19 innings/)
+  assert.doesNotMatch(analysis, /Before publication/)
+})
+
 test('the public build contains exact deep routes, metadata, sitemap, and a true 404 rule', async () => {
   const { players } = await rosterPlayers()
   const [htaccess, sitemap, notFound, buildManifest] = await Promise.all([
