@@ -3,7 +3,7 @@
     "label": "Official WPBL statistics feed",
     "url": "https://stats.womensprobaseballleague.com/v1/games"
   },
-  "fetchedAt": "2026-08-24T14:56:36.469Z",
+  "fetchedAt": "2026-08-29T00:17:39.843Z",
   "timeZone": "America/New_York",
   "timeAdjustmentMinutes": 60,
   "games": [
@@ -388,10 +388,10 @@
       "awayScore": 3
     },
     {
-      "id": "7dpofy9p6e5820n6",
-      "start": "2026-08-26T23:30:00.000Z",
-      "rawStart": "2026-08-26T22:30:00Z",
-      "status": "Upcoming",
+      "id": "v4tqgh11vbo55wl3",
+      "start": "2026-08-27T00:30:00.000Z",
+      "rawStart": "2026-08-26T23:30:00Z",
+      "status": "Final",
       "venue": "",
       "homeTeam": {
         "id": "v4gisr4rbgmn67b0",
@@ -403,14 +403,14 @@
         "name": "Boston Hunters",
         "abbr": "BOS"
       },
-      "homeScore": null,
-      "awayScore": null
+      "homeScore": 8,
+      "awayScore": 6
     },
     {
-      "id": "8p1wb02nn8fmg2bd",
-      "start": "2026-08-27T23:30:00.000Z",
-      "rawStart": "2026-08-27T22:30:00Z",
-      "status": "Upcoming",
+      "id": "zpp9h33tj77csmoq",
+      "start": "2026-08-28T00:30:00.000Z",
+      "rawStart": "2026-08-27T23:30:00Z",
+      "status": "Final",
       "venue": "",
       "homeTeam": {
         "id": "fttth861nft1j2s7",
@@ -422,14 +422,14 @@
         "name": "Los Angeles Queens",
         "abbr": "LA"
       },
-      "homeScore": null,
-      "awayScore": null
+      "homeScore": 12,
+      "awayScore": 4
     },
     {
-      "id": "oajzrobzkcskphmt",
-      "start": "2026-08-28T23:30:00.000Z",
-      "rawStart": "2026-08-28T22:30:00Z",
-      "status": "Upcoming",
+      "id": "aqe6d881m2xt0khm",
+      "start": "2026-08-29T00:30:00.000Z",
+      "rawStart": "2026-08-28T23:30:00Z",
+      "status": "Live",
       "venue": "",
       "homeTeam": {
         "id": "vhubhz8li07tmgq8",
@@ -441,8 +441,8 @@
         "name": "Boston Hunters",
         "abbr": "BOS"
       },
-      "homeScore": null,
-      "awayScore": null
+      "homeScore": 0,
+      "awayScore": 0
     },
     {
       "id": "dju038v5qxw7qy98",
@@ -497,63 +497,6 @@
         "id": "vhubhz8li07tmgq8",
         "name": "San Francisco Firebells",
         "abbr": "SF"
-      },
-      "homeScore": null,
-      "awayScore": null
-    },
-    {
-      "id": "sq38zkgwktwktgu1",
-      "start": "2026-09-03T23:30:00.000Z",
-      "rawStart": "2026-09-03T22:30:00Z",
-      "status": "Upcoming",
-      "venue": "",
-      "homeTeam": {
-        "id": "v4gisr4rbgmn67b0",
-        "name": "Los Angeles Queens",
-        "abbr": "LA"
-      },
-      "awayTeam": {
-        "id": "fttth861nft1j2s7",
-        "name": "New York Heights",
-        "abbr": "NY"
-      },
-      "homeScore": null,
-      "awayScore": null
-    },
-    {
-      "id": "5neiu4wgsg14irxu",
-      "start": "2026-09-04T23:30:00.000Z",
-      "rawStart": "2026-09-04T22:30:00Z",
-      "status": "Upcoming",
-      "venue": "",
-      "homeTeam": {
-        "id": "fttth861nft1j2s7",
-        "name": "New York Heights",
-        "abbr": "NY"
-      },
-      "awayTeam": {
-        "id": "vhubhz8li07tmgq8",
-        "name": "San Francisco Firebells",
-        "abbr": "SF"
-      },
-      "homeScore": null,
-      "awayScore": null
-    },
-    {
-      "id": "2accdtqwx8iaqw6z",
-      "start": "2026-09-05T23:30:00.000Z",
-      "rawStart": "2026-09-05T22:30:00Z",
-      "status": "Upcoming",
-      "venue": "",
-      "homeTeam": {
-        "id": "9f08or2mffx81409",
-        "name": "Boston Hunters",
-        "abbr": "BOS"
-      },
-      "awayTeam": {
-        "id": "v4gisr4rbgmn67b0",
-        "name": "Los Angeles Queens",
-        "abbr": "LA"
       },
       "homeScore": null,
       "awayScore": null
