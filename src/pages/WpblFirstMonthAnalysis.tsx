@@ -60,8 +60,6 @@ export default function WpblFirstMonthAnalysis() {
         structuredData={structuredData}
       />
 
-      <div className="draft-banner">Editorial draft · Data and context reporting still in review</div>
-
       <header className="analysis-hero">
         <div className="container analysis-hero-grid">
           <div>

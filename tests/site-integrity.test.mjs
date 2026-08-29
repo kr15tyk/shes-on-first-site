@@ -72,6 +72,7 @@ test('the first-month analysis derives changing claims from the current snapshot
   assert.doesNotMatch(analysis, /Both reached that total in 10 games/)
   assert.doesNotMatch(analysis, /roughly 10 and 19 innings/)
   assert.doesNotMatch(analysis, /Before publication/)
+  assert.doesNotMatch(analysis, /Editorial draft/)
 })
 
 test('the public build contains exact deep routes, metadata, sitemap, and a true 404 rule', async () => {
