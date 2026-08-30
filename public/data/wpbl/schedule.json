@@ -3,7 +3,7 @@
     "label": "Official WPBL statistics feed",
     "url": "https://stats.womensprobaseballleague.com/v1/games"
   },
-  "fetchedAt": "2026-08-29T20:10:25.985Z",
+  "fetchedAt": "2026-08-30T18:09:45.283Z",
   "timeZone": "America/New_York",
   "timeAdjustmentMinutes": 60,
   "games": [
@@ -445,10 +445,10 @@
       "awayScore": 6
     },
     {
-      "id": "dju038v5qxw7qy98",
-      "start": "2026-08-29T23:30:00.000Z",
-      "rawStart": "2026-08-29T22:30:00Z",
-      "status": "Upcoming",
+      "id": "mksw641s8uwrx6vp",
+      "start": "2026-08-30T00:30:00.000Z",
+      "rawStart": "2026-08-29T23:30:00Z",
+      "status": "Final",
       "venue": "",
       "homeTeam": {
         "id": "v4gisr4rbgmn67b0",
@@ -460,8 +460,8 @@
         "name": "New York Heights",
         "abbr": "NY"
       },
-      "homeScore": null,
-      "awayScore": null
+      "homeScore": 10,
+      "awayScore": 6
     },
     {
       "id": "pvp728vuqo0l7sh2",
@@ -478,25 +478,6 @@
         "id": "fttth861nft1j2s7",
         "name": "New York Heights",
         "abbr": "NY"
-      },
-      "homeScore": null,
-      "awayScore": null
-    },
-    {
-      "id": "2xvrxw34p2zcs393",
-      "start": "2026-09-02T23:30:00.000Z",
-      "rawStart": "2026-09-02T22:30:00Z",
-      "status": "Upcoming",
-      "venue": "",
-      "homeTeam": {
-        "id": "9f08or2mffx81409",
-        "name": "Boston Hunters",
-        "abbr": "BOS"
-      },
-      "awayTeam": {
-        "id": "vhubhz8li07tmgq8",
-        "name": "San Francisco Firebells",
-        "abbr": "SF"
       },
       "homeScore": null,
       "awayScore": null
