@@ -102,7 +102,7 @@ export default function WpblFirstMonthAnalysis() {
           <div className="container analysis-prose">
             <p className="analysis-lead">The first month of a new league invites oversized conclusions. Through {formatThroughDate(data.leaders.throughDate)}, the official WPBL box scores support something more useful: a snapshot of exceptional starts, different forms of offensive value and a pitching leaderboard still shaped by limited innings.</p>
 
-            <p>This analysis uses only games marked complete in the official feed. She&rsquo;s On First removed duplicate or placeholder records, calculated player totals from the completed box scores and applied a minimum of {battingMinimum} plate appearances for hitters and {pitchingMinimum} innings for pitchers. Those thresholds equal two plate appearances and one-half inning per game played by the busiest team. They are She&rsquo;s On First comparison rules, not official WPBL qualification standards. Those choices make the comparison reproducible. They do not make the sample large.</p>
+            <p>We calculated these leaderboards from completed official WPBL box scores, using minimums of {battingMinimum} plate appearances and {pitchingMinimum} innings pitched to keep comparisons meaningful. These are She&rsquo;s On First thresholds, not official league qualifiers.</p>
 
             <h2>The clearest signal is elite early offense</h2>
             <p>Kelsie Whitmore has {whitmore?.hr ?? '—'} home runs, while Denae Benites combines {benites?.hr ?? '—'} homers with {benites?.sb ?? '—'} stolen bases. The top of the batting table is not one-dimensional: Ashton Lansdell&rsquo;s combination of walks, speed and extra-base impact creates another route to a top-five OPS.</p>
@@ -226,7 +226,7 @@ export default function WpblFirstMonthAnalysis() {
                 </dl>
 
                 <div className="analysis-transformations">
-                  <h3>Transformations disclosed</h3>
+                  <h3>Data notes</h3>
                   <ul>{data.manifest.transformations.map((item) => <li key={item}>{item}</li>)}</ul>
                 </div>
 

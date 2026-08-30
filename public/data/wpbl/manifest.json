@@ -7,9 +7,9 @@
   "throughDate": "2026-08-29",
   "timeZone": "America/New_York",
   "transformations": [
-    "Adjusted 2026 scheduled_start values by 60 minutes after source testing.",
-    "Removed unplayed duplicate records when a completed record existed for the same date and matchup.",
-    "Calculated leaderboards and player snapshots from completed game box scores only."
+    "Used completed official box scores only for leaderboards and player snapshots.",
+    "Removed duplicate unplayed listings when a completed game existed for the same date and matchup.",
+    "Applied a consistent 60-minute correction to the feed's 2026 game times."
   ],
   "quality": {
     "feedGames": 50,

@@ -411,9 +411,9 @@ async function main() {
     throughDate,
     timeZone: TIME_ZONE,
     transformations: [
-      `Adjusted 2026 scheduled_start values by ${START_TIME_ADJUSTMENT_MINUTES} minutes after source testing.`,
-      'Removed unplayed duplicate records when a completed record existed for the same date and matchup.',
-      'Calculated leaderboards and player snapshots from completed game box scores only.',
+      'Used completed official box scores only for leaderboards and player snapshots.',
+      'Removed duplicate unplayed listings when a completed game existed for the same date and matchup.',
+      `Applied a consistent ${START_TIME_ADJUSTMENT_MINUTES}-minute correction to the feed's 2026 game times.`,
     ],
     quality: {
       feedGames: payload.games?.length || 0,
