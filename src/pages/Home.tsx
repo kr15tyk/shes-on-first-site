@@ -1,3 +1,4 @@
+import DataFreshness from '../components/DataFreshness'
 import { Link } from 'react-router-dom'
 import { articles } from '../data/articles'
 import { allPlayers, playerHero } from '../data/players'
@@ -25,7 +26,7 @@ export default function Home() {
   const latest = articles.slice(0, 3)
   const showcase = allPlayers.slice(0, 6)
   const { data, error, loading } = useWpblData()
-  const nextGame = data?.schedule.games.find((game) => game.status !== 'Final')
+  const nextGame = data?.schedule.games.find((game) => game.status === 'Upcoming' && Date.parse(game.start) >= Date.now())
   const completedGames = data?.schedule.games.filter((game) => game.status === 'Final') || []
   const lastFinal = completedGames[completedGames.length - 1]
 
@@ -81,6 +82,7 @@ export default function Home() {
             </div>
           </div>
 
+          <DataFreshness />
           {loading && <div className="data-state panel">Loading the season pulse…</div>}
           {error && <div className="data-state panel">{error}</div>}
           {data && (

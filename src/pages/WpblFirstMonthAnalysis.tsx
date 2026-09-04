@@ -30,7 +30,7 @@ const formatRetrieved = (value: string) => new Intl.DateTimeFormat('en-US', {
 }).format(new Date(value))
 
 export default function WpblFirstMonthAnalysis() {
-  const { data, error, loading } = useWpblData()
+  const { data, error, loading } = useWpblData('/data/wpbl/archive/2026-08-29.json')
   const batting = data?.leaders.batting.slice(0, 5) ?? []
   const pitching = data?.leaders.pitching.slice(0, 5) ?? []
   const maxOps = Math.max(...batting.map((player) => player.ops), 1)

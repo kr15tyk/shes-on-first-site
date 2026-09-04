@@ -1,3 +1,4 @@
+import DataFreshness from './DataFreshness'
 import { formatRate, formatThroughDate, PlayerSeasonRecord } from '../data/wpbl'
 
 function Metric({ label, value }: { label: string; value: string | number }) {
@@ -25,6 +26,7 @@ export default function PlayerSeasonStats({
           {throughDate && <span className="tag violet">Through {formatThroughDate(throughDate)}</span>}
         </div>
 
+        <DataFreshness />
         {loading && <div className="data-state panel">Loading this player&rsquo;s season snapshot…</div>}
         {error && <div className="data-state panel">{error}</div>}
         {!loading && !error && !stats && (

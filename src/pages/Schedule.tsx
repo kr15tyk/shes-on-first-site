@@ -1,3 +1,4 @@
+import DataFreshness from '../components/DataFreshness'
 import { useMemo, useState } from 'react'
 import { formatGameDate, formatGameTime, Game, useWpblData } from '../data/wpbl'
 import Seo from '../components/Seo'
@@ -42,7 +43,7 @@ export default function Schedule() {
     })
 
     return games.reduce<Record<string, Game[]>>((groups, game) => {
-      const key = game.start.slice(0, 10)
+      const key = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(game.start))
       groups[key] = [...(groups[key] || []), game]
       return groups
     }, {})
@@ -87,6 +88,7 @@ export default function Schedule() {
             </label>
           </div>
 
+          <DataFreshness />
           {loading && <div className="data-state panel">Loading the inaugural-season schedule…</div>}
           {error && <div className="data-state panel">{error}</div>}
           {!loading && !error && Object.entries(grouped).map(([date, games]) => (

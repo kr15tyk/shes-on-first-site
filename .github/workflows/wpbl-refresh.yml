@@ -1,0 +1,53 @@
+name: WPBL statistics refresh
+
+on:
+  schedule:
+    - cron: '17 10 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wpbl-statistics-publication
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      WPBL_PUBLISH_ENABLED: ${{ vars.WPBL_PUBLISH_ENABLED }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Test importer safeguards
+        run: node --test tests/wpbl-automation.test.mjs
+      - name: Collect, validate and compare official statistics
+        id: refresh
+        run: node scripts/refresh-wpbl.mjs
+      - name: Flag overdue source data
+        if: steps.refresh.outputs.source_stale == 'true'
+        run: echo '::warning::The league feed still lists a past game as uncompleted. See the refresh report.'
+      - name: Publish and verify data
+        if: vars.WPBL_PUBLISH_ENABLED == 'true'
+        env:
+          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
+          HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
+          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+          HOSTINGER_DATA_DIR: ${{ secrets.HOSTINGER_DATA_DIR }}
+          HOSTINGER_SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
+          HOSTINGER_KNOWN_HOSTS: ${{ secrets.HOSTINGER_KNOWN_HOSTS }}
+        run: node scripts/publish-wpbl.mjs
+      - name: Preserve evidence and rollback data
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: wpbl-refresh-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/wpbl/
+          if-no-files-found: ignore
+          retention-days: 30

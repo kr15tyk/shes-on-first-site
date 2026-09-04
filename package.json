@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "She's On First — women's baseball media site",
+  "description": "She's On First \u2014 women's baseball media site",
   "scripts": {
     "data:wpbl": "node scripts/fetch-wpbl-data.mjs",
     "stage:reviews": "node scripts/stage-private-reviews.mjs",
@@ -12,7 +12,9 @@
     "build:with-reviews": "npm run stage:reviews && tsc --noEmit && vite build && INCLUDE_PRIVATE_REVIEWS=1 node scripts/build-static-routes.mjs",
     "test": "node --test tests/*.test.mjs",
     "check": "npm run build && npm test",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "data:refresh": "node scripts/refresh-wpbl.mjs",
+    "test:wpbl": "node --test tests/wpbl-automation.test.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

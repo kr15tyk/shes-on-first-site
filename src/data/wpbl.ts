@@ -126,46 +126,33 @@ export type WpblData = {
   }
 }
 
-let dataPromise: Promise<WpblData> | null = null
+const dataPromises = new Map<string, Promise<WpblData>>()
 
-function loadWpblData() {
-  if (!dataPromise) {
-    dataPromise = Promise.all([
-      fetch('/data/wpbl/schedule.json'),
-      fetch('/data/wpbl/leaders.json'),
-      fetch('/data/wpbl/players.json'),
-      fetch('/data/wpbl/manifest.json'),
-    ]).then(async ([schedule, leaders, players, manifest]) => {
-      if (![schedule, leaders, players, manifest].every((response) => response.ok)) {
-        throw new Error('The inaugural-season data could not be loaded.')
+function loadWpblData(path: string) {
+  if (!dataPromises.has(path)) {
+    dataPromises.set(path, fetch(path, { cache: 'no-store' }).then(async (response) => {
+      if (!response.ok) throw new Error('The inaugural-season data could not be loaded.')
+      const data = await response.json()
+      if (data.schemaVersion !== 1 || !data.schedule?.games || !data.players?.players || !data.leaders || !data.manifest) {
+        throw new Error('The season snapshot is unavailable. Please try again later.')
       }
-
-      return {
-        schedule: await schedule.json(),
-        leaders: await leaders.json(),
-        players: await players.json(),
-        manifest: await manifest.json(),
-      }
-    })
+      return data as WpblData
+    }).catch((error) => { dataPromises.delete(path); throw error }))
   }
-
-  return dataPromise
+  return dataPromises.get(path)!
 }
 
-export function useWpblData() {
+export function useWpblData(path = '/data/wpbl/snapshot.json') {
   const [data, setData] = useState<WpblData | null>(null)
   const [error, setError] = useState('')
 
   useEffect(() => {
     let mounted = true
-    loadWpblData()
+    loadWpblData(path)
       .then((value) => mounted && setData(value))
       .catch((reason: Error) => mounted && setError(reason.message))
-
-    return () => {
-      mounted = false
-    }
-  }, [])
+    return () => { mounted = false }
+  }, [path])
 
   return { data, error, loading: !data && !error }
 }

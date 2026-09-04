@@ -1,11 +1,14 @@
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, writeFile, readFile, rename } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
+import { validateGames, validateBoxscore, validateSnapshot, freshness } from './wpbl-validation.mjs'
 
 const BASE_URL = 'https://stats.womensprobaseballleague.com/v1'
 const TIME_ZONE = 'America/New_York'
 const START_TIME_ADJUSTMENT_MINUTES = 60
-const OUTPUT_DIR = resolve(dirname(fileURLToPath(import.meta.url)), '../public/data/wpbl')
+const OUTPUT_DIR = resolve(process.env.WPBL_OUTPUT_DIR || resolve(dirname(fileURLToPath(import.meta.url)), '../public/data/wpbl'))
+const RAW_DIR = process.env.WPBL_RAW_DIR
+const rawResponses = []
 
 const teamAbbreviations = {
   'Boston Hunters': 'BOS',
@@ -16,7 +19,9 @@ const teamAbbreviations = {
 
 const number = (value) => {
   const parsed = Number(value)
-  return Number.isFinite(parsed) ? parsed : 0
+  if (value === undefined) return 0 // The source omits zero-valued optional counting stats.
+  if (value === null || value === '' || !Number.isFinite(parsed) || parsed < 0) throw new Error('Invalid statistical value')
+  return parsed
 }
 
 const adjustedStart = (value) =>
@@ -119,9 +124,10 @@ function dedupeGames(games) {
   }
 }
 
-function inningsToOuts(value) {
-  const [innings = '0', outs = '0'] = String(value || '0').split('.')
-  return number(innings) * 3 + Math.min(number(outs), 2)
+export function inningsToOuts(value) {
+  if (!/^\d+(?:\.[012])?$/.test(String(value))) throw new Error('Invalid baseball innings')
+  const [innings, outs = '0'] = String(value).split('.')
+  return number(innings) * 3 + number(outs)
 }
 
 function outsToInnings(outs) {
@@ -152,7 +158,7 @@ function playerRecord(map, player, team, gameDate) {
   return existing
 }
 
-function buildSeasonStats(boxscores, completedGames, fetchedAt) {
+export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
   const hitters = new Map()
   const pitchers = new Map()
   const teamGames = new Map()
@@ -163,7 +169,7 @@ function buildSeasonStats(boxscores, completedGames, fetchedAt) {
   }
 
   for (const boxscore of boxscores) {
-    const gameDate = boxscore.source_updated_at || boxscore.fetched_at || fetchedAt
+    const gameDate = completedGames.find((game) => game.game_id === boxscore.game_id)?.scheduled_start || fetchedAt
     for (const team of boxscore.teams || []) {
       for (const player of team.players || []) {
         if (player.hitting) {
@@ -266,7 +272,7 @@ function buildSeasonStats(boxscores, completedGames, fetchedAt) {
     })
 
   const pitching = allPitching
-    .filter((record) => number(record.ip) >= pitchingMinInnings)
+    .filter((record) => inningsToOuts(record.ip) >= Math.ceil(pitchingMinInnings * 3))
     .sort((a, b) => a.era - b.era || a.whip - b.whip || b.so - a.so)
     .slice(0, 10)
     .map((record, index) => ({ ...record, rank: index + 1 }))
@@ -317,9 +323,22 @@ function buildSeasonStats(boxscores, completedGames, fetchedAt) {
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url, { headers: { accept: 'application/json' } })
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText}: ${url}`)
-  return response.json()
+  let lastError
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const response = await fetch(url, { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(20000), redirect: 'error' })
+      if (!response.ok) throw new Error(`Source HTTP ${response.status}`)
+      const body = await response.text()
+      if (body.length > 20_000_000) throw new Error('Source response exceeds size limit')
+      const payload = JSON.parse(body)
+      rawResponses.push({ url, retrievedAt: new Date().toISOString(), payload })
+      return payload
+    } catch (error) {
+      lastError = error
+      if (attempt < 2) await new Promise((resolve) => setTimeout(resolve, 1000 * (attempt + 1)))
+    }
+  }
+  throw lastError
 }
 
 async function fetchBoxscores(games) {
@@ -348,13 +367,17 @@ async function fetchBoxscores(games) {
 async function main() {
   const fetchedAt = new Date().toISOString()
   const payload = await fetchJson(`${BASE_URL}/games`)
-  const { games, removed } = dedupeGames(payload.games || [])
+  validateGames(payload)
+  const { games, removed } = dedupeGames(payload.games)
   const completedGames = games.filter(isFinal)
   const { results: fetchedBoxscores, errors } = await fetchBoxscores(completedGames)
+  if (errors.length) throw new Error(`Missing ${errors.length} box scores; retaining previous data`)
+  for (const { game, boxscore } of fetchedBoxscores) validateBoxscore(game, boxscore)
   const verifiedBoxscores = fetchedBoxscores
     .filter(({ boxscore }) => boxscore?.status?.complete)
     .map(({ boxscore }) => boxscore)
 
+  if (verifiedBoxscores.length !== completedGames.length) throw new Error('Incomplete box-score coverage')
   const schedule = {
     source: { label: 'Official WPBL statistics feed', url: `${BASE_URL}/games` },
     fetchedAt,
@@ -422,9 +445,14 @@ async function main() {
       completedGames: completedGames.length,
       verifiedBoxscores: verifiedBoxscores.length,
       boxscoreErrors: errors,
+      ...freshness(schedule.games, fetchedAt),
     },
   }
 
+  const snapshot = { schemaVersion: 1, schedule, leaders, players, manifest }
+  let previous
+  try { previous = JSON.parse(await readFile(resolve(OUTPUT_DIR, 'snapshot.json'), 'utf8')) } catch (error) { if (error.code !== 'ENOENT') throw error }
+  validateSnapshot(snapshot, previous)
   await mkdir(OUTPUT_DIR, { recursive: true })
   await Promise.all(
     [
@@ -435,13 +463,23 @@ async function main() {
     ].map(([file, data]) => writeFile(resolve(OUTPUT_DIR, file), `${JSON.stringify(data, null, 2)}\n`)),
   )
 
+  await writeFile(resolve(OUTPUT_DIR, 'snapshot.json.tmp'), `${JSON.stringify(snapshot, null, 2)}\n`)
+  await rename(resolve(OUTPUT_DIR, 'snapshot.json.tmp'), resolve(OUTPUT_DIR, 'snapshot.json'))
+
   console.log(
     `WPBL snapshot: ${schedule.games.length} games, ${players.players.length} players, ${leaders.batting.length} batting leaders, ${leaders.pitching.length} pitching leaders, through ${throughDate}`,
   )
   if (errors.length) console.warn(`Boxscore errors: ${errors.length}`)
 }
 
-main().catch((error) => {
-  console.error(error)
-  process.exitCode = 1
-})
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  main().catch((error) => {
+    console.error(error.message)
+    process.exitCode = 1
+  }).finally(async () => {
+    if (RAW_DIR) {
+      await mkdir(RAW_DIR, { recursive: true })
+      await writeFile(resolve(RAW_DIR, 'source-responses.json'), JSON.stringify(rawResponses))
+    }
+  })
+}

@@ -1,3 +1,4 @@
+import DataFreshness from '../components/DataFreshness'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { allPlayers } from '../data/players'
@@ -53,6 +54,7 @@ export default function Leaders() {
             ))}
           </div>
 
+          <DataFreshness />
           {loading && <div className="data-state panel">Calculating the inaugural-season leaders…</div>}
           {error && <div className="data-state panel">{error}</div>}
 
