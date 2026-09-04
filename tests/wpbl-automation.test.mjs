@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
-import { inningsToOuts, buildSeasonStats } from '../scripts/fetch-wpbl-data.mjs'
+import { inningsToOuts, buildSeasonStats, fetchAllGames } from '../scripts/fetch-wpbl-data.mjs'
 import { validateGames, validateBoxscore, validateSnapshot, freshness } from '../scripts/wpbl-validation.mjs'
 
 test('baseball innings qualify by outs, not decimal notation', () => {
@@ -59,4 +59,44 @@ test('optional sparse zero fields are accepted; missing core counts and score co
   const malformed = structuredClone(box)
   malformed.teams[0].players[0].hitting.sb = null
   assert.throws(() => validateBoxscore(game, malformed), /Invalid/)
+})
+
+const pageGame = (i) => ({ game_id: String(i), scheduled_start: '2026-09-03T23:30:00Z', status: 'Final', home_team_name: 'Boston Hunters', away_team_name: 'Los Angeles Queens' })
+
+test('collects beyond the default 50 and verifies the end after a short page', async () => {
+  const source = Array.from({ length: 59 }, (_, i) => pageGame(i))
+  const offsets = []
+  const result = await fetchAllGames(async (url) => {
+    const offset = Number(new URL(url).searchParams.get('offset'))
+    offsets.push(offset)
+    const games = source.slice(offset, offset + 50)
+    return { count: games.length, games }
+  })
+  assert.deepEqual(offsets, [0, 50, 59])
+  assert.equal(result.games.length, 59)
+  assert.equal(result.games.at(-1).game_id, '58')
+})
+
+test('pagination failures and ignored offsets cannot publish partial data', async () => {
+  const games = Array.from({ length: 50 }, (_, i) => pageGame(i))
+  await assert.rejects(fetchAllGames(async () => ({ count: 50, games })), /repeated/)
+  await assert.rejects(fetchAllGames(async (url) => {
+    if (new URL(url).searchParams.get('offset') === '50') throw new Error('network failure')
+    return { count: 50, games }
+  }), /network failure/)
+  await assert.rejects(fetchAllGames(async () => ({ count: 50, games: [] })), /Invalid games page/)
+})
+
+test('recognizes source inning states without treating a live game as final', () => {
+  validateGames({ games: [{ ...pageGame(1), status: 'In Progress - Top of 1st' }] })
+  validateGames({ games: [{ ...pageGame(1), status: 'In Progress - Bottom of 9th' }] })
+  assert.throws(() => validateGames({ games: [{ ...pageGame(1), status: 'In Progress - unknown' }] }))
+})
+
+test('ERA follows the official seven-inning scale', () => {
+  const games = [{ game_id: 'g', home_team_id: 'a', away_team_id: 'b' }]
+  const boxes = [{ game_id: 'g', teams: [{ id: 'a', name: 'Boston Hunters', players: [{ id: 'p', name: 'Pitcher', pitching: { ip: '7.0', er: 2, h: 4, bb: 3, so: 5 } }] }] }]
+  const result = buildSeasonStats(boxes, games, '2026-09-04')
+  assert.equal(result.leaderboards.pitching[0].era, 2)
+  assert.equal(result.leaderboards.pitching[0].whip, 1)
 })

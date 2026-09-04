@@ -9,7 +9,7 @@ export function validateGames(payload) {
   for (const g of payload.games) {
     assert.ok(id(g.game_id), 'Invalid game ID')
     assert.ok(Number.isFinite(Date.parse(g.scheduled_start)), 'Invalid game date')
-    assert.ok(typeof g.status === 'string' && /^(Not Started|Scheduled|Final.*|In Progress|Live)$/i.test(g.status), 'Unrecognized game status; review required')
+    assert.ok(typeof g.status === 'string' && /^(Not Started|Scheduled|Final.*|In Progress(?: - (?:Top|Bottom) of \d+(?:st|nd|rd|th))?|Live)$/i.test(g.status), 'Unrecognized game status; review required')
     if (/^Final/i.test(g.status)) {
       const teams = ['Boston Hunters', 'Los Angeles Queens', 'New York Heights', 'San Francisco Firebells']
       assert.ok(teams.includes(g.home_team_name) && teams.includes(g.away_team_name), 'Unmapped completed-game team')

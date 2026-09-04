@@ -4,6 +4,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { validateGames, validateBoxscore, validateSnapshot, freshness } from './wpbl-validation.mjs'
 
 const BASE_URL = 'https://stats.womensprobaseballleague.com/v1'
+// Official WPBL season statistics normalize ERA to seven innings.
+const ERA_INNINGS = 7
 const TIME_ZONE = 'America/New_York'
 const START_TIME_ADJUSTMENT_MINUTES = 60
 const OUTPUT_DIR = resolve(process.env.WPBL_OUTPUT_DIR || resolve(dirname(fileURLToPath(import.meta.url)), '../public/data/wpbl'))
@@ -262,7 +264,7 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
         position: record.position,
         g: record.games.size,
         ip: outsToInnings(record.outs),
-        era: innings ? (record.er * 9) / innings : 0,
+        era: innings ? (record.er * ERA_INNINGS) / innings : 0,
         whip: innings ? (record.bb + record.h) / innings : 0,
         so: record.so,
         bb: record.bb,
@@ -341,6 +343,32 @@ async function fetchJson(url) {
   throw lastError
 }
 
+// The API defaults to only 50 records. Continue until an empty page, even
+// after a short page, and fail closed if pagination repeats or exceeds bounds.
+export async function fetchAllGames(getJson = fetchJson) {
+  const games = []
+  const seen = new Set()
+  for (let page = 0; page < 100; page += 1) {
+    const payload = await getJson(`${BASE_URL}/games?limit=50&offset=${games.length}`)
+    if (!Array.isArray(payload.games) || payload.count !== payload.games.length || payload.games.length > 50) {
+      throw new Error('Invalid games page; completeness cannot be verified')
+    }
+    if (payload.games.length === 0) {
+      const complete = { count: games.length, games }
+      validateGames(complete)
+      return complete
+    }
+    validateGames(payload)
+    for (const game of payload.games) {
+      if (seen.has(game.game_id)) throw new Error('Games pagination repeated an ID; refusing a partial snapshot')
+      seen.add(game.game_id)
+      games.push(game)
+    }
+    if (games.length >= 2000) throw new Error('Games pagination exceeded safety bound')
+  }
+  throw new Error('Games pagination did not finish')
+}
+
 async function fetchBoxscores(games) {
   const results = []
   const errors = []
@@ -366,7 +394,7 @@ async function fetchBoxscores(games) {
 
 async function main() {
   const fetchedAt = new Date().toISOString()
-  const payload = await fetchJson(`${BASE_URL}/games`)
+  const payload = await fetchAllGames()
   validateGames(payload)
   const { games, removed } = dedupeGames(payload.games)
   const completedGames = games.filter(isFinal)
@@ -435,6 +463,8 @@ async function main() {
     timeZone: TIME_ZONE,
     transformations: [
       'Used completed official box scores only for leaderboards and player snapshots.',
+      'Fetched every games page through an empty page using explicit limit and offset.',
+      'Normalized ERA to seven innings to match official WPBL season statistics.',
       'Removed duplicate unplayed listings when a completed game existed for the same date and matchup.',
       `Applied a consistent ${START_TIME_ADJUSTMENT_MINUTES}-minute correction to the feed's 2026 game times.`,
     ],

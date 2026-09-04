@@ -9,7 +9,7 @@ Updated 2026-09-04. GitHub collects and validates official statistics daily, pub
 - Hostinger deployment is live. All 77 approved files were uploaded directly into their matching folders. Archive extraction and whole-folder upload returned HTTP 403 even in a fresh single session; direct file uploads, folder creation, and matching-file replacement succeeded. No permission reset was needed; the underlying bulk-operation error remains unconfirmed.
 - Hostinger cron runs at minute 0 and 30 of every hour. The temporary every-minute test job was removed. First verified pull: 2026-09-04 23:12:03 UTC, successful, changed=true.
 - Live snapshot matched the GitHub data-branch bytes after that pull. All 74 public release files other than the mutable snapshot, protected PHP updater, and hidden cache rule matched the approved local bytes. The snapshot sends no-store; the PHP URL, unknown route, and public ZIP path return 404.
-- Repository variable WPBL_HOST_PULL_ENABLED=true. Integration run 33928624697 passed on retry after an initial transient fetch failure. Collection still reports the official source overdue, with results through August 29; automation does not invent missing results.
+- Repository variable WPBL_HOST_PULL_ENABLED=true. Integration run 33928624697 passed on retry after an initial transient fetch failure. The initial cutoff was later traced to missing API pagination; see correction below.
 - Prepared release: `/tmp/shes-on-first-automation-b0d2620.zip`, 77 files, SHA256 `ab8ba6890a3a436406ce70576244731343be422e76b6b1e328762a4d548ead63`.
 - The ZIP remains outside `public_html`. For future deployments, upload files directly into each matching destination folder; whole-folder upload and extraction failed in this session. The archive contains only `public_html/` public HTML route shells, the new JavaScript bundle, the seeded snapshot, frozen August 29 article archive, data cache rule, and CLI-only `pull.php`. It contains no review pages, images, credentials, or raw responses.
 
@@ -57,3 +57,16 @@ Sources checked 2026-09-04:
 - https://stats.womensprobaseballleague.com/v1/games
 - https://shesonfirst.com/data/wpbl/manifest.json
 - https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule
+
+## Pagination and ERA correction — 2026-09-04
+
+The official statistics page displayed newer results than this site. Investigation confirmed `/v1/games` defaults to 50 records; 59 were available. The importer now follows `limit=50&offset=...` until an empty page and rejects duplicate pages, malformed counts, failed later pages, and excessive totals. It recognizes the observed detailed live inning statuses while excluding unfinished games from season totals.
+
+The corrected collection contains 59 source records, 30 deduplicated schedule entries, 27 verified completed box scores, and 69 feed players. This does not change the historical Inaugural 60. Latest completed-game coverage is September 3, with September 4 in progress at verification. The official page labels its display September 4. Our cutoff is the date of the latest completed game, separate from retrieval time.
+
+Comparison also found an existing nine-inning ERA calculation; corrected to the official seven-inning scale. Across unambiguous name matches, all 16 compared batting values for 64 players and all seven compared pitching values for 36 players match the official table within floating-point tolerance. Multi-team/name-ambiguous rows were excluded from this comparison. Ten automated tests pass, including pagination truncation/repetition, failed later pages, live statuses, and ERA scale. The frozen August 29 article data is preserved.
+
+Sources checked 2026-09-04:
+- https://www.womensprobaseballleague.com/stats/
+- https://stats.womensprobaseballleague.com/v1/games?limit=500
+- https://stats.womensprobaseballleague.com/v1/games?limit=2&offset=2
