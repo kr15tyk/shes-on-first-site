@@ -1,37 +1,54 @@
 # WPBL statistics automation
 
-Created 2026-09-04. The scheduled workflow collects public official data, validates it, and retains a report, source responses, and the previous published snapshot for 30 days as GitHub Actions artifacts. Artifacts contain public league data only. The repository is public.
+Updated 2026-09-04. GitHub collects and validates official statistics daily, publishes a JSON-only `wpbl-data` branch, and retains source responses, a report, and the previous published snapshot for 30 days as Actions artifacts. This repository and its league-data artifacts are public.
 
-## Operation
+## Current status
 
-- Workflow: `WPBL statistics refresh`, daily at 10:17 UTC (06:17 Eastern during daylight saving; 05:17 in winter), plus manual dispatch.
-- No npm installation, third-party scraping service, AI extraction, or database is needed by the scheduled job. It uses Node 22 and pinned official GitHub Actions.
-- The collector retrieves every completed box score again to include scoring corrections. It validates identities, required counting fields, innings, coverage, team identity, and player runs against final scores. Missing optional counting fields represent sparse source zeros; null/empty/invalid fields are rejected.
-- Unknown game states, disappeared finals, incomplete box scores, malformed records, and zero-out aggregate pitching statistics stop publication. The last valid published data is the comparison baseline.
-- An overdue non-final game marks the source stale. This is a warning, not a fabricated final or a reason to discard valid corrections to older games.
-- The historical 60-player cohort and review drafts are untouched. The first-month analysis reads its frozen August 29 archive. Its historical cutoff no longer advances with the current-season dataset.
-- Initial collection does not publish. `WPBL_PUBLISH_ENABLED=true` enables publication only after the connection and frontend migration below have been completed.
+- Daily GitHub workflow active at 10:17 UTC, plus manual dispatch.
+- Run 33927402743 passed importer tests, PHP updater tests, collection, validation, and data-branch publication.
+- Hostinger deployment and cron activation are pending explicit upload approval. Production has not changed.
+- Prepared release: `/tmp/shes-on-first-automation-b0d2620.zip`, 77 files, SHA256 `ab8ba6890a3a436406ce70576244731343be422e76b6b1e328762a4d548ead63`.
+- Upload outside `public_html`, then extract at the site root. The archive contains only `public_html/` public HTML route shells, the new JavaScript bundle, the seeded snapshot, frozen August 29 article archive, data cache rule, and CLI-only `pull.php`. It contains no review pages, images, credentials, or raw responses.
 
-## One-time Hostinger connection
+## How it works
 
-1. Deploy the frontend that reads `/data/wpbl/snapshot.json`, the seeded snapshot, the frozen archive, and the data-directory cache rule. Preserve existing unlisted review pages and unrelated assets.
-2. Confirm Hostinger supports key-based SFTP and atomic OpenSSH rename. Use a dedicated account restricted to this site's data directory if the hosting plan supports it. Do not assume an SSH key alone restricts the account's access. Review the actual scope before installing any key.
-3. Configure repository Actions secrets: `HOSTINGER_HOST`, `HOSTINGER_PORT`, `HOSTINGER_USER`, `HOSTINGER_DATA_DIR`, `HOSTINGER_SSH_KEY`, and `HOSTINGER_KNOWN_HOSTS`. Verify host-key fingerprints through a trusted channel; never automatically trust an unverified `ssh-keyscan` result. The directory must be the absolute path ending in `/public_html/data/wpbl`.
-4. Enable the repository variable `WPBL_PUBLISH_ENABLED` with value `true`, dispatch one run, and verify the live JSON and rendered stats. Configure GitHub Actions failure notifications in the owner's account if not already enabled; the workflow itself sends no email or messages.
+1. GitHub fetches every completed official box score, including old games that may have corrections.
+2. The importer validates identities, counts, innings, scores, complete coverage, and missing historical finals. Invalid input stops publication.
+3. The workflow publishes only `snapshot.json` to the dedicated `wpbl-data` branch using its short-lived GitHub token. No hosting credentials are used.
+4. Hostinger's PHP scheduled job retrieves the fixed HTTPS URL, verifies TLS, bounds the response size, checks the schema and coverage, and rejects older snapshots or disappeared finals.
+5. The host preserves `snapshot.previous.json`, writes a temporary file, and atomically renames the complete dataset to `snapshot.json`. The frontend reads this single file so page sections cannot mix releases.
+6. `pull-status.json` records success/failure and a content hash. Once enabled, the daily GitHub run also detects failed host pulls or a missing check for over two hours.
 
-Deployment exposes credentials only to the publication step. The publisher writes a backup of the current JSON, uploads the complete new JSON under a temporary filename, and atomically renames it to `snapshot.json`. It verifies the public file hash and attempts to restore the previous snapshot if verification fails. If SSH connectivity is lost, rollback may also fail; retain artifacts for recovery. Backups are retained on the host and require occasional storage review; they are not automatically deleted.
+An overdue non-final game marks the league source stale. Valid corrections to earlier games can still publish with the visible warning. Missing optional source counting fields represent sparse zeros; null/empty/invalid fields are rejected. Unknown game statuses and zero-out aggregate pitching statistics require review rather than invented values.
 
-The scheduler is not a real-time score service. GitHub may delay scheduled jobs and can disable schedules in inactive public repositories. Periodically verify the Actions schedule remains active.
+The Inaugural 60 cohort, biographies, and review drafts are unchanged. The first-month article reads its fixed August 29 archive, keeping its evidence cutoff stable.
 
-## Known inherited normalization rules
+## Hostinger activation
 
-The initial importer retains the existing 60-minute time correction and 90-minute duplicate-listing heuristic. They are explicit in every manifest and need authoritative revalidation before changing them or claiming general-purpose live-score coverage. The workflow fails on unknown status labels instead of labeling postponements as live. League source access/storage/redistribution terms remain an open project question; public availability is not a license statement.
+After approving and deploying the prepared release, create a PHP cron job:
 
-## Local checks and recovery
+- Command suffix: `domains/shesonfirst.com/public_html/data/wpbl/pull.php`
+- Hostinger supplies `/usr/bin/php /home/u687186041/` as the command prefix.
+- Target cadence: every 30 minutes. Use every minute only temporarily for the initial observed run, then change to every 30 minutes.
 
-Run `npm run test:wpbl` for importer checks and `npm run data:refresh` for a full source run. Results are in ignored `artifacts/wpbl/`. Run `npm run build` and `npm test` before frontend deployment.
+Verify `/data/wpbl/snapshot.json` matches the GitHub data-branch bytes and `/data/wpbl/pull-status.json` reports success. The updater itself must return HTTP 404 when requested through the web. Verify the new JavaScript bundle, rendered freshness notices, core routes, actual unknown-route 404, and existing review headers. Keep the ZIP outside the public web root.
 
-Disable `WPBL_PUBLISH_ENABLED` to stop uploads while continuing collection. Disable the workflow to stop collection too. Recover from a host backup or the Actions artifact's `previous.json` using the same verified SFTP connection. Do not upload raw source responses, credentials, or the artifact ZIP to the web root.
+Then set repository Actions variable `WPBL_HOST_PULL_ENABLED=true` and dispatch the workflow to verify the host-monitoring check. No FTP account, SSH key, hosting password, or API token needs to be created or shared. `scripts/publish-wpbl.mjs` is the unused earlier SFTP proposal and is not invoked by the workflow.
+
+## Tests and recovery
+
+- `npm run test:wpbl`: importer tests.
+- `php -l public/data/wpbl/pull.php` and `php tests/wpbl-pull.test.php`: host updater tests. These passed on the GitHub runner, which has PHP installed.
+- `npm run build`: frontend checks and build.
+- The isolated release passed all ten public-site/importer tests. The existing review test depends on a template outside the site repository; it is not part of this release.
+
+A failed download or validation leaves the last valid live snapshot in place. Host status is checked daily by GitHub after activation; notification delivery follows the owner's GitHub Actions notification settings, which have not been changed. Restore `snapshot.previous.json` through Hostinger if rollback is needed.
+
+Disable the Hostinger cron job to stop pulls; disable the GitHub workflow to stop collection. GitHub may delay scheduled jobs or disable schedules in inactive public repositories. This is periodic statistics updating, not real-time scoring.
+
+## Remaining source constraints
+
+The importer retains the existing explicit 60-minute time correction and 90-minute duplicate-listing heuristic. They still need authoritative revalidation before general-purpose live-score use. Source access/storage/redistribution terms remain an open project question; public access does not itself establish reuse rights.
 
 Sources checked 2026-09-04:
 - https://stats.womensprobaseballleague.com/v1/games
