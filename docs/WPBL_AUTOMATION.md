@@ -6,9 +6,12 @@ Updated 2026-09-04. GitHub collects and validates official statistics daily, pub
 
 - Daily GitHub workflow active at 10:17 UTC, plus manual dispatch.
 - Run 33927402743 passed importer tests, PHP updater tests, collection, validation, and data-branch publication.
-- Hostinger deployment and cron activation are pending explicit upload approval. Production has not changed.
+- Hostinger deployment is live. All 77 approved files were uploaded directly into their matching folders. Archive extraction and whole-folder upload returned HTTP 403 even in a fresh single session; direct file uploads, folder creation, and matching-file replacement succeeded. No permission reset was needed; the underlying bulk-operation error remains unconfirmed.
+- Hostinger cron runs at minute 0 and 30 of every hour. The temporary every-minute test job was removed. First verified pull: 2026-09-04 23:12:03 UTC, successful, changed=true.
+- Live snapshot matched the GitHub data-branch bytes after that pull. All 74 public release files other than the mutable snapshot, protected PHP updater, and hidden cache rule matched the approved local bytes. The snapshot sends no-store; the PHP URL, unknown route, and public ZIP path return 404.
+- Repository variable WPBL_HOST_PULL_ENABLED=true. Integration run 33928624697 passed on retry after an initial transient fetch failure. Collection still reports the official source overdue, with results through August 29; automation does not invent missing results.
 - Prepared release: `/tmp/shes-on-first-automation-b0d2620.zip`, 77 files, SHA256 `ab8ba6890a3a436406ce70576244731343be422e76b6b1e328762a4d548ead63`.
-- Upload outside `public_html`, then extract at the site root. The archive contains only `public_html/` public HTML route shells, the new JavaScript bundle, the seeded snapshot, frozen August 29 article archive, data cache rule, and CLI-only `pull.php`. It contains no review pages, images, credentials, or raw responses.
+- The ZIP remains outside `public_html`. For future deployments, upload files directly into each matching destination folder; whole-folder upload and extraction failed in this session. The archive contains only `public_html/` public HTML route shells, the new JavaScript bundle, the seeded snapshot, frozen August 29 article archive, data cache rule, and CLI-only `pull.php`. It contains no review pages, images, credentials, or raw responses.
 
 ## How it works
 
@@ -25,7 +28,7 @@ The Inaugural 60 cohort, biographies, and review drafts are unchanged. The first
 
 ## Hostinger activation
 
-After approving and deploying the prepared release, create a PHP cron job:
+The active PHP cron job uses:
 
 - Command suffix: `domains/shesonfirst.com/public_html/data/wpbl/pull.php`
 - Hostinger supplies `/usr/bin/php /home/u687186041/` as the command prefix.
@@ -33,7 +36,7 @@ After approving and deploying the prepared release, create a PHP cron job:
 
 Verify `/data/wpbl/snapshot.json` matches the GitHub data-branch bytes and `/data/wpbl/pull-status.json` reports success. The updater itself must return HTTP 404 when requested through the web. Verify the new JavaScript bundle, rendered freshness notices, core routes, actual unknown-route 404, and existing review headers. Keep the ZIP outside the public web root.
 
-Then set repository Actions variable `WPBL_HOST_PULL_ENABLED=true` and dispatch the workflow to verify the host-monitoring check. No FTP account, SSH key, hosting password, or API token needs to be created or shared. `scripts/publish-wpbl.mjs` is the unused earlier SFTP proposal and is not invoked by the workflow.
+Repository Actions variable `WPBL_HOST_PULL_ENABLED=true` is set and the host-monitoring workflow has passed. No FTP account, SSH key, hosting password, or API token needs to be created or shared. `scripts/publish-wpbl.mjs` is the unused earlier SFTP proposal and is not invoked by the workflow.
 
 ## Tests and recovery
 
