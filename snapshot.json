@@ -5,7 +5,7 @@
       "label": "Official WPBL statistics feed",
       "url": "https://stats.womensprobaseballleague.com/v1/games"
     },
-    "fetchedAt": "2026-09-04T22:54:09.660Z",
+    "fetchedAt": "2026-09-04T23:14:11.015Z",
     "timeZone": "America/New_York",
     "timeAdjustmentMinutes": 60,
     "games": [
@@ -491,7 +491,7 @@
       "label": "Official WPBL statistics feed",
       "url": "https://stats.womensprobaseballleague.com/v1/games"
     },
-    "fetchedAt": "2026-09-04T22:54:09.660Z",
+    "fetchedAt": "2026-09-04T23:14:11.015Z",
     "qualifications": {
       "batting": "Minimum 26 plate appearances",
       "pitching": "Minimum 6.5 innings pitched",
@@ -928,7 +928,7 @@
       "label": "Official WPBL statistics feed",
       "url": "https://stats.womensprobaseballleague.com/v1/games"
     },
-    "fetchedAt": "2026-09-04T22:54:09.660Z",
+    "fetchedAt": "2026-09-04T23:14:11.015Z",
     "throughDate": "2026-08-29",
     "method": "Calculated from box scores marked complete by the official WPBL statistics feed.",
     "players": [
@@ -3753,7 +3753,7 @@
       "label": "Official WPBL statistics feed",
       "url": "https://stats.womensprobaseballleague.com/v1/games"
     },
-    "fetchedAt": "2026-09-04T22:54:09.660Z",
+    "fetchedAt": "2026-09-04T23:14:11.015Z",
     "throughDate": "2026-08-29",
     "timeZone": "America/New_York",
     "transformations": [
