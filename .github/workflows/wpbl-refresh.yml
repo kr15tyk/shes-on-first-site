@@ -16,8 +16,10 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: write
     env:
-      WPBL_PUBLISH_ENABLED: ${{ vars.WPBL_PUBLISH_ENABLED }}
+      WPBL_HOST_PULL_ENABLED: ${{ vars.WPBL_HOST_PULL_ENABLED }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -27,22 +29,18 @@ jobs:
           node-version: '22'
       - name: Test importer safeguards
         run: node --test tests/wpbl-automation.test.mjs
+      - name: Test Hostinger updater
+        run: php -l public/data/wpbl/pull.php && php tests/wpbl-pull.test.php
       - name: Collect, validate and compare official statistics
         id: refresh
         run: node scripts/refresh-wpbl.mjs
       - name: Flag overdue source data
         if: steps.refresh.outputs.source_stale == 'true'
         run: echo '::warning::The league feed still lists a past game as uncompleted. See the refresh report.'
-      - name: Publish and verify data
-        if: vars.WPBL_PUBLISH_ENABLED == 'true'
+      - name: Publish validated data for Hostinger
         env:
-          HOSTINGER_HOST: ${{ secrets.HOSTINGER_HOST }}
-          HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
-          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
-          HOSTINGER_DATA_DIR: ${{ secrets.HOSTINGER_DATA_DIR }}
-          HOSTINGER_SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
-          HOSTINGER_KNOWN_HOSTS: ${{ secrets.HOSTINGER_KNOWN_HOSTS }}
-        run: node scripts/publish-wpbl.mjs
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/publish-wpbl-github.mjs
       - name: Preserve evidence and rollback data
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
