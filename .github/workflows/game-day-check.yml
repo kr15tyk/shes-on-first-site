@@ -1,0 +1,26 @@
+name: Game-day strip validation
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - run: npm ci && npm run build
+      - run: node --test --test-skip-pattern='staged review' tests/*.test.mjs
+      - run: php -l public/data/wpbl/live.php && php tests/wpbl-live.test.php
+      - name: Verify official game-day sources
+        run: |
+          mkdir -p artifacts
+          php -r 'require "public/data/wpbl/live.php"; $dir=sys_get_temp_dir()."/sof-live-smoke"; mkdir($dir); $data=sofCollect($dir,time(),null); file_put_contents("artifacts/game-day-preview.json",json_encode($data)); echo json_encode($data,JSON_PRETTY_PRINT);'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: game-day-preview
+          path: artifacts/game-day-preview.json
+          retention-days: 7

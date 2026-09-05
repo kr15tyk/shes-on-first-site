@@ -1,3 +1,4 @@
+import GameDayStrip from '../components/GameDayStrip'
 import DataFreshness from '../components/DataFreshness'
 import { Link } from 'react-router-dom'
 import { articles } from '../data/articles'
@@ -45,6 +46,7 @@ export default function Home() {
           publisher: { '@type': 'Organization', name: "She's On First" },
         }}
       />
+      <GameDayStrip />
       {/* Hero */}
       <section className="hero">
         <div className="container hero-grid">

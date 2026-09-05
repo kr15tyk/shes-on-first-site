@@ -1,0 +1,22 @@
+.game-day-strip { background: #1c1535; border-bottom: 1px solid rgba(199,191,241,.13); color: #d2cce6; font-size: .8rem; }
+.game-day-inner { display: flex; align-items: center; gap: 12px 20px; min-height: 43px; padding-top: 10px; padding-bottom: 10px; }
+.game-day-kicker { color: #b7accf; font-size: .66rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+.game-day-games { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; }
+.game-day-game { display: flex; align-items: baseline; flex-wrap: wrap; gap: 7px 12px; }
+.game-day-matchup { font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.game-day-matchup b { color: #f2edf9; }
+.game-day-divider { padding: 0 4px; color: #b7accf; font-weight: 400; }
+.game-day-phase { color: #d2cce6; white-space: nowrap; }
+.game-day-note, .game-day-check { color: #b7accf; font-size: .7rem; }
+.game-day-details { margin-left: auto; white-space: nowrap; font-size: .75rem; }
+.game-day-strip a { color: #d2cce6; text-underline-offset: 3px; }
+.game-day-strip a:hover { text-decoration: underline; }
+.game-day-strip a:focus-visible { outline: 2px solid var(--mint); outline-offset: 4px; }
+.game-day-check { white-space: nowrap; }
+@media(max-width: 650px) {
+ .game-day-inner { gap: 7px 12px; flex-wrap: wrap; padding-top: 9px; padding-bottom: 9px; }
+ .game-day-kicker { flex-basis: 100%; }
+ .game-day-games { flex: 1 1 190px; }
+ .game-day-check { display: none; }
+ .game-day-details { align-self: flex-end; }
+}

@@ -30,7 +30,7 @@ jobs:
       - name: Test importer safeguards
         run: node --test tests/wpbl-automation.test.mjs
       - name: Test Hostinger updater
-        run: php -l public/data/wpbl/pull.php && php tests/wpbl-pull.test.php
+        run: php -l public/data/wpbl/pull.php && php tests/wpbl-pull.test.php && php -l public/data/wpbl/live.php && php tests/wpbl-live.test.php
       - name: Collect, validate and compare official statistics
         id: refresh
         run: node scripts/refresh-wpbl.mjs
