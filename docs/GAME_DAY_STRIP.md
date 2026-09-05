@@ -18,3 +18,9 @@ Sources checked September 5, 2026:
 - https://www.womensprobaseballleague.com/wp-json/wpbl/v1/calendar-events
 - https://stats.womensprobaseballleague.com/v1/games?limit=50&offset=0
 - Local experiment: ../research/live-feed/2026-09-04/report.md
+
+## Deployment verification — September 5, 2026
+
+Published commit `7f13934` to Hostinger by direct file upload: the endpoint first, then two hashed assets and 72 public HTML shells. All 74 static files matched the isolated build byte-for-byte. The endpoint returned HTTP 200 with JSON, `no-store`, `nosniff`, and the official LA at Boston 7:30 p.m. EDT start. Consecutive requests returned the shared cached result. An unknown route returned HTTP 404.
+
+GitHub validation run 33962498829 passed build, public/importer tests, PHP tests, and a real calendar integration check. Desktop and 390px mobile previews passed; the published homepage rendered the strip without console errors, and navigating to Schedule removed it. Private review files were not deployed or rechecked.
