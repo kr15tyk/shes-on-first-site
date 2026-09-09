@@ -5,7 +5,7 @@
       "label": "Official WPBL statistics feed",
       "url": "https://stats.womensprobaseballleague.com/v1/games"
     },
-    "fetchedAt": "2026-09-08T14:33:03.890Z",
+    "fetchedAt": "2026-09-09T14:37:03.638Z",
     "timeZone": "America/New_York",
     "timeAdjustmentMinutes": 60,
     "games": [
@@ -586,7 +586,7 @@
       "label": "Official WPBL statistics feed",
       "url": "https://stats.womensprobaseballleague.com/v1/games"
     },
-    "fetchedAt": "2026-09-08T14:33:03.890Z",
+    "fetchedAt": "2026-09-09T14:37:03.638Z",
     "qualifications": {
       "batting": "Minimum 30 plate appearances",
       "pitching": "Minimum 7.5 innings pitched",
@@ -637,7 +637,7 @@
         "slg": 1.1372549019607843,
         "ops": 1.6685049019607843,
         "hr": 11,
-        "rbi": 32,
+        "rbi": 31,
         "bb": 10,
         "so": 5,
         "sb": 1,
@@ -704,13 +704,13 @@
         "pa": 51,
         "ab": 44,
         "r": 16,
-        "h": 16,
+        "h": 17,
         "doubles": 2,
         "triples": 0,
-        "avg": 0.36363636363636365,
-        "obp": 0.45098039215686275,
-        "slg": 0.75,
-        "ops": 1.2009803921568627,
+        "avg": 0.38636363636363635,
+        "obp": 0.47058823529411764,
+        "slg": 0.7727272727272727,
+        "ops": 1.2433155080213902,
         "hr": 5,
         "rbi": 18,
         "bb": 3,
@@ -914,6 +914,23 @@
         "rank": 4
       },
       {
+        "id": "ow19tkcctx9fd643",
+        "slug": "paloma-benach",
+        "name": "Paloma Benach",
+        "team": "Boston Hunters",
+        "teamAbbr": "BOS",
+        "position": "P",
+        "g": 5,
+        "ip": "14.0",
+        "era": 3.5,
+        "whip": 2.2857142857142856,
+        "so": 3,
+        "bb": 7,
+        "h": 25,
+        "er": 7,
+        "rank": 5
+      },
+      {
         "id": "6yezcikkcsqlcbk4",
         "slug": "kate-blunt",
         "name": "Kate Blunt",
@@ -928,7 +945,7 @@
         "bb": 11,
         "h": 23,
         "er": 7,
-        "rank": 5
+        "rank": 6
       },
       {
         "id": "tnt51eebunwaqu93",
@@ -945,7 +962,7 @@
         "bb": 11,
         "h": 28,
         "er": 11,
-        "rank": 6
+        "rank": 7
       },
       {
         "id": "06xgy0o4voly96uv",
@@ -962,7 +979,7 @@
         "bb": 6,
         "h": 20,
         "er": 11,
-        "rank": 7
+        "rank": 8
       },
       {
         "id": "i7y6bj0a1i8uwwgu",
@@ -979,7 +996,7 @@
         "bb": 2,
         "h": 13,
         "er": 7,
-        "rank": 8
+        "rank": 9
       },
       {
         "id": "a3mzzzpphfnwvx9c",
@@ -996,23 +1013,6 @@
         "bb": 7,
         "h": 20,
         "er": 8,
-        "rank": 9
-      },
-      {
-        "id": "kodbwa3vuzo1kbzt",
-        "slug": "gigi-schiano",
-        "name": "Gigi Schiano",
-        "team": "Boston Hunters",
-        "teamAbbr": "BOS",
-        "position": "P",
-        "g": 9,
-        "ip": "26.2",
-        "era": 4.725,
-        "whip": 1.95,
-        "so": 10,
-        "bb": 19,
-        "h": 33,
-        "er": 18,
         "rank": 10
       }
     ],
@@ -1023,7 +1023,7 @@
       "label": "Official WPBL statistics feed",
       "url": "https://stats.womensprobaseballleague.com/v1/games"
     },
-    "fetchedAt": "2026-09-08T14:33:03.890Z",
+    "fetchedAt": "2026-09-09T14:37:03.638Z",
     "throughDate": "2026-09-06",
     "method": "Calculated from box scores marked complete by the official WPBL statistics feed.",
     "players": [
@@ -1181,12 +1181,12 @@
           "position": "P",
           "g": 7,
           "ip": "15.2",
-          "era": 8.48936170212766,
+          "era": 9.382978723404255,
           "whip": 3,
           "so": 11,
           "bb": 15,
           "h": 32,
-          "er": 19
+          "er": 21
         }
       },
       {
@@ -1263,7 +1263,7 @@
           "slg": 0.46938775510204084,
           "ops": 0.8979591836734694,
           "hr": 1,
-          "rbi": 13,
+          "rbi": 12,
           "bb": 9,
           "so": 7,
           "sb": 2
@@ -1336,15 +1336,15 @@
           "pa": 64,
           "ab": 52,
           "r": 13,
-          "h": 20,
+          "h": 19,
           "doubles": 3,
           "triples": 0,
-          "avg": 0.38461538461538464,
-          "obp": 0.5,
-          "slg": 0.5576923076923077,
-          "ops": 1.0576923076923077,
+          "avg": 0.36538461538461536,
+          "obp": 0.484375,
+          "slg": 0.5384615384615384,
+          "ops": 1.0228365384615383,
           "hr": 2,
-          "rbi": 14,
+          "rbi": 13,
           "bb": 11,
           "so": 1,
           "sb": 0
@@ -2323,13 +2323,13 @@
           "pa": 51,
           "ab": 44,
           "r": 16,
-          "h": 16,
+          "h": 17,
           "doubles": 2,
           "triples": 0,
-          "avg": 0.36363636363636365,
-          "obp": 0.45098039215686275,
-          "slg": 0.75,
-          "ops": 1.2009803921568627,
+          "avg": 0.38636363636363635,
+          "obp": 0.47058823529411764,
+          "slg": 0.7727272727272727,
+          "ops": 1.2433155080213902,
           "hr": 5,
           "rbi": 18,
           "bb": 3,
@@ -2420,14 +2420,14 @@
           "ab": 55,
           "r": 11,
           "h": 17,
-          "doubles": 4,
+          "doubles": 3,
           "triples": 0,
           "avg": 0.3090909090909091,
           "obp": 0.3870967741935484,
-          "slg": 0.38181818181818183,
-          "ops": 0.7689149560117302,
+          "slg": 0.36363636363636365,
+          "ops": 0.750733137829912,
           "hr": 0,
-          "rbi": 14,
+          "rbi": 13,
           "bb": 6,
           "so": 11,
           "sb": 2
@@ -2670,7 +2670,7 @@
           "slg": 1.1372549019607843,
           "ops": 1.6685049019607843,
           "hr": 11,
-          "rbi": 32,
+          "rbi": 31,
           "bb": 10,
           "so": 5,
           "sb": 1
@@ -3314,12 +3314,12 @@
           "position": "P",
           "g": 5,
           "ip": "14.0",
-          "era": 5,
+          "era": 3.5,
           "whip": 2.2857142857142856,
           "so": 3,
           "bb": 7,
           "h": 25,
-          "er": 10
+          "er": 7
         }
       },
       {
@@ -3363,10 +3363,10 @@
           "g": 8,
           "ip": "12.1",
           "era": 6.8108108108108105,
-          "whip": 2.4324324324324325,
+          "whip": 2.5135135135135136,
           "so": 11,
           "bb": 9,
-          "h": 21,
+          "h": 22,
           "er": 12
         }
       },
@@ -3532,13 +3532,13 @@
           "pa": 12,
           "ab": 7,
           "r": 3,
-          "h": 0,
+          "h": 1,
           "doubles": 0,
           "triples": 0,
-          "avg": 0,
-          "obp": 0.3333333333333333,
-          "slg": 0,
-          "ops": 0.3333333333333333,
+          "avg": 0.14285714285714285,
+          "obp": 0.4166666666666667,
+          "slg": 0.14285714285714285,
+          "ops": 0.5595238095238095,
           "hr": 0,
           "rbi": 1,
           "bb": 4,
@@ -3881,7 +3881,7 @@
       "label": "Official WPBL statistics feed",
       "url": "https://stats.womensprobaseballleague.com/v1/games"
     },
-    "fetchedAt": "2026-09-08T14:33:03.890Z",
+    "fetchedAt": "2026-09-09T14:37:03.638Z",
     "throughDate": "2026-09-06",
     "timeZone": "America/New_York",
     "transformations": [
