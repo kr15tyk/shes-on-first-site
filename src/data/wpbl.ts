@@ -65,7 +65,9 @@ export type PlayerBattingStats = Omit<BattingLeader, 'rank'> & {
   so: number
 }
 
-export type PlayerPitchingStats = Omit<PitchingLeader, 'rank'> & {
+export type PlayerPitchingStats = Omit<PitchingLeader, 'rank' | 'era' | 'whip'> & {
+  era: number | null
+  whip: number | null
   er: number
 }
 

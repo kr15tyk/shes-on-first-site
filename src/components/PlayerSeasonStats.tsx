@@ -57,10 +57,13 @@ export default function PlayerSeasonStats({
                 <div className="player-stat-metrics pitching">
                   <Metric label="G" value={stats.pitching.g} />
                   <Metric label="IP" value={stats.pitching.ip} />
-                  <Metric label="ERA" value={stats.pitching.era.toFixed(2)} />
-                  <Metric label="WHIP" value={stats.pitching.whip.toFixed(2)} />
+                  <Metric label="ERA" value={stats.pitching.era?.toFixed(2) ?? '—'} />
+                  <Metric label="WHIP" value={stats.pitching.whip?.toFixed(2) ?? '—'} />
                   <Metric label="SO" value={stats.pitching.so} />
                 </div>
+                {stats.pitching.era === null && (
+                  <p className="data-source">ERA and WHIP are not calculated until a pitcher records an out.</p>
+                )}
               </article>
             )}
           </div>

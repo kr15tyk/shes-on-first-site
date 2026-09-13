@@ -264,8 +264,8 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
         position: record.position,
         g: record.games.size,
         ip: outsToInnings(record.outs),
-        era: innings ? (record.er * ERA_INNINGS) / innings : 0,
-        whip: innings ? (record.bb + record.h) / innings : 0,
+        era: innings ? (record.er * ERA_INNINGS) / innings : null,
+        whip: innings ? (record.bb + record.h) / innings : null,
         so: record.so,
         bb: record.bb,
         h: record.h,
@@ -274,7 +274,7 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
     })
 
   const pitching = allPitching
-    .filter((record) => inningsToOuts(record.ip) >= Math.ceil(pitchingMinInnings * 3))
+    .filter((record) => record.era !== null && record.whip !== null && inningsToOuts(record.ip) >= Math.ceil(pitchingMinInnings * 3))
     .sort((a, b) => a.era - b.era || a.whip - b.whip || b.so - a.so)
     .slice(0, 10)
     .map((record, index) => ({ ...record, rank: index + 1 }))

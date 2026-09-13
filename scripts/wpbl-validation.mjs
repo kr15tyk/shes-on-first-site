@@ -70,7 +70,17 @@ export function validateSnapshot(snapshot, previous) {
   assert.equal(new Set(players.players.map((p) => p.slug)).size, players.players.length, 'Player slug collision')
   assert.ok(players.players.length > 0)
   for (const player of players.players) {
-    if (player.pitching) assert.notEqual(player.pitching.ip, '0.0', 'Zero-out pitching appearance needs undefined-rate handling before publication')
+    if (!player.pitching) continue
+    const { ip, era, whip } = player.pitching
+    assert.match(String(ip), /^\d+(?:\.[012])?$/, 'Invalid aggregate innings')
+    for (const [name, rate] of Object.entries({ era, whip })) {
+      if (Number(ip) === 0) assert.equal(rate, null, `Zero-out ${name} must be null for ${player.id}`)
+      else assert.ok(Number.isFinite(rate) && rate >= 0, `Invalid ${name} for ${player.id}`)
+    }
+  }
+  for (const pitcher of leaders.pitching) {
+    assert.ok(Number(pitcher.ip) > 0 && Number.isFinite(pitcher.era) && pitcher.era >= 0 && Number.isFinite(pitcher.whip) && pitcher.whip >= 0,
+      'Pitching leaders require recorded outs and finite rates')
   }
   if (previous) {
     const currentIds = new Set(finals.map((g) => g.id))

@@ -100,3 +100,34 @@ test('ERA follows the official seven-inning scale', () => {
   assert.equal(result.leaderboards.pitching[0].era, 2)
   assert.equal(result.leaderboards.pitching[0].whip, 1)
 })
+
+test('zero-out totals preserve counts and null rates; later outs produce correct season rates', async () => {
+  const games = [{ game_id: 'g', home_team_id: 'a', away_team_id: 'b' }]
+  for (const er of [0, 2]) {
+    const box = { game_id: 'g', teams: [{ id: 'a', name: 'Boston Hunters', players: [{ id: 'p', name: 'Pitcher', pitching: { ip: '0.0', er, h: 3, bb: 2, so: 0 } }] }] }
+    const result = buildSeasonStats([box], games, '2026-09-13')
+    const p = result.players[0].pitching
+    assert.deepEqual([p.ip, p.era, p.whip, p.er, p.h, p.bb, p.g], ['0.0', null, null, er, 3, 2, 1])
+    assert.equal(result.leaderboards.pitching.length, 0)
+    const snapshot = JSON.parse(await readFile(new URL('../public/data/wpbl/snapshot.json', import.meta.url)))
+    snapshot.players.players = result.players
+    validateSnapshot(JSON.parse(JSON.stringify(snapshot)))
+    for (const invalid of [0, undefined, NaN, Infinity, '0']) {
+      const broken = structuredClone(snapshot)
+      broken.players.players[0].pitching.era = invalid
+      assert.throws(() => validateSnapshot(broken), /Zero-out era/)
+    }
+    const later = structuredClone(box)
+    later.game_id = 'g2'
+    later.teams[0].players[0].pitching = { ip: '1.0', er: 1, h: 1, bb: 0, so: 2 }
+    const combined = buildSeasonStats([box, later], [...games, { ...games[0], game_id: 'g2' }], '2026-09-13').players[0].pitching
+    assert.deepEqual([combined.era, combined.whip, combined.g], [(er + 1) * 7, 6, 2])
+    snapshot.players.players[0].pitching = combined
+    validateSnapshot(snapshot)
+    for (const invalid of [null, undefined, NaN, Infinity, -1, '0']) {
+      const broken = structuredClone(snapshot)
+      broken.players.players[0].pitching.whip = invalid
+      assert.throws(() => validateSnapshot(broken), /Invalid whip/)
+    }
+  }
+})
