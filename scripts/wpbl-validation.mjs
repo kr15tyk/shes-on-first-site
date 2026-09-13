@@ -78,11 +78,20 @@ export function validateSnapshot(snapshot, previous) {
       else assert.ok(Number.isFinite(rate) && rate >= 0, `Invalid ${name} for ${player.id}`)
     }
   }
+  for (const kind of ['batting', 'pitching']) {
+    assert.equal(new Set(leaders[kind].map(p => p.slug)).size, leaders[kind].length, `Duplicate ${kind} leaderboard player`)
+  }
+  const sourceIds = players.players.flatMap(p => p.sourceIds || [p.id])
+  assert.equal(new Set(sourceIds).size, sourceIds.length, 'Source player ID belongs to multiple identities')
   for (const pitcher of leaders.pitching) {
     assert.ok(Number(pitcher.ip) > 0 && Number.isFinite(pitcher.era) && pitcher.era >= 0 && Number.isFinite(pitcher.whip) && pitcher.whip >= 0,
       'Pitching leaders require recorded outs and finite rates')
   }
   if (previous) {
+    const coveredIds = new Set(sourceIds)
+    for (const player of previous.players.players) {
+      assert.ok((player.sourceIds || [player.id]).every(id => coveredIds.has(id)), `Previously published player source ID disappeared: ${player.slug}`)
+    }
     const currentIds = new Set(finals.map((g) => g.id))
     assert.ok(previous.schedule.games.filter((g) => g.status === 'Final').every((g) => currentIds.has(g.id)), 'Previously completed game disappeared; review required')
     assert.ok(manifest.throughDate >= previous.manifest.throughDate, 'Statistics cutoff regressed')

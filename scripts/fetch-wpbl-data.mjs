@@ -3,6 +3,8 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { validateGames, validateBoxscore, validateSnapshot, freshness } from './wpbl-validation.mjs'
 
+import { resolvePlayerIdentities } from './wpbl-player-identity.mjs'
+
 const BASE_URL = 'https://stats.womensprobaseballleague.com/v1'
 // Official WPBL season statistics normalize ERA to seven innings.
 const ERA_INNINGS = 7
@@ -136,11 +138,14 @@ function outsToInnings(outs) {
   return `${Math.floor(outs / 3)}.${outs % 3}`
 }
 
-function playerRecord(map, player, team, gameDate) {
-  const key = player.id || `${slugify(player.name)}:${team.id}`
+function playerRecord(map, player, team, gameDate, identities) {
+  const identity = identities.get(player.id)
+  const key = identity.id
   const existing = map.get(key) || {
-    id: player.id || slugify(player.name),
-    slug: playerSlug(player.name),
+    id: identity.id,
+    sourceIds: [...identity.sourceIds].sort(),
+    profileUrl: identity.profileUrl,
+    slug: identity.slug || playerSlug(player.name),
     name: player.name,
     team: team.name,
     teamAbbr: teamAbbreviations[team.name] || team.code || '',
@@ -150,6 +155,7 @@ function playerRecord(map, player, team, gameDate) {
   }
 
   if (gameDate >= existing.lastGame) {
+    existing.name = player.name
     existing.team = team.name
     existing.teamAbbr = teamAbbreviations[team.name] || team.code || ''
     existing.position = String(player.position || existing.position || '').toUpperCase()
@@ -161,6 +167,7 @@ function playerRecord(map, player, team, gameDate) {
 }
 
 export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
+  const identities = resolvePlayerIdentities(boxscores, completedGames)
   const hitters = new Map()
   const pitchers = new Map()
   const teamGames = new Map()
@@ -175,7 +182,7 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
     for (const team of boxscore.teams || []) {
       for (const player of team.players || []) {
         if (player.hitting) {
-          const record = playerRecord(hitters, player, team, gameDate)
+          const record = playerRecord(hitters, player, team, gameDate, identities)
           const hitting = player.hitting
           record.games.add(boxscore.game_id)
           record.ab = (record.ab || 0) + number(hitting.ab)
@@ -194,7 +201,7 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
         }
 
         if (player.pitching) {
-          const record = playerRecord(pitchers, player, team, gameDate)
+          const record = playerRecord(pitchers, player, team, gameDate, identities)
           const pitching = player.pitching
           record.games.add(boxscore.game_id)
           record.outs = (record.outs || 0) + inningsToOuts(pitching.ip)
@@ -222,6 +229,8 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
       const slg = record.ab ? totalBases / record.ab : 0
       return {
         id: record.id,
+        sourceIds: record.sourceIds,
+        profileUrl: record.profileUrl,
         slug: record.slug,
         name: record.name,
         team: record.team,
@@ -246,6 +255,7 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
       }
     })
 
+  if (new Set(allBatting.map(p => p.slug)).size !== allBatting.length) throw new Error('Unresolved batting identity collision; review source IDs')
   const batting = allBatting
     .filter((record) => record.pa >= battingMinPa)
     .sort((a, b) => b.ops - a.ops || b.hr - a.hr || b.rbi - a.rbi)
@@ -257,6 +267,8 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
       const innings = record.outs / 3
       return {
         id: record.id,
+        sourceIds: record.sourceIds,
+        profileUrl: record.profileUrl,
         slug: record.slug,
         name: record.name,
         team: record.team,
@@ -273,6 +285,7 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
       }
     })
 
+  if (new Set(allPitching.map(p => p.slug)).size !== allPitching.length) throw new Error('Unresolved pitching identity collision; review source IDs')
   const pitching = allPitching
     .filter((record) => record.era !== null && record.whip !== null && inningsToOuts(record.ip) >= Math.ceil(pitchingMinInnings * 3))
     .sort((a, b) => a.era - b.era || a.whip - b.whip || b.so - a.so)
@@ -284,6 +297,8 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
   for (const record of allBatting) {
     playersBySlug.set(record.slug, {
       id: record.id,
+        sourceIds: record.sourceIds,
+        profileUrl: record.profileUrl,
       slug: record.slug,
       name: record.name,
       team: record.team,
@@ -296,8 +311,11 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
 
   for (const record of allPitching) {
     const existing = playersBySlug.get(record.slug)
+    if (existing && existing.id !== record.id) throw new Error('Unresolved batting/pitching identity collision')
     playersBySlug.set(record.slug, {
       id: record.id,
+        sourceIds: record.sourceIds,
+        profileUrl: record.profileUrl,
       slug: record.slug,
       name: record.name,
       team: record.team,
@@ -464,6 +482,7 @@ async function main() {
     transformations: [
       'Used completed official box scores only for leaderboards and player snapshots.',
       'Fetched every games page through an empty page using explicit limit and offset.',
+      'Joined changing source player IDs by official profile URL or explicit reviewed aliases; preserved source IDs.',
       'Normalized ERA to seven innings to match official WPBL season statistics.',
       'Removed duplicate unplayed listings when a completed game existed for the same date and matchup.',
       `Applied a consistent ${START_TIME_ADJUSTMENT_MINUTES}-minute correction to the feed's 2026 game times.`,

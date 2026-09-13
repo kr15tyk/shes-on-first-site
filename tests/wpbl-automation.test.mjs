@@ -131,3 +131,48 @@ test('zero-out totals preserve counts and null rates; later outs produce correct
     }
   }
 })
+
+const identityGame = (id, date) => ({ game_id: id, home_team_id: 'a', away_team_id: 'b', scheduled_start: date })
+const identityBox = (game, id, profile_url) => ({ game_id: game, teams: [{ id: 'a', name: 'Boston Hunters', players: [{ id, name: 'Test Player', profile_url, hitting: { ab: 2, h: 1, r: 1, bb: 1 }, pitching: { ip: '1.0', er: 1, h: 1, bb: 0, so: 1 } }] }] })
+
+test('changing IDs with the same official profile retain all totals and source identities', () => {
+  const url = 'https://www.womensprobaseballleague.com/players/test-player/'
+  const games = [identityGame('g1','2026-08-01'),identityGame('g2','2026-09-11')]
+  const boxes = [identityBox('g1','old',url),identityBox('g2','new',url)]
+  const result = buildSeasonStats(boxes, games, '2026-09-13')
+  assert.equal(result.players.length, 1)
+  const p = result.players[0]
+  assert.equal(p.id,'old')
+  assert.deepEqual(p.sourceIds,['new','old'])
+  assert.deepEqual([p.batting.g,p.batting.pa,p.batting.h,p.pitching.g,p.pitching.ip,p.pitching.er],[2,6,2,2,'2.0',2])
+  assert.deepEqual(buildSeasonStats([...boxes].reverse(),games,'2026-09-13').players,result.players)
+})
+
+test('unresolved same-name IDs cannot overwrite earlier hitting or pitching totals', () => {
+  const games = [identityGame('g1','2026-08-01'),identityGame('g2','2026-09-11')]
+  assert.throws(()=>buildSeasonStats([identityBox('g1','old'),identityBox('g2','new')],games,'2026-09-13'),/identity collision/)
+})
+
+test('duplicate canonical appearances and conflicting URLs stop aggregation', () => {
+  const url = 'https://www.womensprobaseballleague.com/players/test-player/'
+  const box = identityBox('g','old',url)
+  box.teams[0].players.push({...box.teams[0].players[0],id:'new'})
+  assert.throws(()=>buildSeasonStats([box],[identityGame('g','2026-08-01')],'2026-09-13'),/Duplicate canonical/)
+  assert.throws(()=>buildSeasonStats([identityBox('g1','id',url),identityBox('g2','id',url.replace('test-player','other-player'))],[identityGame('g1','2026-08-01'),identityGame('g2','2026-09-11')],'2026-09-13'),/Conflicting profile/)
+})
+
+test('reviewed missing-URL aliases preserve totals and reject unexpected names', () => {
+  const boxes = [identityBox('g1','ow19tkcctx9fd643'),identityBox('g2','gwnsxjnoq1owclex')]
+  for (const box of boxes) box.teams[0].players[0].name = 'Paloma Benach'
+  const games = [identityGame('g1','2026-08-01'),identityGame('g2','2026-09-11')]
+  assert.equal(buildSeasonStats(boxes,games,'2026-09-13').players[0].batting.g,2)
+  boxes[1].teams[0].players[0].name = 'Someone Else'
+  assert.throws(()=>buildSeasonStats(boxes,games,'2026-09-13'),/alias name changed/)
+})
+
+test('a snapshot cannot silently lose a previously published source player ID', async () => {
+  const previous = JSON.parse(await readFile(new URL('../public/data/wpbl/snapshot.json',import.meta.url)))
+  const next = structuredClone(previous)
+  next.players.players[0].id = 'replacement-id'
+  assert.throws(()=>validateSnapshot(next,previous),/source ID disappeared/)
+})
