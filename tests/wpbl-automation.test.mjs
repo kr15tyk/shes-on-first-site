@@ -201,3 +201,33 @@ test('reviewed Emi spelling variation retains her totals and display name', () =
   assert.equal(result.players[0].name,'Emi Saiki')
   assert.equal(result.players[0].batting.g,2)
 })
+
+
+test('reviewed display names are consistent across batting, pitching and leaderboards', () => {
+  for (const [slug, name, alias] of [
+    ['alexia-jorge','Alexia Jorge','Alexi Jorge'],
+    ['ela-day-bedard','Ela Day-Bédard','Ela Day-Bedard'],
+    ['gabrielle-haas','Gabrielle Haas','Gabriella Haas'],
+    ['isabella-villarreal','Isabella Villarreal','Isabella Villareal'],
+    ['maggie-foxx','Maggie Foxx','Maggie Fox'],
+    ['maika-dumais','Maïka Dumais','Maika Dumais'],
+  ]) {
+    const url = `https://www.womensprobaseballleague.com/players/${slug}/`
+    const boxes = [identityBox('g1','old',url),identityBox('g2','new',url)]
+    boxes[0].teams[0].players[0].name = name.normalize('NFD')
+    boxes[1].teams[0].players[0].name = alias
+    delete boxes[1].teams[0].players[0].pitching
+    const games = [identityGame('g1','2026-08-01'),identityGame('g2','2026-09-12')]
+    const result = buildSeasonStats(boxes,games,'2026-09-13')
+    const player = result.players[0]
+    assert.equal(player.name,name)
+    assert.equal(player.batting.name,name)
+    assert.equal(player.pitching.name,name)
+    assert.equal(player.slug,slug)
+    assert.equal(player.batting.g,2)
+    for (const row of [...result.leaderboards.batting,...result.leaderboards.pitching]) assert.equal(row.name,name)
+    assert.deepEqual(buildSeasonStats([...boxes].reverse(),games,'2026-09-13'),result)
+    boxes[1].teams[0].players[0].name = 'Someone Else'
+    assert.throws(()=>buildSeasonStats(boxes,games,'2026-09-13'),/Unreviewed player name/)
+  }
+})
