@@ -19,7 +19,11 @@ export function resolvePlayerIdentities(boxscores, games) {
     .flatMap(box => box.teams.flatMap(team => team.players.filter(p => p.hitting || p.pitching).map(player => ({ player, game: box.game_id }))))
   const urls = new Map()
   for (const { player } of rows) {
-    if (expectedNames.has(player.id) && player.name !== expectedNames.get(player.id)) throw new Error(`Reviewed alias name changed for ${player.id}`)
+    // The September 12 box score labels this same ID/uniform Catherine;
+    // its September 11 record and thirteen earlier appearances use Claire.
+    const reviewedNameVariant = (player.id === 'kfli26dz84mtz2rh' && player.name === "Catherine O'Sullivan")
+      || (player.id === 'n0gb2fusndobpf7p' && player.name === 'Emi Saki')
+    if (expectedNames.has(player.id) && player.name !== expectedNames.get(player.id) && !reviewedNameVariant) throw new Error(`Reviewed alias name changed for ${player.id}`)
     if (!player.profile_url) continue
     const url = new URL(player.profile_url)
     if (url.origin !== 'https://www.womensprobaseballleague.com' || !/^\/players\/[a-z0-9-]+\/$/.test(url.pathname) || url.search || url.hash) throw new Error(`Invalid official profile URL for ${player.id}`)
@@ -34,7 +38,7 @@ export function resolvePlayerIdentities(boxscores, games) {
     const key = url || sourceKey
     let group = groups.get(key)
     if (!group) {
-      group = { id: reviewed.get(player.id) || player.id, sourceIds: new Set(), profileUrl: url || null, slug: url ? new URL(url).pathname.split('/')[2] : null }
+      group = { id: reviewed.get(player.id) || player.id, sourceIds: new Set(), name: expectedNames.get(player.id) || null, profileUrl: url || null, slug: url ? new URL(url).pathname.split('/')[2] : null }
       groups.set(key, group)
     }
     const appearance = `${game}:${key}`

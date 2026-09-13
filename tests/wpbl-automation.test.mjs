@@ -176,3 +176,28 @@ test('a snapshot cannot silently lose a previously published source player ID', 
   next.players.players[0].id = 'replacement-id'
   assert.throws(()=>validateSnapshot(next,previous),/source ID disappeared/)
 })
+
+
+test('reviewed Claire source name variation keeps one stable player and rejects other names', () => {
+  const boxes = [identityBox('g1','pz426861jkjn70d3'),identityBox('g2','kfli26dz84mtz2rh')]
+  boxes[0].teams[0].players[0].name = "Claire O'Sullivan"
+  boxes[1].teams[0].players[0].name = "Catherine O'Sullivan"
+  const games = [identityGame('g1','2026-08-01'),identityGame('g2','2026-09-12')]
+  const result = buildSeasonStats(boxes,games,'2026-09-13')
+  assert.equal(result.players.length,1)
+  assert.equal(result.players[0].name,"Claire O'Sullivan")
+  assert.equal(result.players[0].batting.g,2)
+  boxes[1].teams[0].players[0].name = 'Someone Else'
+  assert.throws(()=>buildSeasonStats(boxes,games,'2026-09-13'),/alias name changed/)
+})
+
+
+test('reviewed Emi spelling variation retains her totals and display name', () => {
+  const boxes = [identityBox('g1','i7y6bj0a1i8uwwgu'),identityBox('g2','n0gb2fusndobpf7p')]
+  boxes[0].teams[0].players[0].name = 'Emi Saiki'
+  boxes[1].teams[0].players[0].name = 'Emi Saki'
+  const result = buildSeasonStats(boxes,[identityGame('g1','2026-08-01'),identityGame('g2','2026-09-12')],'2026-09-13')
+  assert.equal(result.players.length,1)
+  assert.equal(result.players[0].name,'Emi Saiki')
+  assert.equal(result.players[0].batting.g,2)
+})

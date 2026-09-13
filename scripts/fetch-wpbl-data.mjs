@@ -145,8 +145,8 @@ function playerRecord(map, player, team, gameDate, identities) {
     id: identity.id,
     sourceIds: [...identity.sourceIds].sort(),
     profileUrl: identity.profileUrl,
-    slug: identity.slug || playerSlug(player.name),
-    name: player.name,
+    slug: identity.slug || playerSlug(identity.name || player.name),
+    name: identity.name || player.name,
     team: team.name,
     teamAbbr: teamAbbreviations[team.name] || team.code || '',
     position: String(player.position || '').toUpperCase(),
@@ -155,7 +155,7 @@ function playerRecord(map, player, team, gameDate, identities) {
   }
 
   if (gameDate >= existing.lastGame) {
-    existing.name = player.name
+    existing.name = identity.name || player.name
     existing.team = team.name
     existing.teamAbbr = teamAbbreviations[team.name] || team.code || ''
     existing.position = String(player.position || existing.position || '').toUpperCase()

@@ -24,3 +24,7 @@ Evidence: preserved successful run 34765102788 source-responses.json and a fresh
 Prepared locally only; not pushed or published. The September 13 15:30 Hostinger sync correctly transferred the previous release, but its player aggregates have this defect. HTTP/workflow success does not establish correct player totals. The prior statement that live statistics were verified was too broad.
 
 Publishing this data-only correction requires approval. Do not upload any app assets: a separate task has since published newer profile/frontend work. The profile task is adding a prior-good-totals display guard.
+
+Publication validation found the September 12 boxscore izvbxd4w6mcr0bew labels kfli26dz84mtz2rh as Catherine O'Sullivan, while September 11 j4uofrn55sr4wnlt uses Claire for the same ID and uniform 18. Thirteen earlier appearances use Claire and uniform 18. Accept this exact source-ID/name variation and retain the reviewed Claire name; other names still fail. Added a regression test.
+
+The same live collection contains Emi Saiki / Emi Saki on source ID n0gb2fusndobpf7p, uniform 23; accept only this exact spelling variation and retain Emi Saiki. All other reviewed source-ID names were checked. Eighteen tests pass.
