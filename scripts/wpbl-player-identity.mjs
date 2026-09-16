@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+
 // These six source-ID groups lack a consistent profile_url. Reviewed against
 // the preserved 2026-09-13 box scores (name, team and uniform continuity).
 // Explicit aliases only: never merge unreviewed players by name alone.
@@ -13,19 +15,11 @@ const reviewedNames = ['Diana Ibarra', "Claire O'Sullivan", 'Paloma Benach', 'Su
 const reviewed = new Map(reviewedIds.flatMap(ids => ids.map(id => [id, ids[0]])))
 const expectedNames = new Map(reviewedIds.flatMap((ids, i) => ids.map(id => [id, reviewedNames[i]])))
 
-// Display names verified against official player-page headings on 2026-09-13.
-// Keys are established profile identities; these rules never merge by name.
-const profileNames = new Map([
-  ['alexia-jorge', 'Alexia Jorge', ['Alexi Jorge']],
-  ['ela-day-bedard', 'Ela Day-Bédard', ['Ela Day-Bedard']],
-  ['gabrielle-haas', 'Gabrielle Haas', ['Gabriella Haas']],
-  ['isabella-villarreal', 'Isabella Villarreal', ['Isabella Villareal']],
-  ['maggie-foxx', 'Maggie Foxx', ['Maggie Fox']],
-  ['maika-dumais', 'Maïka Dumais', ['Maika Dumais']],
-].map(([slug, name, aliases]) => [
-  `https://www.womensprobaseballleague.com/players/${slug}/`,
-  { name, accepted: new Set([name, ...aliases]) },
-]))
+// Complete reviewed name registry, sourced from official WPBL profile headings.
+// Name corrections never merge identities; URL/ID grouping remains separate.
+const verifiedNames = JSON.parse(readFileSync(new URL('./wpbl-player-names.json', import.meta.url), 'utf8'))
+const profileNames = new Map(verifiedNames.map(p => [p.source, { ...p, accepted: new Set(p.acceptedNames) }]))
+const sourceNames = new Map(verifiedNames.flatMap(p => p.sourceIds.map(id => [id, p])))
 
 export function resolvePlayerIdentities(boxscores, games) {
   const dates = new Map(games.map(g => [g.game_id, g.scheduled_start]))
@@ -33,11 +27,9 @@ export function resolvePlayerIdentities(boxscores, games) {
     .flatMap(box => box.teams.flatMap(team => team.players.filter(p => p.hitting || p.pitching).map(player => ({ player, game: box.game_id }))))
   const urls = new Map()
   for (const { player } of rows) {
-    // The September 12 box score labels this same ID/uniform Catherine;
-    // its September 11 record and thirteen earlier appearances use Claire.
-    const reviewedNameVariant = (player.id === 'kfli26dz84mtz2rh' && player.name === "Catherine O'Sullivan")
-      || (player.id === 'n0gb2fusndobpf7p' && player.name === 'Emi Saki')
-    if (expectedNames.has(player.id) && player.name !== expectedNames.get(player.id) && !reviewedNameVariant) throw new Error(`Reviewed alias name changed for ${player.id}`)
+    const verified = sourceNames.get(player.id)
+    if (verified && !verified.acceptedNames.includes(player.name.normalize('NFC'))) throw new Error(`Reviewed alias name changed for ${player.id}`)
+    if (verified?.profileUrl && player.profile_url && player.profile_url !== verified.profileUrl) throw new Error(`Conflicting profile URLs for ${player.id}`)
     if (!player.profile_url) continue
     const url = new URL(player.profile_url)
     if (url.origin !== 'https://www.womensprobaseballleague.com' || !/^\/players\/[a-z0-9-]+\/$/.test(url.pathname) || url.search || url.hash) throw new Error(`Invalid official profile URL for ${player.id}`)
@@ -50,7 +42,7 @@ export function resolvePlayerIdentities(boxscores, games) {
     const sourceKey = reviewed.get(player.id) || player.id
     const url = urls.get(sourceKey)
     const key = url || sourceKey
-    const display = profileNames.get(url)
+    const display = profileNames.get(url) || (sourceNames.has(player.id) ? profileNames.get(sourceNames.get(player.id).source) : null)
     const sourceName = player.name.normalize('NFC')
     if (display && !display.accepted.has(sourceName)) throw new Error(`Unreviewed player name for ${key}: ${player.name}`)
     const canonicalName = display?.name || expectedNames.get(player.id) || sourceName

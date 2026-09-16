@@ -231,3 +231,23 @@ test('reviewed display names are consistent across batting, pitching and leaderb
     assert.throws(()=>buildSeasonStats(boxes,games,'2026-09-13'),/Unreviewed player name/)
   }
 })
+
+test('complete reviewed name registry preserves every known alias without changing totals', async () => {
+  const registry = JSON.parse(await readFile(new URL('../scripts/wpbl-player-names.json',import.meta.url)))
+  assert.equal(registry.length,69)
+  assert.equal(new Set(registry.flatMap(p=>p.sourceIds)).size,registry.flatMap(p=>p.sourceIds).length)
+  for (const p of registry) {
+    for (const alias of p.acceptedNames) {
+      const box = identityBox('g',p.sourceIds[0],p.profileUrl || undefined)
+      box.teams[0].players[0].name = alias
+      const result = buildSeasonStats([box],[identityGame('g','2026-09-14')],'2026-09-16')
+      assert.equal(result.players.length,1)
+      assert.equal(result.players[0].name,p.name)
+      assert.equal(result.players[0].batting.name,p.name)
+      assert.equal(result.players[0].pitching.name,p.name)
+      assert.equal(result.players[0].batting.pa,3)
+      box.teams[0].players[0].name = 'Unreviewed Different Player'
+      assert.throws(()=>buildSeasonStats([box],[identityGame('g','2026-09-14')],'2026-09-16'),/alias name changed/)
+    }
+  }
+})
