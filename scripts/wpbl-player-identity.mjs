@@ -11,8 +11,9 @@ const reviewedIds = [
   ['g03ry24i1v31ubum', '3vw0yx2ob4wb4me0'], // Olivia Bricker
   ['i7y6bj0a1i8uwwgu', 'n0gb2fusndobpf7p'], // Emi Saiki
   ['vjeeaoxap16nadnw', 'amwr4e8td49jgh3p'], // Peyton Coria (SF): feed reassigned her source ID after 2026-09-06; new ID debuts 2026-09-16, no profile_url to join on
+  ['n6fptazerna1mwyt', '70rhe3ul6tticdxu'], // Addisyn Baird (LA): feed reassigned her source ID; new ID debuts 2026-09-19, uniform 17 continuity, no profile_url to join on
 ]
-const reviewedNames = ['Diana Ibarra', "Claire O'Sullivan", 'Paloma Benach', 'Suzu Narasaki', 'Olivia Bricker', 'Emi Saiki', 'Peyton Coria']
+const reviewedNames = ['Diana Ibarra', "Claire O'Sullivan", 'Paloma Benach', 'Suzu Narasaki', 'Olivia Bricker', 'Emi Saiki', 'Peyton Coria', 'Addisyn Baird']
 const reviewed = new Map(reviewedIds.flatMap(ids => ids.map(id => [id, ids[0]])))
 const expectedNames = new Map(reviewedIds.flatMap((ids, i) => ids.map(id => [id, reviewedNames[i]])))
 
