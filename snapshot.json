@@ -5,7 +5,7 @@
       "label": "Official WPBL statistics feed",
       "url": "https://stats.womensprobaseballleague.com/v1/games"
     },
-    "fetchedAt": "2026-10-08T17:24:24.957Z",
+    "fetchedAt": "2026-10-09T16:59:54.978Z",
     "timeZone": "America/New_York",
     "timeAdjustmentMinutes": 60,
     "games": [
@@ -776,7 +776,7 @@
       "label": "Official WPBL statistics feed",
       "url": "https://stats.womensprobaseballleague.com/v1/games"
     },
-    "fetchedAt": "2026-10-08T17:24:24.957Z",
+    "fetchedAt": "2026-10-09T16:59:54.978Z",
     "qualifications": {
       "batting": "Minimum 30 plate appearances",
       "pitching": "Minimum 7.5 innings pitched",
@@ -1265,7 +1265,7 @@
           "i7y6bj0a1i8uwwgu",
           "n0gb2fusndobpf7p"
         ],
-        "profileUrl": null,
+        "profileUrl": "https://www.womensprobaseballleague.com/players/emi-saiki/",
         "slug": "emi-saiki",
         "name": "Emi Saiki",
         "team": "New York Heights",
@@ -1311,7 +1311,7 @@
       "label": "Official WPBL statistics feed",
       "url": "https://stats.womensprobaseballleague.com/v1/games"
     },
-    "fetchedAt": "2026-10-08T17:24:24.957Z",
+    "fetchedAt": "2026-10-09T16:59:54.978Z",
     "throughDate": "2026-09-22",
     "method": "Calculated from box scores marked complete by the official WPBL statistics feed.",
     "players": [
@@ -2567,7 +2567,7 @@
           "i7y6bj0a1i8uwwgu",
           "n0gb2fusndobpf7p"
         ],
-        "profileUrl": null,
+        "profileUrl": "https://www.womensprobaseballleague.com/players/emi-saiki/",
         "slug": "emi-saiki",
         "name": "Emi Saiki",
         "team": "New York Heights",
@@ -2579,7 +2579,7 @@
             "i7y6bj0a1i8uwwgu",
             "n0gb2fusndobpf7p"
           ],
-          "profileUrl": null,
+          "profileUrl": "https://www.womensprobaseballleague.com/players/emi-saiki/",
           "slug": "emi-saiki",
           "name": "Emi Saiki",
           "team": "New York Heights",
@@ -2608,7 +2608,7 @@
             "i7y6bj0a1i8uwwgu",
             "n0gb2fusndobpf7p"
           ],
-          "profileUrl": null,
+          "profileUrl": "https://www.womensprobaseballleague.com/players/emi-saiki/",
           "slug": "emi-saiki",
           "name": "Emi Saiki",
           "team": "New York Heights",
@@ -5052,7 +5052,7 @@
       "label": "Official WPBL statistics feed",
       "url": "https://stats.womensprobaseballleague.com/v1/games"
     },
-    "fetchedAt": "2026-10-08T17:24:24.957Z",
+    "fetchedAt": "2026-10-09T16:59:54.978Z",
     "throughDate": "2026-09-22",
     "timeZone": "America/New_York",
     "transformations": [
