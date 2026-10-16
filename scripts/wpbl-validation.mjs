@@ -87,6 +87,7 @@ export function validateSnapshot(snapshot, previous) {
     assert.ok(Number(pitcher.ip) > 0 && Number.isFinite(pitcher.era) && pitcher.era >= 0 && Number.isFinite(pitcher.whip) && pitcher.whip >= 0,
       'Pitching leaders require recorded outs and finite rates')
   }
+  validatePeriods(snapshot, previous)
   if (previous) {
     const coveredIds = new Set(sourceIds)
     for (const player of previous.players.players) {
@@ -96,4 +97,42 @@ export function validateSnapshot(snapshot, previous) {
     assert.ok(previous.schedule.games.filter((g) => g.status === 'Final').every((g) => currentIds.has(g.id)), 'Previously completed game disappeared; review required')
     assert.ok(manifest.throughDate >= previous.manifest.throughDate, 'Statistics cutoff regressed')
   }
+}
+
+function validatePeriods(snapshot, previous) {
+  if (!snapshot.periods) {
+    assert.ok(!previous?.periods, 'Season periods disappeared')
+    return // Legacy snapshots remain readable during rollout.
+  }
+  const finals = snapshot.schedule.games.filter(game => game.status === 'Final')
+  assert.ok(finals.every(game => ['regular', 'postseason'].includes(game.period)), 'Missing game period')
+  for (const period of ['regular', 'postseason']) {
+    const scoped = snapshot.periods[period]
+    assert.ok(scoped, 'Missing season period')
+    const games = finals.filter(game => game.period === period)
+    assert.deepEqual([...scoped.gameIds].sort(), games.map(game => game.id).sort(), 'Period game coverage mismatch')
+    const dates = games.map(game => new Intl.DateTimeFormat('en-CA', {
+      timeZone: snapshot.manifest.timeZone, year: 'numeric', month: '2-digit', day: '2-digit',
+    }).format(new Date(game.start))).sort()
+    assert.equal(scoped.leaders.throughDate, dates.at(-1) || '', 'Incorrect period cutoff')
+    assert.equal(scoped.players.throughDate, scoped.leaders.throughDate, 'Mixed period dates')
+    if (games.length) validateSnapshot({ schemaVersion: 1, schedule: { ...snapshot.schedule, games },
+      leaders: scoped.leaders, players: scoped.players,
+      manifest: { ...snapshot.manifest, throughDate: scoped.leaders.throughDate,
+        quality: { ...snapshot.manifest.quality, completedGames: games.length, verifiedBoxscores: games.length } },
+    })
+    else assert.equal(scoped.players.players.length + scoped.leaders.batting.length + scoped.leaders.pitching.length, 0)
+  }
+  const outs = ip => { const [whole, part = '0'] = String(ip).split('.'); return Number(whole) * 3 + Number(part) }
+  for (const player of snapshot.players.players) {
+    const parts = Object.values(snapshot.periods).map(period => period.players.players.find(p => p.id === player.id))
+    for (const [kind, fields] of Object.entries({ batting: ['g','pa','ab','r','h','doubles','triples','hr','rbi','bb','so','sb'], pitching: ['g','so','bb','h','er'] })) {
+      for (const field of fields) {
+        assert.equal(parts.reduce((sum, p) => sum + (p?.[kind]?.[field] || 0), 0), player[kind]?.[field] || 0, `Period totals disagree: ${player.slug} ${kind} ${field}`)
+      }
+    }
+    assert.equal(parts.reduce((sum, p) => sum + outs(p?.pitching?.ip || '0'), 0), outs(player.pitching?.ip || '0'), 'Period innings disagree')
+  }
+  const ids = new Set(snapshot.players.players.map(p => p.id))
+  for (const period of Object.values(snapshot.periods)) assert.ok(period.players.players.every(p => ids.has(p.id)), 'Unknown period player')
 }

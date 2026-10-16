@@ -166,8 +166,7 @@ function playerRecord(map, player, team, gameDate, identities) {
   return existing
 }
 
-export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
-  const identities = resolvePlayerIdentities(boxscores, completedGames)
+export function buildSeasonStats(boxscores, completedGames, fetchedAt, identities = resolvePlayerIdentities(boxscores, completedGames), qualifyByTeam = false) {
   const hitters = new Map()
   const pitchers = new Map()
   const teamGames = new Map()
@@ -214,6 +213,8 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
     }
   }
 
+  const teamIds = new Map(boxscores.flatMap(box => (box.teams || []).map(team => [team.name, team.id])))
+  const qualificationGames = record => qualifyByTeam ? (teamGames.get(teamIds.get(record.team)) || 0) : maxTeamGames
   const maxTeamGames = Math.max(1, ...teamGames.values())
   const battingMinPa = maxTeamGames * 2
   const pitchingMinInnings = maxTeamGames * 0.5
@@ -257,7 +258,7 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
 
   if (new Set(allBatting.map(p => p.slug)).size !== allBatting.length) throw new Error('Unresolved batting identity collision; review source IDs')
   const batting = allBatting
-    .filter((record) => record.pa >= battingMinPa)
+    .filter((record) => record.pa >= qualificationGames(record) * 2)
     .sort((a, b) => b.ops - a.ops || b.hr - a.hr || b.rbi - a.rbi)
     .slice(0, 10)
     .map((record, index) => ({ ...record, rank: index + 1 }))
@@ -287,7 +288,7 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
 
   if (new Set(allPitching.map(p => p.slug)).size !== allPitching.length) throw new Error('Unresolved pitching identity collision; review source IDs')
   const pitching = allPitching
-    .filter((record) => record.era !== null && record.whip !== null && inningsToOuts(record.ip) >= Math.ceil(pitchingMinInnings * 3))
+    .filter((record) => record.era !== null && record.whip !== null && inningsToOuts(record.ip) >= Math.ceil(qualificationGames(record) * 0.5 * 3))
     .sort((a, b) => a.era - b.era || a.whip - b.whip || b.so - a.so)
     .slice(0, 10)
     .map((record, index) => ({ ...record, rank: index + 1 }))
@@ -331,8 +332,8 @@ export function buildSeasonStats(boxscores, completedGames, fetchedAt) {
       source: { label: 'Official WPBL statistics feed', url: `${BASE_URL}/games` },
       fetchedAt,
       qualifications: {
-        batting: `Minimum ${battingMinPa} plate appearances`,
-        pitching: `Minimum ${pitchingMinInnings} innings pitched`,
+        batting: qualifyByTeam ? 'Minimum 2 plate appearances per team game in this period' : `Minimum ${battingMinPa} plate appearances`,
+        pitching: qualifyByTeam ? 'Minimum 0.5 innings pitched per team game in this period' : `Minimum ${pitchingMinInnings} innings pitched`,
         note: 'She’s On First qualification rules for this inaugural-season view.',
       },
       batting,
@@ -410,6 +411,38 @@ async function fetchBoxscores(games) {
   return { results, errors }
 }
 
+export function gamePeriod(game) {
+  const kind = game.game_type
+  const flag = game.presto_data?.eventType?.isPostSeason
+  const period = kind === 'regular' ? 'regular' : kind === 'postSeason' ? 'postseason' : null
+  if (!period || (typeof flag === 'boolean' && flag !== (period === 'postseason'))) {
+    throw new Error(`Unknown or conflicting season classification for ${game.game_id}`)
+  }
+  return period
+}
+
+export function buildPeriods(boxscores, completedGames, fetchedAt) {
+  const identities = resolvePlayerIdentities(boxscores, completedGames)
+  // Classify from source metadata, never from a guessed playoff start date.
+  const classified = completedGames.map(game => ({ game, period: gamePeriod(game) }))
+  return Object.fromEntries(['regular', 'postseason'].map(period => {
+    const games = classified.filter(item => item.period === period).map(item => item.game)
+    const ids = new Set(games.map(game => game.game_id))
+    const boxes = boxscores.filter(box => ids.has(box.game_id))
+    if (boxes.length !== games.length) throw new Error('Incomplete period box-score coverage')
+    const stats = buildSeasonStats(boxes, games, fetchedAt, identities, true)
+    const dates = games.map(game => dateKey(adjustedStart(game.scheduled_start))).sort()
+    const throughDate = dates.at(-1) || ''
+    return [period, {
+      gameIds: [...ids],
+      leaders: { ...stats.leaderboards, throughDate },
+      players: { source: stats.leaderboards.source, fetchedAt, throughDate,
+        method: 'Calculated from completed official box scores classified by the source season type.',
+        players: stats.players },
+    }]
+  }))
+}
+
 async function main() {
   const fetchedAt = new Date().toISOString()
   const payload = await fetchAllGames()
@@ -435,6 +468,7 @@ async function main() {
       const live = !final && !/not started|scheduled/i.test(rawStatus)
       return {
         id: game.game_id,
+        period: gamePeriod(game),
         start: adjustedStart(game.scheduled_start).toISOString(),
         rawStart: game.scheduled_start,
         status: final ? 'Final' : live ? 'Live' : 'Upcoming',
@@ -498,7 +532,8 @@ async function main() {
     },
   }
 
-  const snapshot = { schemaVersion: 1, schedule, leaders, players, manifest }
+  const periods = buildPeriods(verifiedBoxscores, completedGames, fetchedAt)
+  const snapshot = { schemaVersion: 1, schedule, leaders, players, manifest, periods }
   let previous
   try { previous = JSON.parse(await readFile(resolve(OUTPUT_DIR, 'snapshot.json'), 'utf8')) } catch (error) { if (error.code !== 'ENOENT') throw error }
   validateSnapshot(snapshot, previous)
