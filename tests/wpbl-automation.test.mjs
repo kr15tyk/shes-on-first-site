@@ -251,3 +251,46 @@ test('complete reviewed name registry preserves every known alias without changi
     }
   }
 })
+
+import { fetchHostJson } from '../scripts/wpbl-host-fetch.mjs'
+
+test('host reads recover from network failures and intermittent 403 with bounded retries', async () => {
+  let calls = 0
+  const delays = []
+  const result = await fetchHostJson('https://example.com/snapshot.json', 'Snapshot', {
+    fetchImpl: async (_url, options) => {
+      assert.equal(options.redirect, 'error')
+      assert.equal(options.cache, 'no-store')
+      calls++
+      if (calls === 1) throw new TypeError('fetch failed', { cause: { code: 'ECONNRESET' } })
+      return new Response(calls === 2 ? '' : '{"ok":true}', { status: calls === 2 ? 403 : 200 })
+    }, sleep: async (ms) => delays.push(ms),
+  })
+  assert.deepEqual(result, { ok: true })
+  assert.equal(calls, 3)
+  assert.deepEqual(delays, [1000, 2000])
+})
+
+test('persistent host errors fail closed with endpoint and cause details', async () => {
+  for (const status of [403, 429, 503]) {
+    let calls = 0
+    await assert.rejects(fetchHostJson('https://example.com/pull-status.json', 'Host status', {
+      fetchImpl: async () => { calls++; return new Response('', { status }) }, sleep: async () => {},
+    }), new RegExp(`Host status.*pull-status.json.*3 attempt.*HTTP ${status}`))
+    assert.equal(calls, 3)
+  }
+  await assert.rejects(fetchHostJson('https://example.com/snapshot.json', 'Snapshot', {
+    fetchImpl: async () => { throw new TypeError('fetch failed', { cause: { code: 'ECONNRESET' } }) }, sleep: async () => {},
+  }), /Snapshot.*3 attempt.*ECONNRESET/)
+})
+
+test('only a missing optional snapshot permits fallback; malformed JSON fails immediately', async () => {
+  const missing = async () => new Response('', { status: 404 })
+  assert.equal(await fetchHostJson('https://example.com/snapshot.json', 'Snapshot', { fetchImpl: missing, allowMissing: true }), null)
+  await assert.rejects(fetchHostJson('https://example.com/status.json', 'Status', { fetchImpl: missing }), /1 attempt.*404/)
+  let calls = 0
+  await assert.rejects(fetchHostJson('https://example.com/snapshot.json', 'Snapshot', {
+    fetchImpl: async () => { calls++; return new Response('not json') },
+  }), /1 attempt/)
+  assert.equal(calls, 1)
+})

@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile, appendFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { validateSnapshot } from './wpbl-validation.mjs'
+import { fetchHostJson } from './wpbl-host-fetch.mjs'
 
 const root = resolve('artifacts/wpbl')
 await mkdir(root, { recursive: true })
@@ -9,10 +10,7 @@ const output = resolve(root, 'data')
 await mkdir(output, { recursive: true })
 const base = 'https://shesonfirst.com/data/wpbl'
 async function get(name) {
-  const response = await fetch(`${base}/${name}.json`, { cache: 'no-store', signal: AbortSignal.timeout(20000), redirect: 'error' })
-  if (name === 'snapshot' && response.status === 404) return null
-  if (!response.ok) throw new Error(`Published ${name}: HTTP ${response.status}`)
-  return response.json()
+  return fetchHostJson(`${base}/${name}.json`, `Published ${name}`, { allowMissing: name === 'snapshot' })
 }
 try {
   // Baseline is the last published version, not an old checkout or failed run.
@@ -23,9 +21,7 @@ try {
   }
   validateSnapshot(previous)
   if (process.env.WPBL_HOST_PULL_ENABLED === 'true') {
-    const statusResponse = await fetch(`${base}/pull-status.json`, { cache: 'no-store', signal: AbortSignal.timeout(20000) })
-    if (!statusResponse.ok) throw new Error('Hostinger updater status is unavailable')
-    const status = await statusResponse.json()
+    const status = await fetchHostJson(`${base}/pull-status.json`, 'Hostinger updater status')
     if (!status.ok || !Number.isFinite(Date.parse(status.checkedAt)) || Date.now() - Date.parse(status.checkedAt) > 2 * 3600_000) {
       throw new Error('Hostinger pull failed or has not run for over two hours; check its scheduled job')
     }
