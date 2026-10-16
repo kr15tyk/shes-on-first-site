@@ -151,3 +151,13 @@ Suzu Naraski is an observed source-name variant for source ID 7kzyrbse7dsdz9eq, 
 | roster | Liz Gilder | Liz Gilder | [WPBL](https://www.womensprobaseballleague.com/players/liz-gilder/) |
 | roster | Skylar Kaplan | Skylar Kaplan | [WPBL](https://www.womensprobaseballleague.com/players/skylar-kaplan/) |
 | roster | Hinano Beppu | Hinano Beppu | [WPBL](https://www.womensprobaseballleague.com/players/hinano-beppu/) |
+
+## Published verification — September 16, 2026
+
+This is the historical release verification, not the current statistics cutoff.
+
+Published September 16, 2026. Importer commit `cff6dbb`; [successful workflow 35082365578](https://github.com/kr15tyk/shes-on-first-site/actions/runs/35082365578). Hostinger scheduled pull at 10:00:05 UTC matches the workflow snapshot exactly, through September 14. All 69 live statistics names match the reviewed registry; all 77 frontend release files match their manifest. Six affected player routes return 200; unknown and deployment-archive URLs return 404. Val Perez and Gigi Schiano rendered names and statistics verified. Rollback, exact frontend source and manifests retained in the audit artifacts directory.
+
+## Source synchronization — October 16, 2026
+
+The deployed frontend name corrections and stable route/statistics aliases are now committed on main in `9c448cb`. Its isolated public build reproduced the deployed release files exactly (apart from the separate build timestamp), and the name-correction tests passed. The current regular/postseason pipeline is documented in [WPBL_AUTOMATION.md](WPBL_AUTOMATION.md); these updates do not change the provisional Inaugural 60 cohort.
