@@ -306,6 +306,10 @@
 .founder-copy .eyebrow { display: block; margin-bottom: 9px; }
 .founder-copy h2 { font-size: 1.9rem; font-style: italic; text-transform: uppercase; }
 .founder-copy p { color: var(--lavender); margin: 18px 0 0; line-height: 1.7; }
+.founder-photo { grid-column: 1 / -1; margin: 0; max-width: 560px; }
+.founder-photo img { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line-strong); }
+.founder-photo figcaption { margin-top: 12px; color: var(--muted); font-size: .9rem; line-height: 1.5; }
+.founder-copy p a { text-decoration: underline; text-underline-offset: 3px; }
 .founder-signoff { display: grid; gap: 10px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line-strong); }
 .founder-signoff > span { color: var(--lavender); font-weight: 700; }
 .founder-signoff a { color: var(--teal, #70e4d0); text-decoration: underline; text-underline-offset: 4px; }

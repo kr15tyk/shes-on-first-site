@@ -68,30 +68,66 @@ export default function About() {
                 <span className="eyebrow">Behind the project</span>
                 <h2 id="founder-heading">Meet Kristy Knowles</h2>
                 <p>
-                  She&rsquo;s On First was founded by Kristy Knowles, whose career began
-                  with more than nine years at the Women&rsquo;s Tennis Association. She
-                  traveled internationally with the tour, supporting tournaments and
-                  providing statistics to the press.
+                  I started She&rsquo;s On First to bring together two things that have
+                  shaped my life: women&rsquo;s sports and making information useful.
+                </p>
+                <p>
+                  My career began with more than nine years at the Women&rsquo;s Tennis
+                  Association. I traveled internationally with the tour, supporting
+                  tournaments and providing statistics to the press. It gave me a close-up
+                  view of the work behind the results&mdash;and the people whose stories
+                  those numbers could help tell.
+                </p>
+                <p>
+                  One moment that has stayed with me is Billie Jean King coming over and
+                  introducing herself. That small, personal encounter remains part of what
+                  I remember from those years, alongside the tournaments, travel, and daily work.
+                </p>
+                <p>
+                  I have enormous admiration for Billie Jean and the work she has done to
+                  make sports more equal. She founded the{' '}
+                  <a href="https://www.billiejeanking.com/tennis/womens-tennis-association/">WTA in 1973</a>,
+                  campaigned for{' '}
+                  <a href="https://www.billiejeanking.com/equality/">equal prize money</a>,
+                  and established the{' '}
+                  <a href="https://www.womenssportsfoundation.org/who-we-are/">Women&rsquo;s Sports Foundation in 1974</a>{' '}
+                  to expand opportunities for women and girls through sport. What I admire
+                  is how she has used her influence to open doors for others, far beyond
+                  tennis. Her work is a reminder of how much it matters to make room for
+                  women&rsquo;s achievements&mdash;and to keep a record of them.
                 </p>
                 <p>
                   After two decades working in technology, research, and technical
-                  leadership, she&rsquo;s bringing those experiences together around a game
-                  she loves&mdash;telling players&rsquo; stories, making statistics useful,
-                  and helping fans follow women&rsquo;s baseball as it grows.
+                  leadership, I&rsquo;m bringing those experiences together around a game
+                  I love: telling players&rsquo; stories, making statistics useful, and
+                  helping fans follow women&rsquo;s baseball as it grows.
                 </p>
                 <p>
-                  Baseball and soccer are part of everyday life for Kristy and her
-                  wife&mdash;the sports they follow, talk about, and love together.
-                  She&rsquo;s On First grows out of that shared fandom and a belief that
-                  these players deserve a lasting record.
+                  Baseball and soccer are part of everyday life for me and my wife&mdash;the
+                  sports we follow, talk about, and love together. Even a chance airport
+                  encounter with Lucy Bronze became another memory connected to that shared
+                  love of sport.
+                </p>
+                <p>
+                  She&rsquo;s On First grows out of that fandom and a belief that these
+                  players deserve a lasting record. I want people to find the numbers,
+                  meet the person behind them, and have a reason to keep following her story.
                 </p>
                 <div className="founder-signoff">
                   <span>Kristy Knowles &middot; Founder</span>
                   <a href="https://kristyknowles.com/#about">
-                    More about Kristy and her work <span aria-hidden="true">&rarr;</span>
+                    More about me and my work <span aria-hidden="true">&rarr;</span>
                   </a>
                 </div>
               </div>
+              <figure className="founder-photo">
+                <img src="/kristy-wta-memory-restored-v1.png" alt="Group photograph from Kristy’s years at the WTA" width="1448" height="1086" loading="lazy" />
+                <figcaption>A memory from my years at the WTA.</figcaption>
+              </figure>
+              <figure className="founder-photo">
+                <img src="/kristy-lucy-bronze.jpg" alt="Kristy Knowles with Lucy Bronze at an airport" width="1200" height="1058" loading="lazy" />
+                <figcaption>A chance meeting with Lucy Bronze at an airport.</figcaption>
+              </figure>
             </section>
 
             <div className="about-contact" id="contact">
