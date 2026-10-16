@@ -47,7 +47,7 @@ export default function InauguralSixty() {
     <>
       <Seo
         title="The Inaugural 60 | She's On First"
-        description="Search the working roster of 60 players across the four inaugural WPBL teams and open each player’s season page."
+        description="Search the working roster of 60 players across the four inaugural WPBL teams and open each player’s player page with her profile and season statistics."
         path="/inaugural-60"
         structuredData={{
           '@context': 'https://schema.org',

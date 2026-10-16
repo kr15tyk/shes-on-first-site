@@ -15,7 +15,7 @@ export const featuredWork: FeaturedWorkItem[] = [
     type: 'Player Profile',
     title: 'Denae Benites Found the Stage Baseball Had Denied Her',
     dek: 'The Team USA catcher spent years finding her own places to play. In the WPBL’s first game, she authored the league’s first home run.',
-    href: '/features/denae-benites',
+    href: '/inaugural-60/denae-benites',
     status: 'draft',
   },
   {

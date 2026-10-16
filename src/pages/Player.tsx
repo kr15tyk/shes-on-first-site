@@ -5,6 +5,8 @@ import { getPlayer, playerHero, linkMeta, PlayerLinks, publishedPlayers } from '
 import PlayerSeasonStats from '../components/PlayerSeasonStats'
 import { usePeriodData, SeasonPeriod } from '../data/wpbl'
 import Seo from '../components/Seo'
+import PlayerProfile from './PlayerProfile'
+import profiles from '../data/editorialProfiles.json'
 
 export default function Player() {
   const { slug } = useParams()
@@ -25,6 +27,8 @@ export default function Player() {
       </section>
     )
   }
+
+  if (p.slug in profiles) return <PlayerProfile key={p.slug} slug={p.slug as keyof typeof profiles} />
 
   if (!p.published) {
     return (
@@ -56,7 +60,7 @@ export default function Player() {
                 <span><b>Team</b>{p.team}</span>
                 <span><b>Position</b>{p.position}</span>
               </div>
-              <p className="page-lede muted">Her sourced editorial profile is still in review. The season-data panel below shows the current official-feed status.</p>
+              <p className="page-lede muted">Explore her WPBL statistics below. Her full baseball story is still being researched.</p>
             </div>
           </div>
         </section>

@@ -33,3 +33,5 @@
 .public-player-profile .profile-art { margin:0; border:3px solid #8b7cf2; background:#100b2c; overflow:hidden; }
 .public-player-profile .profile-art img { display:block; width:100%; height:auto; object-fit:contain; }
 .public-player-profile .profile-art figcaption { padding:12px 16px; font-size:.75rem; color:#c1bad6; line-height:1.5; }
+
+.public-player-profile .profile-season-stats { scroll-margin-top: 100px; padding-top: 32px; }

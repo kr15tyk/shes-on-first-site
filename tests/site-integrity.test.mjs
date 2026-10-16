@@ -87,20 +87,17 @@ test('the public build contains exact deep routes, metadata, sitemap, and a true
   const routeFiles = await readdir(resolve(siteDir, 'dist/_routes'))
   const routeHtml = await Promise.all(routeFiles.map((file) => read(`dist/_routes/${file}`)))
 
-  assert.equal(routeFiles.length, 74)
-  assert.equal(buildManifest.routeShells, 75)
-  assert.equal(buildManifest.sitemapUrls, 74)
-  assert.equal((sitemap.match(/<url>/g) || []).length, 74)
-  assert.ok(sitemap.includes('/features/denae-benites'))
-  assert.ok(sitemap.includes('/features/ashton-lansdell'))
-  for (const slug of ['denae-benites', 'ashton-lansdell']) {
-    const shell = routeHtml.find((html) => html.includes(`https://shesonfirst.com/features/${slug}`))
+  assert.equal(routeFiles.length, 69)
+  assert.equal(buildManifest.routeShells, 70)
+  assert.equal(buildManifest.sitemapUrls, 69)
+  assert.equal((sitemap.match(/<url>/g) || []).length, 69)
+  for (const slug of ['denae-benites', 'ashton-lansdell', 'claire-eccles', 'kelsie-whitmore', 'alli-schroder']) {
+    assert.ok(sitemap.includes(`/inaugural-60/${slug}`))
+    assert.ok(!sitemap.includes(`/features/${slug}`))
+    assert.ok(htaccess.includes(`RewriteRule ^features/${slug}/?$ /inaugural-60/${slug} [R=301,L,NE]`))
+    const shell = routeHtml.find(html => html.includes(`https://shesonfirst.com/inaugural-60/${slug}`))
     assert.match(shell, /<meta name="robots" content="index,follow"/)
-  }
-  for (const slug of ['claire-eccles', 'kelsie-whitmore', 'alli-schroder']) {
-    assert.ok(sitemap.includes(`/features/${slug}`))
-    const shell = routeHtml.find(html => html.includes(`https://shesonfirst.com/features/${slug}`))
-    assert.match(shell, /<meta name="robots" content="index,follow"/)
+    assert.match(shell, /"@type":"Person"/)
   }
   assert.ok(!sitemap.includes('/analysis/wpbl-first-month'))
   assert.ok(!sitemap.includes('/review/'))

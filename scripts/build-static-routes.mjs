@@ -48,6 +48,9 @@ function routeShell(baseHtml, route) {
   return html
 }
 
+const profiles = JSON.parse(await readFile(resolve(siteDir, 'src/data/editorialProfiles.json'), 'utf8'))
+const playerRedirects = Object.keys(profiles).map(slug => ({ from: `/features/${slug}`, to: `/inaugural-60/${slug}` }))
+
 const nameCorrections = JSON.parse(await readFile(resolve(siteDir, 'src/data/playerNameCorrections.json'), 'utf8'))
 const playerSource = await readFile(resolve(siteDir, 'src/data/players.ts'), 'utf8')
 const playerLinePattern = /^\s+\[(['"])(.*?)\1,\s*(['"])(.*?)\3\],$/gm
@@ -88,7 +91,7 @@ const routes = [
   {
     path: '/inaugural-60',
     title: "The Inaugural 60 | She's On First",
-    description: 'Search the working roster of 60 players across the four inaugural WPBL teams and open each player’s season page.',
+    description: 'Search the working roster of 60 players across the four inaugural WPBL teams and open each player’s player page with her profile and season statistics.',
     structuredData: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'The Inaugural 60', numberOfItems: 60, url: `${siteUrl}/inaugural-60` },
   },
   { path: '/schedule', title: "2026 WPBL Schedule & Results | She's On First", description: 'Browse the inaugural WPBL schedule and completed results by date, status, and team.' },
@@ -108,8 +111,9 @@ const routes = [
   ...players.map((player) => ({
     path: `/inaugural-60/${player.slug}`,
     title: `${player.name} — WPBL Player | She's On First`,
-    description: `${player.name} is part of the WPBL’s Inaugural 60. View her dated season snapshot and developing sourced profile.`,
+    description: `${player.name} is part of the WPBL’s Inaugural 60. View her player profile and separate regular-season and postseason statistics.`,
     type: 'profile',
+    lastmod: profiles[player.slug]?.updated || lastModified,
     structuredData: { '@context': 'https://schema.org', '@type': 'Person', name: player.name, jobTitle: `Professional baseball ${player.position}`, url: `${siteUrl}/inaugural-60/${player.slug}` },
   })),
   ...articles.map((article) => ({
@@ -119,27 +123,6 @@ const routes = [
     type: 'article',
     lastmod: article.date,
     structuredData: { '@context': 'https://schema.org', '@type': 'Article', headline: article.title, description: article.description, datePublished: article.date, mainEntityOfPage: `${siteUrl}/blog/${article.slug}` },
-  })),
-  {
-    path: '/features/ashton-lansdell',
-    title: "Ashton Lansdell — Player Profile | She's On First",
-    description: 'Ashton Lansdell’s baseball story, from Team USA and college softball to Banana Ball and the WPBL.',
-    type: 'article',
-    lastmod: '2026-09-13',
-  },
-  {
-    path: '/features/denae-benites',
-    title: "Denae Benites — Player Profile | She's On First",
-    description: 'Denae Benites’s baseball story, from Team USA catcher to captain of the New York Heights.',
-    type: 'article',
-    lastmod: '2026-09-13',
-  },
-  ...[ ['claire-eccles', 'Claire Eccles'], ['kelsie-whitmore', 'Kelsie Whitmore'], ['alli-schroder', 'Alli Schroder'] ].map(([slug, name]) => ({
-    path: `/features/${slug}`,
-    title: `${name} — Player Profile | She's On First`,
-    description: `The baseball story, career timeline and dated statistics of ${name}.`,
-    type: 'article',
-    lastmod: '2026-09-13',
   })),
   {
     path: '/analysis/wpbl-first-month',
@@ -196,6 +179,7 @@ ErrorDocument 404 /404.html
   RewriteBase /
   RewriteCond %{HTTPS} off
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+${playerRedirects.map(({from, to}) => `  RewriteRule ^${escapePattern(from.slice(1))}/?$ ${to} [R=301,L,NE]`).join('\n')}
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
@@ -231,6 +215,7 @@ await writeFile(resolve(distDir, 'build-manifest.json'), `${JSON.stringify({
   routeShells: routes.length,
   sitemapUrls: sitemapRoutes.length,
   privateReviewsIncluded: includePrivateReviews,
+  playerRedirects,
 }, null, 2)}\n`)
 
 console.log(`Generated ${routes.length} route shells, ${sitemapRoutes.length} sitemap URLs, and a true 404 fallback. Private reviews: ${includePrivateReviews ? 'included' : 'excluded'}.`)
