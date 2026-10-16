@@ -110,6 +110,9 @@ test('zero-out totals preserve counts and null rates; later outs produce correct
     assert.deepEqual([p.ip, p.era, p.whip, p.er, p.h, p.bb, p.g], ['0.0', null, null, er, 3, 2, 1])
     assert.equal(result.leaderboards.pitching.length, 0)
     const snapshot = JSON.parse(await readFile(new URL('../public/data/wpbl/snapshot.json', import.meta.url)))
+    // This synthetic pitching fixture tests combined-record rate validation.
+    // Period reconciliation has its own tests and cannot use real-player totals here.
+    delete snapshot.periods
     snapshot.players.players = result.players
     validateSnapshot(JSON.parse(JSON.stringify(snapshot)))
     for (const invalid of [0, undefined, NaN, Infinity, '0']) {
@@ -173,7 +176,16 @@ test('reviewed missing-URL aliases preserve totals and reject unexpected names',
 test('a snapshot cannot silently lose a previously published source player ID', async () => {
   const previous = JSON.parse(await readFile(new URL('../public/data/wpbl/snapshot.json',import.meta.url)))
   const next = structuredClone(previous)
-  next.players.players[0].id = 'replacement-id'
+  // Remove the identity from every view so this isolates historical source-ID loss.
+  const removed = next.players.players[0]
+  if (next.periods) {
+    for (const period of Object.values(next.periods)) {
+      const player = period.players.players.find(p => p.id === removed.id)
+      if (player) { player.id = 'replacement-id'; player.sourceIds = ['replacement-id'] }
+    }
+  }
+  removed.id = 'replacement-id'
+  removed.sourceIds = ['replacement-id']
   assert.throws(()=>validateSnapshot(next,previous),/source ID disappeared/)
 })
 
