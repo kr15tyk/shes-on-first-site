@@ -1,3 +1,5 @@
+import playerNameCorrections from './playerNameCorrections.json'
+
 export type PlayerLinks = {
   wikipedia?: string
   wpbl?: string
@@ -13,6 +15,7 @@ export type PlayerLinks = {
 export type Player = {
   number: number
   slug: string
+  statsSlug?: string
   name: string
   team: string
   position: string
@@ -125,11 +128,13 @@ const slugify = (name: string) =>
 
 export const allPlayers: Player[] = rosterGroups.flatMap((group, groupIndex) =>
   group.players.map(([name, position], playerIndex) => {
+    const correction = (playerNameCorrections as Record<string, { name: string; statsSlug: string }>)[name]
     const number = groupIndex * 15 + playerIndex + 1
     return {
       number,
-      slug: slugify(name),
-      name,
+      slug: slugify(name), // Preserve published URLs when a display name is corrected.
+      statsSlug: correction?.statsSlug,
+      name: correction?.name || name,
       team: group.team,
       position,
       hero: ['a', 'b', 'c', 'd', 'e', 'f'][(number - 1) % 6],

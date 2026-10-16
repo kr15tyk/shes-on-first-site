@@ -1,6 +1,6 @@
 import DataFreshness from '../components/DataFreshness'
 import { useMemo, useState } from 'react'
-import { formatGameDate, formatGameTime, Game, useWpblData } from '../data/wpbl'
+import { formatGameDate, formatGameTime, Game, SeasonPeriod, periodLabels, useWpblData } from '../data/wpbl'
 import Seo from '../components/Seo'
 
 const teamNames = ['Boston Hunters', 'Los Angeles Queens', 'New York Heights', 'San Francisco Firebells']
@@ -26,12 +26,14 @@ function GameCard({ game }: { game: Game }) {
           <strong>{final || game.status === 'Live' ? game.homeScore : '—'}</strong>
         </div>
       </div>
+      <p className="meta">{game.period ? periodLabels[game.period] : 'Season type unavailable'}</p>
       {game.venue && <p className="meta schedule-venue">{game.venue}</p>}
     </article>
   )
 }
 export default function Schedule() {
   const { data, error, loading } = useWpblData()
+  const [period, setPeriod] = useState('all')
   const [status, setStatus] = useState('All')
   const [team, setTeam] = useState('All teams')
 
@@ -39,7 +41,7 @@ export default function Schedule() {
     const games = (data?.schedule.games || []).filter((game) => {
       const statusMatch = status === 'All' || game.status === status
       const teamMatch = team === 'All teams' || game.homeTeam.name === team || game.awayTeam.name === team
-      return statusMatch && teamMatch
+      return statusMatch && teamMatch && (period === 'all' || game.period === period)
     })
 
     return games.reduce<Record<string, Game[]>>((groups, game) => {
@@ -47,7 +49,7 @@ export default function Schedule() {
       groups[key] = [...(groups[key] || []), game]
       return groups
     }, {})
-  }, [data, status, team])
+  }, [data, status, team, period])
 
   return (
     <>
@@ -79,6 +81,9 @@ export default function Schedule() {
                 </button>
               ))}
             </div>
+            <label className="team-filter"><span>Season</span><select value={period} onChange={event => setPeriod(event.target.value)}>
+              <option value="all">All games</option><option value="regular">Regular season</option><option value="postseason">Postseason</option>
+            </select></label>
             <label className="team-filter">
               <span>Team</span>
               <select value={team} onChange={(event) => setTeam(event.target.value)}>
@@ -88,7 +93,7 @@ export default function Schedule() {
             </label>
           </div>
 
-          <DataFreshness />
+          <DataFreshness schedule period={period === 'all' ? undefined : period as SeasonPeriod} />
           {loading && <div className="data-state panel">Loading the inaugural-season schedule…</div>}
           {error && <div className="data-state panel">{error}</div>}
           {!loading && !error && Object.entries(grouped).map(([date, games]) => (

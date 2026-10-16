@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { NavLink, Link } from 'react-router-dom'
+import InstagramLink from './InstagramLink'
 
 const links = [
   { to: '/inaugural-60', label: 'The Inaugural 60' },
@@ -39,14 +40,17 @@ export default function Navbar() {
           </Link>
         </nav>
 
-        <button
-          className="nav-toggle"
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span /><span /><span />
-        </button>
+        <div className="nav-actions">
+          <InstagramLink className="nav-instagram" />
+          <button
+            className="nav-toggle"
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span /><span /><span />
+          </button>
+        </div>
       </div>
     </header>
   )

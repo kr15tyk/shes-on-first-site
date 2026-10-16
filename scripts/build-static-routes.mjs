@@ -48,10 +48,11 @@ function routeShell(baseHtml, route) {
   return html
 }
 
+const nameCorrections = JSON.parse(await readFile(resolve(siteDir, 'src/data/playerNameCorrections.json'), 'utf8'))
 const playerSource = await readFile(resolve(siteDir, 'src/data/players.ts'), 'utf8')
 const playerLinePattern = /^\s+\[(['"])(.*?)\1,\s*(['"])(.*?)\3\],$/gm
 const players = [...playerSource.matchAll(playerLinePattern)].map((match) => ({
-  name: match[2],
+  name: nameCorrections[match[2]]?.name || match[2],
   position: match[4],
   slug: match[2]
     .normalize('NFD')
@@ -120,12 +121,26 @@ const routes = [
     structuredData: { '@context': 'https://schema.org', '@type': 'Article', headline: article.title, description: article.description, datePublished: article.date, mainEntityOfPage: `${siteUrl}/blog/${article.slug}` },
   })),
   {
-    path: '/features/denae-benites',
-    title: "Denae Benites Found the Stage Baseball Had Denied Her | She's On First",
-    description: 'An unpublished flagship-profile draft about Denae Benites and the path that led her to the WPBL.',
+    path: '/features/ashton-lansdell',
+    title: "Ashton Lansdell — Player Profile | She's On First",
+    description: 'Ashton Lansdell’s baseball story, from Team USA and college softball to Banana Ball and the WPBL.',
     type: 'article',
-    indexable: false,
+    lastmod: '2026-09-13',
   },
+  {
+    path: '/features/denae-benites',
+    title: "Denae Benites — Player Profile | She's On First",
+    description: 'Denae Benites’s baseball story, from Team USA catcher to captain of the New York Heights.',
+    type: 'article',
+    lastmod: '2026-09-13',
+  },
+  ...[ ['claire-eccles', 'Claire Eccles'], ['kelsie-whitmore', 'Kelsie Whitmore'], ['alli-schroder', 'Alli Schroder'] ].map(([slug, name]) => ({
+    path: `/features/${slug}`,
+    title: `${name} — Player Profile | She's On First`,
+    description: `The baseball story, career timeline and dated statistics of ${name}.`,
+    type: 'article',
+    lastmod: '2026-09-13',
+  })),
   {
     path: '/analysis/wpbl-first-month',
     title: "What the WPBL’s First Month Can Tell Us | She's On First",

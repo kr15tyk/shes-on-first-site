@@ -6,7 +6,11 @@ export type Team = {
   abbr: string
 }
 
+export type SeasonPeriod = 'regular' | 'postseason'
+export const periodLabels = { regular: 'Regular season', postseason: 'Postseason' }
+
 export type Game = {
+  period?: SeasonPeriod
   id: string
   start: string
   rawStart: string
@@ -85,6 +89,7 @@ export type PlayerSeasonRecord = {
 type Source = { label: string; url: string }
 
 export type WpblData = {
+  periods?: Record<SeasonPeriod, { gameIds: string[]; leaders: WpblData['leaders']; players: WpblData['players'] }>
   schedule: {
     source: Source
     fetchedAt: string
@@ -185,3 +190,12 @@ export const formatThroughDate = (value: string) =>
   }).format(new Date(`${value}T12:00:00Z`))
 
 export const formatRate = (value: number) => value.toFixed(3).replace(/^0/, '')
+
+export function usePeriodData(period: SeasonPeriod) {
+  const result = useWpblData()
+  const selected = result.data?.periods?.[period]
+  return { ...result,
+    data: selected && result.data ? { ...result.data, leaders: selected.leaders, players: selected.players } : null,
+    error: result.error || (result.data && !selected ? 'Separate regular-season and postseason statistics are not available in this snapshot yet.' : ''),
+  }
+}

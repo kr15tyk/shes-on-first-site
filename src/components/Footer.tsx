@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 
-// Add the project's profile URL here when the Instagram account is ready.
-const instagramUrl = ''
+import InstagramLink from './InstagramLink'
 
 export default function Footer() {
   return (
@@ -26,11 +25,7 @@ export default function Footer() {
           <div>
             <h4>Connect</h4>
             <Link to={{ pathname: '/', hash: '#newsletter' }}>Updates</Link>
-            {instagramUrl ? (
-              <a href={instagramUrl} target="_blank" rel="noopener noreferrer">Instagram</a>
-            ) : (
-              <span className="footer-note">Instagram · coming soon</span>
-            )}
+            <InstagramLink label="Instagram · @sheson1st" />
             <a href="mailto:baseball@shesonfirst.com">baseball@shesonfirst.com</a>
           </div>
         </div>

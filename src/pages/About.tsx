@@ -61,27 +61,36 @@ export default function About() {
               <div className="founder-portrait">
                 <img
                   src="/kristy-founder-portrait-v2.png"
-                  alt="Comic-style illustrated portrait of Kristy against neon baseball graphics"
+                  alt="Comic-style illustrated portrait of Kristy Knowles against neon baseball graphics"
                 />
               </div>
               <div className="founder-copy">
                 <span className="eyebrow">Behind the project</span>
-                <h2 id="founder-heading">Meet Kristy</h2>
+                <h2 id="founder-heading">Meet Kristy Knowles</h2>
                 <p>
-                  She&rsquo;s On First was founded by Kristy, whose career in women&rsquo;s
-                  sports began in her twenties with the WTA Tour. Her first job took her
-                  to tournaments around the world, where she managed competition data and
-                  produced statistics for the media. Today, as founder of K10 Labs and the
-                  builder behind Shufflr, WoSoLive, and WoSpo, she continues turning
-                  overlooked sports information into useful products and trustworthy public
-                  records.
+                  She&rsquo;s On First was founded by Kristy Knowles, whose career began
+                  with more than nine years at the Women&rsquo;s Tennis Association. She
+                  traveled internationally with the tour, supporting tournaments and
+                  providing statistics to the press.
                 </p>
                 <p>
-                  Baseball and soccer are also part of everyday life for Kristy and her
-                  wife&mdash;the sports they follow, talk about, and love together. She&rsquo;s
-                  On First brings that shared fandom together with Kristy&rsquo;s background in
-                  sports data and public records.
+                  After two decades working in technology, research, and technical
+                  leadership, she&rsquo;s bringing those experiences together around a game
+                  she loves&mdash;telling players&rsquo; stories, making statistics useful,
+                  and helping fans follow women&rsquo;s baseball as it grows.
                 </p>
+                <p>
+                  Baseball and soccer are part of everyday life for Kristy and her
+                  wife&mdash;the sports they follow, talk about, and love together.
+                  She&rsquo;s On First grows out of that shared fandom and a belief that
+                  these players deserve a lasting record.
+                </p>
+                <div className="founder-signoff">
+                  <span>Kristy Knowles &middot; Founder</span>
+                  <a href="https://kristyknowles.com/#about">
+                    More about Kristy and her work <span aria-hidden="true">&rarr;</span>
+                  </a>
+                </div>
               </div>
             </section>
 

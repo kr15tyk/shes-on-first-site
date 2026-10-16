@@ -11,6 +11,7 @@ import Schedule from './pages/Schedule'
 import Leaders from './pages/Leaders'
 import NotFound from './pages/NotFound'
 import DenaeFeature from './pages/DenaeFeature'
+import PlayerProfile from './pages/PlayerProfile'
 import WpblFirstMonthAnalysis from './pages/WpblFirstMonthAnalysis'
 
 function ScrollManager() {
@@ -41,6 +42,10 @@ export default function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<Article />} />
         <Route path="/features/denae-benites" element={<DenaeFeature />} />
+        <Route path="/features/ashton-lansdell" element={<PlayerProfile slug="ashton-lansdell" />} />
+        <Route path="/features/claire-eccles" element={<PlayerProfile slug="claire-eccles" />} />
+        <Route path="/features/kelsie-whitmore" element={<PlayerProfile slug="kelsie-whitmore" />} />
+        <Route path="/features/alli-schroder" element={<PlayerProfile slug="alli-schroder" />} />
         <Route path="/analysis/wpbl-first-month" element={<WpblFirstMonthAnalysis />} />
         <Route path="/about" element={<About />} />
         <Route path="*" element={<NotFound />} />

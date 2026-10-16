@@ -291,20 +291,30 @@
 
 /* ---------- About ---------- */
 .about-wrap { display: grid; grid-template-columns: 1.7fr 1fr; gap: 40px; align-items: start; }
+.about-main { container-type: inline-size; }
 .about-main .lead-para { font-size: 1.35rem; line-height: 1.5; }
 .about-cta { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
 .founder-card {
-  display: grid; grid-template-columns: 180px 1fr; gap: 26px; align-items: center;
-  margin-top: 38px; padding: 22px; overflow: hidden;
+  display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start;
+  margin-top: 38px; padding: 30px; overflow: hidden;
 }
 .founder-portrait {
   aspect-ratio: 4 / 5; overflow: hidden; border-radius: 12px;
   border: 1px solid var(--line-strong); background: var(--bg-2);
 }
-.founder-portrait img { width: 100%; height: 100%; object-fit: cover; }
+.founder-portrait img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .founder-copy .eyebrow { display: block; margin-bottom: 9px; }
 .founder-copy h2 { font-size: 1.9rem; font-style: italic; text-transform: uppercase; }
-.founder-copy p { color: var(--lavender); margin-bottom: 0; }
+.founder-copy p { color: var(--lavender); margin: 18px 0 0; line-height: 1.7; }
+.founder-signoff { display: grid; gap: 10px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line-strong); }
+.founder-signoff > span { color: var(--lavender); font-weight: 700; }
+.founder-signoff a { color: var(--teal, #70e4d0); text-decoration: underline; text-underline-offset: 4px; }
+.founder-signoff a:hover { color: var(--text); }
+.founder-signoff a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+@container (max-width: 620px) {
+  .founder-card { grid-template-columns: 1fr; gap: 24px; }
+  .founder-portrait { width: min(260px, 100%); }
+}
 .about-side { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 96px; }
 .stat-panel { padding: 24px; text-align: center; }
 .stat-num { display: block; font-family: var(--font-display); font-style: italic; font-weight: 800; font-size: 2.4rem; line-height: 1; text-transform: uppercase; }
@@ -312,8 +322,8 @@
 @media (max-width: 820px) { .about-wrap { grid-template-columns: 1fr; } .about-side { position: static; flex-direction: row; } .stat-panel { flex: 1; } }
 @media (max-width: 560px) { .about-side { flex-direction: column; } }
 @media (max-width: 560px) {
-  .founder-card { grid-template-columns: 1fr; }
-  .founder-portrait { width: min(230px, 100%); }
+  .founder-card { grid-template-columns: 1fr; padding: 24px; }
+  .founder-portrait { width: min(260px, 100%); }
 }
 
 /* ---------- Submit ---------- */
@@ -807,3 +817,16 @@
   .analysis-method-grid { grid-template-columns: 1fr; }
   .analysis-links .btn { width: 100%; justify-content: center; }
 }
+
+/* Established comic artwork on the two completed profile drafts. */
+.ptile-comic .pt-photo { background:#100b2c !important; }
+.ptile-comic .pt-photo img { display:block; width:100%; height:100%; object-fit:contain; }
+.ptile-comic .pt-photo::after { display:none; }
+.pt-profile-link { display:block; margin-top:12px; color:var(--mint); font-weight:700; font-size:.82rem; }
+@media(max-width:680px) { .sixty-grid .ptile-comic { grid-template-columns:110px minmax(0,1fr); } .sixty-grid .ptile-comic .pt-photo { min-height:130px; } }
+
+.roster-groups { display: grid; gap: 40px; }
+.roster-group-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.roster-group-heading h2 { margin: 0; }
+.roster-group-heading > span { white-space: nowrap; font-size: .85rem; }
+.pt-captain { display: block; margin-bottom: 6px; color: var(--mint); font-size: .72rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }

@@ -16,12 +16,12 @@ const { outputText } = ts.transpileModule(source, { compilerOptions: {
 const module = { exports: {} }
 new Function('require', 'module', 'exports', outputText)((id) => {
   if (id === './DataFreshness') return { default: () => null, __esModule: true }
-  if (id === '../data/wpbl') return { formatRate: (n) => n.toFixed(3), formatThroughDate: (d) => d }
+  if (id === '../data/wpbl') return { periodLabels: { regular: 'Regular season', postseason: 'Postseason' }, formatRate: (n) => n.toFixed(3), formatThroughDate: (d) => d }
   return require(id)
 }, module, module.exports)
 const Component = module.exports.default
 const render = (pitching) => renderToStaticMarkup(React.createElement(Component, {
-  stats: { pitching, batting: null }, loading: false, error: '',
+  period: 'regular', stats: { pitching, batting: null }, loading: false, error: '',
 }))
 
 test('zero-out pitching renders dashes and explains undefined rates', () => {

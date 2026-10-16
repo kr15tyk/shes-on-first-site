@@ -1,0 +1,35 @@
+.public-player-profile { --text: #eef2ff; --muted: #c1bad6; --line: #605284; --panel: #191331; --teal: #26d7cc; --lavender: #d4cff2; color: var(--text); }
+.public-player-profile .profile-intro { padding: 36px 24px 0; }
+.public-player-profile .shell { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+.public-player-profile .profile-hero { display: grid; grid-template-columns: .65fr 1.35fr; gap: 40px; align-items: center; padding-block: 40px; }
+.public-player-profile .profile-monogram { display: grid; place-items: center; min-height: 280px; color: #26d7cc; border: 3px solid #8b7cf2; background: linear-gradient(130deg,#191331,#30235b); font: italic 900 clamp(6rem,15vw,11rem)/1 Impact,sans-serif; }
+.public-player-profile .player-name { font: italic 900 clamp(3rem,7vw,5rem)/1 Impact,sans-serif; text-transform: uppercase; margin: 20px 0; }
+.public-player-profile .tag, .public-player-profile .eyebrow { display: block; color: #26d7cc; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.public-player-profile .facts { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.public-player-profile .fact b { display: block; color: #26d7cc; font-size: .8rem; text-transform: uppercase; }
+.public-player-profile .note, .public-player-profile .verified, .public-player-profile .table-note { color: #c1bad6; font-size: .9rem; margin-top: 20px; }
+.public-player-profile .milestone-strip { display: flex; gap: 20px; padding: 24px; background: #21184d; }
+.public-player-profile .milestone { flex: 1; }
+.public-player-profile .milestone b { display:block; color: #26d7cc; font-size: 1.6rem; }
+.public-player-profile .section { padding: 48px 0; border-top: 1px solid #605284; }
+.public-player-profile .section h2, .public-player-profile .profile-corrections h2 { font: italic 800 clamp(2rem,4vw,3rem)/1.15 Impact,sans-serif; margin: 15px 0 25px; }
+.public-player-profile .reading { max-width: 850px; }
+.public-player-profile p { line-height: 1.75; margin-bottom: 18px; }
+.public-player-profile .lead { font-size: 1.15rem; }
+.public-player-profile .history-list, .public-player-profile .story-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; }
+.public-player-profile .history-row, .public-player-profile .story-card { padding: 24px; background: #191331; border: 1px solid #605284; }
+.public-player-profile .history-row b, .public-player-profile .history-row strong, .public-player-profile .history-row span { display:block; }
+.public-player-profile .history-row b, .public-player-profile .story-card>span { color:#26d7cc; }
+.public-player-profile .history-row strong, .public-player-profile .story-card h3 { font-size:1.3rem; margin:8px 0; }
+.public-player-profile .table-wrap { overflow-x:auto; }
+.public-player-profile table { border-collapse:collapse; width:100%; font-size:.9rem; }
+.public-player-profile th, .public-player-profile td { padding:12px; border-bottom:1px solid #605284; text-align:left; }
+.public-player-profile .sources { list-style:none; padding:0; }
+.public-player-profile .sources li { padding:14px 0; border-bottom:1px solid #605284; line-height:1.6; }
+.public-player-profile a { color:#76f0d8; }
+.public-player-profile .profile-corrections { padding:40px 24px 60px; max-width:900px; }
+@media(max-width:680px) { .public-player-profile .profile-hero { grid-template-columns:1fr; gap:20px; } .public-player-profile .profile-monogram { min-height:180px; } .public-player-profile .facts { grid-template-columns:repeat(2,1fr); } .public-player-profile .history-list, .public-player-profile .story-grid { grid-template-columns:1fr; } .public-player-profile .milestone-strip { flex-direction:column; } }
+
+.public-player-profile .profile-art { margin:0; border:3px solid #8b7cf2; background:#100b2c; overflow:hidden; }
+.public-player-profile .profile-art img { display:block; width:100%; height:auto; object-fit:contain; }
+.public-player-profile .profile-art figcaption { padding:12px 16px; font-size:.75rem; color:#c1bad6; line-height:1.5; }

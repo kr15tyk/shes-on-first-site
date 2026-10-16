@@ -16,7 +16,7 @@ Marketing + editorial site for **She's On First**, built with **Vite + React + T
 | `/inaugural-60/:slug` | Player-specific 2026 season snapshot; sourced editorial profile appears after review |
 | `/blog` | Project methodology notes |
 | `/blog/:slug` | Project note reader |
-| `/features/denae-benites` | Unpublished, noindex flagship-profile draft |
+| `/features/:slug` | Published profiles for Denae Benites, Ashton Lansdell, Claire Eccles, Kelsie Whitmore, and Alli Schroder |
 | `/analysis/wpbl-first-month` | Unpublished, noindex data-story draft |
 | `*` | 404 |
 
@@ -27,7 +27,7 @@ editorial, factual-review, and image-rights work is complete.
 ## Run locally
 
 ```bash
-npm install
+npm ci
 npm run dev      # http://localhost:5173
 ```
 
@@ -53,9 +53,9 @@ marks; this build uses text-only team labels and links back to the official sour
 
 ```bash
 npm run build                 # public build; excludes the unlisted review pages
-npm run build:with-reviews    # explicit review build; includes the three staged review pages
-npm test                      # data, roster, route, sitemap, 404, and review-protection checks
-npm run check                 # public build followed by the full test suite
+npm run build:with-reviews    # private editorial workspace only; requires parent content files
+npm test                      # public-site and statistics checks; skips private source checks
+npm run check                 # reproducible public build and public test suite
 npm run preview               # preview the production build locally
 ```
 
@@ -98,3 +98,23 @@ To update the site later: `npm run build` again and re-upload the new `dist/` co
 - **Source logo:** `assets/brand/shes-on-first-logo-transparent.png`
 - **Website logo assets:** `public/logo-lockup.png`, `public/nav-badge.png`, `public/badge.png`, `public/favicon.png`
 - **Newsletter:** currently shown as coming soon; add a provider before restoring an email form.
+
+## Reproducing the October 16, 2026 live frontend
+
+The default build and development server use the approved public profile content in
+`src/data/editorialProfiles.json`. It is the publication snapshot included in the live
+release, not a replacement for the parent project's editorial source of truth. A fresh
+checkout does not need `../content/` or run private-review staging. `stage:reviews` and
+`build:with-reviews` remain explicit workflows for the full local editorial workspace;
+unpublished review edits and alternate artwork are not part of this frontend sync.
+
+Run `npm ci && npm run check`. Private-source integration checks are excluded from the
+default test command because those sources live outside this repository.
+
+Production statistics are maintained separately on the `wpbl-data` branch and installed
+by Hostinger's existing updater. The frontend reads `/data/wpbl/snapshot.json`, including
+its regular-season and postseason datasets. For a current local preview, copy that branch's
+`snapshot.json` to `public/data/wpbl/snapshot.json` before building (do not commit the copy).
+Never overwrite Hostinger's live `data/` or PHP services with the checkout's older fixture
+data when publishing a frontend build. Upload only the reviewed frontend files; keep
+existing live data, automation, and unlisted reviews intact.

@@ -1,8 +1,9 @@
+import SeasonPeriodSelect from '../components/SeasonPeriodSelect'
 import DataFreshness from '../components/DataFreshness'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { allPlayers } from '../data/players'
-import { formatRate, formatThroughDate, useWpblData } from '../data/wpbl'
+import { formatRate, formatThroughDate, usePeriodData, SeasonPeriod, periodLabels } from '../data/wpbl'
 import Seo from '../components/Seo'
 
 const profileSlugs = new Set(allPlayers.map((player) => player.slug))
@@ -14,7 +15,8 @@ function PlayerName({ slug, name }: { slug: string; name: string }) {
 }
 
 export default function Leaders() {
-  const { data, error, loading } = useWpblData()
+  const [period, setPeriod] = useState<SeasonPeriod>('regular')
+  const { data, error, loading } = usePeriodData(period)
   const [category, setCategory] = useState<'Batting' | 'Pitching'>('Batting')
 
   return (
@@ -41,6 +43,7 @@ export default function Leaders() {
 
       <section className="section pt-0">
         <div className="container">
+          <SeasonPeriodSelect value={period} onChange={setPeriod} />
           <div className="filters leader-tabs" aria-label="Leaderboard category">
             {(['Batting', 'Pitching'] as const).map((option) => (
               <button
@@ -54,7 +57,7 @@ export default function Leaders() {
             ))}
           </div>
 
-          <DataFreshness />
+          <DataFreshness period={period} />
           {loading && <div className="data-state panel">Calculating the inaugural-season leaders…</div>}
           {error && <div className="data-state panel">{error}</div>}
 
@@ -96,7 +99,7 @@ export default function Leaders() {
 
           {data && (
             <div className="data-source">
-              <strong>Through {formatThroughDate(data.leaders.throughDate)}.</strong>{' '}
+              <strong>{periodLabels[period]}{data.leaders.throughDate ? ` through ${formatThroughDate(data.leaders.throughDate)}` : ': no completed games yet'}.</strong>{' '}
               {category === 'Batting' ? data.leaders.qualifications.batting : data.leaders.qualifications.pitching}.{' '}
               <a href={data.leaders.source.url} target="_blank" rel="noopener noreferrer">Official WPBL statistics feed</a>.
             </div>

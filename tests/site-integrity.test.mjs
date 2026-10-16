@@ -17,12 +17,13 @@ const slugify = (name) => name
 
 async function rosterPlayers() {
   const source = await read('src/data/players.ts')
+  const nameCorrections = await json('src/data/playerNameCorrections.json')
   const teamPattern = /team: '([^']+)',\s+players: \[([\s\S]*?)\]\s*,\s+\},/g
   const playerPattern = /^\s+\[(['"])(.*?)\1,\s*(['"])(.*?)\3\],$/gm
   const teams = [...source.matchAll(teamPattern)].map((team) => ({
     name: team[1],
     players: [...team[2].matchAll(playerPattern)].map((player) => ({
-      name: player[2],
+      name: nameCorrections[player[2]]?.name || player[2],
       position: player[4],
       slug: slugify(player[2]),
     })),
@@ -86,11 +87,21 @@ test('the public build contains exact deep routes, metadata, sitemap, and a true
   const routeFiles = await readdir(resolve(siteDir, 'dist/_routes'))
   const routeHtml = await Promise.all(routeFiles.map((file) => read(`dist/_routes/${file}`)))
 
-  assert.equal(routeFiles.length, 70)
-  assert.equal(buildManifest.routeShells, 71)
-  assert.equal(buildManifest.sitemapUrls, 69)
-  assert.equal((sitemap.match(/<url>/g) || []).length, 69)
-  assert.ok(!sitemap.includes('/features/denae-benites'))
+  assert.equal(routeFiles.length, 74)
+  assert.equal(buildManifest.routeShells, 75)
+  assert.equal(buildManifest.sitemapUrls, 74)
+  assert.equal((sitemap.match(/<url>/g) || []).length, 74)
+  assert.ok(sitemap.includes('/features/denae-benites'))
+  assert.ok(sitemap.includes('/features/ashton-lansdell'))
+  for (const slug of ['denae-benites', 'ashton-lansdell']) {
+    const shell = routeHtml.find((html) => html.includes(`https://shesonfirst.com/features/${slug}`))
+    assert.match(shell, /<meta name="robots" content="index,follow"/)
+  }
+  for (const slug of ['claire-eccles', 'kelsie-whitmore', 'alli-schroder']) {
+    assert.ok(sitemap.includes(`/features/${slug}`))
+    const shell = routeHtml.find(html => html.includes(`https://shesonfirst.com/features/${slug}`))
+    assert.match(shell, /<meta name="robots" content="index,follow"/)
+  }
   assert.ok(!sitemap.includes('/analysis/wpbl-first-month'))
   assert.ok(!sitemap.includes('/review/'))
   assert.match(htaccess, /ErrorDocument 404 \/404\.html/)

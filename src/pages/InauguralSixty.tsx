@@ -1,31 +1,23 @@
 import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { allPlayers, playerHero, Player } from '../data/players'
+import { allPlayers } from '../data/players'
+import PlayerCard from '../components/PlayerCard'
 import Seo from '../components/Seo'
 
-const teams = ['All teams', ...Array.from(new Set(allPlayers.map((player) => player.team)))]
+const collator = new Intl.Collator('en', { sensitivity: 'base', ignorePunctuation: true })
+const teamNames = Array.from(new Set(allPlayers.map((player) => player.team))).sort(collator.compare)
+const teams = ['All teams', ...teamNames]
+const captains: Record<string, string> = {
+  'Boston Hunters': 'alli-schroder',
+  'Los Angeles Queens': 'ashton-lansdell',
+  'New York Heights': 'denae-benites',
+  'San Francisco Firebells': 'kelsie-whitmore',
+}
+const surname = (name: string) => name === 'Rosi del Castillo' ? 'del Castillo' : name.split(' ').slice(-1)[0] || name
 
 const normalize = (value: string) => value
   .normalize('NFD')
   .replace(/[\u0300-\u036f]/g, '')
   .toLowerCase()
-
-function PlayerTile({ p }: { p: Player }) {
-  const inner = (
-    <>
-      <div className="pt-photo" style={{ background: playerHero[p.hero] || 'linear-gradient(150deg,#241553,#1c1044)' }}>
-        {!p.published && <span className="pt-soon">Season data</span>}
-      </div>
-      <div className="pt-body">
-        <h3>{p.name}</h3>
-        <span className="meta">{p.position} · {p.team}</span>
-      </div>
-    </>
-  )
-  return (
-    <Link to={`/inaugural-60/${p.slug}`} className={`ptile ${p.published ? 'ptile-live' : 'ptile-pending ptile-stats'}`}>{inner}</Link>
-  )
-}
 
 export default function InauguralSixty() {
   const [query, setQuery] = useState('')
@@ -38,6 +30,13 @@ export default function InauguralSixty() {
       return matchesTeam && matchesQuery
     })
   }, [query, team])
+
+  const groups = teamNames.map((name) => ({
+    name,
+    players: filteredPlayers.filter((player) => player.team === name).sort((a, b) =>
+      Number(b.slug === captains[name]) - Number(a.slug === captains[name]) ||
+      collator.compare(surname(a.name), surname(b.name)) || collator.compare(a.name, b.name)),
+  })).filter((group) => group.players.length > 0)
 
   const resetFilters = () => {
     setQuery('')
@@ -121,8 +120,18 @@ export default function InauguralSixty() {
           </div>
 
           {filteredPlayers.length > 0 ? (
-            <div className="sixty-grid">
-              {filteredPlayers.map((p) => <PlayerTile key={p.slug} p={p} />)}
+            <div className="roster-groups">
+              {groups.map((group) => (
+                <section className="roster-group" key={group.name} aria-label={group.name}>
+                  <div className="roster-group-heading">
+                    <h2>{group.name}</h2>
+                    <span className="muted">{group.players.length} {group.players.length === 1 ? 'player' : 'players'}</span>
+                  </div>
+                  <div className="sixty-grid">
+                    {group.players.map((p) => <PlayerCard key={p.slug} player={p} captain={p.slug === captains[group.name]} />)}
+                  </div>
+                </section>
+              ))}
             </div>
           ) : (
             <div className="roster-empty panel">

@@ -1,14 +1,17 @@
+import { useState } from 'react'
+import SeasonPeriodSelect from '../components/SeasonPeriodSelect'
 import { useParams, Link } from 'react-router-dom'
 import { getPlayer, playerHero, linkMeta, PlayerLinks, publishedPlayers } from '../data/players'
 import PlayerSeasonStats from '../components/PlayerSeasonStats'
-import { useWpblData } from '../data/wpbl'
+import { usePeriodData, SeasonPeriod } from '../data/wpbl'
 import Seo from '../components/Seo'
 
 export default function Player() {
   const { slug } = useParams()
   const p = slug ? getPlayer(slug) : undefined
-  const { data, error, loading } = useWpblData()
-  const stats = p ? data?.players.players.find((record) => record.slug === p.slug) : undefined
+  const [period, setPeriod] = useState<SeasonPeriod>('regular')
+  const { data, error, loading } = usePeriodData(period)
+  const stats = p ? data?.players.players.find((record) => record.slug === (p.statsSlug || p.slug)) : undefined
 
   if (!p) {
     return (
@@ -57,7 +60,9 @@ export default function Player() {
             </div>
           </div>
         </section>
+        <div className="container"><SeasonPeriodSelect value={period} onChange={setPeriod} /></div>
         <PlayerSeasonStats
+          period={period}
           stats={stats}
           throughDate={data?.players.throughDate}
           sourceUrl={data?.players.source.url}
@@ -121,7 +126,9 @@ export default function Player() {
         </div>
       </section>
 
-      <PlayerSeasonStats
+      <div className="container"><SeasonPeriodSelect value={period} onChange={setPeriod} /></div>
+        <PlayerSeasonStats
+          period={period}
         stats={stats}
         throughDate={data?.players.throughDate}
         sourceUrl={data?.players.source.url}

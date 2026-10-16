@@ -1,17 +1,19 @@
 import DataFreshness from './DataFreshness'
-import { formatRate, formatThroughDate, PlayerSeasonRecord } from '../data/wpbl'
+import { formatRate, formatThroughDate, PlayerSeasonRecord, SeasonPeriod, periodLabels } from '../data/wpbl'
 
 function Metric({ label, value }: { label: string; value: string | number }) {
   return <div className="player-stat"><b>{value}</b><span>{label}</span></div>
 }
 
 export default function PlayerSeasonStats({
+  period,
   stats,
   throughDate,
   sourceUrl,
   loading,
   error,
 }: {
+  period: SeasonPeriod
   stats?: PlayerSeasonRecord
   throughDate?: string
   sourceUrl?: string
@@ -22,11 +24,11 @@ export default function PlayerSeasonStats({
     <section className="section player-stats-section">
       <div className="container">
         <div className="section-head player-stats-head">
-          <div><span className="eyebrow">2026 WPBL Season</span><h2>Player Snapshot</h2></div>
+          <div><span className="eyebrow">2026 WPBL Season</span><h2>{periodLabels[period]} Snapshot</h2></div>
           {throughDate && <span className="tag violet">Through {formatThroughDate(throughDate)}</span>}
         </div>
 
-        <DataFreshness />
+        <DataFreshness period={period} />
         {loading && <div className="data-state panel">Loading this player&rsquo;s season snapshot…</div>}
         {error && <div className="data-state panel">{error}</div>}
         {!loading && !error && !stats && (
