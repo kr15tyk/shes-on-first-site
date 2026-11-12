@@ -1,0 +1,547 @@
+{
+  "description": "Dated fixture extracted from the locally validated 2026 season snapshot for profile rendering tests; not a production feed.",
+  "periods": {
+    "regular": {
+      "players": {
+        "players": [
+          {
+            "id": "1d8hclall8bo0ux0",
+            "sourceIds": [
+              "1d8hclall8bo0ux0",
+              "y7jb72yw7km8kt54"
+            ],
+            "profileUrl": "https://www.womensprobaseballleague.com/players/alli-schroder/",
+            "slug": "alli-schroder",
+            "name": "Alli Schroder",
+            "team": "Boston Hunters",
+            "teamAbbr": "BOS",
+            "position": "P",
+            "batting": {
+              "id": "1d8hclall8bo0ux0",
+              "sourceIds": [
+                "1d8hclall8bo0ux0",
+                "y7jb72yw7km8kt54"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/alli-schroder/",
+              "slug": "alli-schroder",
+              "name": "Alli Schroder",
+              "team": "Boston Hunters",
+              "teamAbbr": "BOS",
+              "position": "1B",
+              "g": 12,
+              "pa": 21,
+              "ab": 17,
+              "r": 7,
+              "h": 7,
+              "doubles": 2,
+              "triples": 0,
+              "avg": 0.4117647058823529,
+              "obp": 0.5238095238095238,
+              "slg": 0.7058823529411765,
+              "ops": 1.2296918767507004,
+              "hr": 1,
+              "rbi": 6,
+              "bb": 3,
+              "so": 4,
+              "sb": 1
+            },
+            "pitching": {
+              "id": "1d8hclall8bo0ux0",
+              "sourceIds": [
+                "1d8hclall8bo0ux0",
+                "y7jb72yw7km8kt54"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/alli-schroder/",
+              "slug": "alli-schroder",
+              "name": "Alli Schroder",
+              "team": "Boston Hunters",
+              "teamAbbr": "BOS",
+              "position": "P",
+              "g": 7,
+              "ip": "15.2",
+              "era": 9.382978723404255,
+              "whip": 3,
+              "so": 11,
+              "bb": 15,
+              "h": 32,
+              "er": 21
+            }
+          },
+          {
+            "id": "4sf1dspa52dw7oew",
+            "sourceIds": [
+              "4sf1dspa52dw7oew",
+              "kjbamn7yjnc3zwa6"
+            ],
+            "profileUrl": "https://www.womensprobaseballleague.com/players/ashton-lansdell/",
+            "slug": "ashton-lansdell",
+            "name": "Ashton Lansdell",
+            "team": "Los Angeles Queens",
+            "teamAbbr": "LA",
+            "position": "3B",
+            "batting": {
+              "id": "4sf1dspa52dw7oew",
+              "sourceIds": [
+                "4sf1dspa52dw7oew",
+                "kjbamn7yjnc3zwa6"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/ashton-lansdell/",
+              "slug": "ashton-lansdell",
+              "name": "Ashton Lansdell",
+              "team": "Los Angeles Queens",
+              "teamAbbr": "LA",
+              "position": "3B",
+              "g": 15,
+              "pa": 60,
+              "ab": 44,
+              "r": 21,
+              "h": 21,
+              "doubles": 4,
+              "triples": 0,
+              "avg": 0.4772727272727273,
+              "obp": 0.6,
+              "slg": 0.8409090909090909,
+              "ops": 1.440909090909091,
+              "hr": 4,
+              "rbi": 14,
+              "bb": 12,
+              "so": 11,
+              "sb": 8
+            },
+            "pitching": null
+          },
+          {
+            "id": "5k1pl6aopao2hedi",
+            "sourceIds": [
+              "5k1pl6aopao2hedi",
+              "ks0hccaq9mqnlmt8"
+            ],
+            "profileUrl": "https://www.womensprobaseballleague.com/players/claire-eccles/",
+            "slug": "claire-eccles",
+            "name": "Claire Eccles",
+            "team": "New York Heights",
+            "teamAbbr": "NY",
+            "position": "CF/P",
+            "batting": {
+              "id": "5k1pl6aopao2hedi",
+              "sourceIds": [
+                "5k1pl6aopao2hedi",
+                "ks0hccaq9mqnlmt8"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/claire-eccles/",
+              "slug": "claire-eccles",
+              "name": "Claire Eccles",
+              "team": "New York Heights",
+              "teamAbbr": "NY",
+              "position": "CF",
+              "g": 13,
+              "pa": 43,
+              "ab": 39,
+              "r": 8,
+              "h": 11,
+              "doubles": 2,
+              "triples": 0,
+              "avg": 0.28205128205128205,
+              "obp": 0.2926829268292683,
+              "slg": 0.3333333333333333,
+              "ops": 0.6260162601626016,
+              "hr": 0,
+              "rbi": 5,
+              "bb": 1,
+              "so": 4,
+              "sb": 1
+            },
+            "pitching": {
+              "id": "5k1pl6aopao2hedi",
+              "sourceIds": [
+                "5k1pl6aopao2hedi",
+                "ks0hccaq9mqnlmt8"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/claire-eccles/",
+              "slug": "claire-eccles",
+              "name": "Claire Eccles",
+              "team": "New York Heights",
+              "teamAbbr": "NY",
+              "position": "CF/P",
+              "g": 4,
+              "ip": "10.0",
+              "era": 2.1,
+              "whip": 1.5,
+              "so": 12,
+              "bb": 8,
+              "h": 7,
+              "er": 3
+            }
+          },
+          {
+            "id": "6fn9036v8jpxmptb",
+            "sourceIds": [
+              "6fn9036v8jpxmptb",
+              "j5j2kopq545y57gp"
+            ],
+            "profileUrl": "https://www.womensprobaseballleague.com/players/denae-benites/",
+            "slug": "denae-benites",
+            "name": "Denae Benites",
+            "team": "New York Heights",
+            "teamAbbr": "NY",
+            "position": "C",
+            "batting": {
+              "id": "6fn9036v8jpxmptb",
+              "sourceIds": [
+                "6fn9036v8jpxmptb",
+                "j5j2kopq545y57gp"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/denae-benites/",
+              "slug": "denae-benites",
+              "name": "Denae Benites",
+              "team": "New York Heights",
+              "teamAbbr": "NY",
+              "position": "C",
+              "g": 15,
+              "pa": 67,
+              "ab": 58,
+              "r": 25,
+              "h": 32,
+              "doubles": 2,
+              "triples": 0,
+              "avg": 0.5517241379310345,
+              "obp": 0.5970149253731343,
+              "slg": 1.1551724137931034,
+              "ops": 1.7521873391662377,
+              "hr": 11,
+              "rbi": 37,
+              "bb": 6,
+              "so": 6,
+              "sb": 15
+            },
+            "pitching": null
+          },
+          {
+            "id": "5htcb87cbshse09e",
+            "sourceIds": [
+              "5htcb87cbshse09e",
+              "us39spqfx7fno64z"
+            ],
+            "profileUrl": "https://www.womensprobaseballleague.com/players/kelsie-whitmore/",
+            "slug": "kelsie-whitmore",
+            "name": "Kelsie Whitmore",
+            "team": "San Francisco Firebells",
+            "teamAbbr": "SF",
+            "position": "P/CF",
+            "batting": {
+              "id": "5htcb87cbshse09e",
+              "sourceIds": [
+                "5htcb87cbshse09e",
+                "us39spqfx7fno64z"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/kelsie-whitmore/",
+              "slug": "kelsie-whitmore",
+              "name": "Kelsie Whitmore",
+              "team": "San Francisco Firebells",
+              "teamAbbr": "SF",
+              "position": "DH",
+              "g": 15,
+              "pa": 64,
+              "ab": 51,
+              "r": 21,
+              "h": 23,
+              "doubles": 2,
+              "triples": 0,
+              "avg": 0.45098039215686275,
+              "obp": 0.53125,
+              "slg": 1.1372549019607843,
+              "ops": 1.6685049019607843,
+              "hr": 11,
+              "rbi": 31,
+              "bb": 10,
+              "so": 5,
+              "sb": 1
+            },
+            "pitching": {
+              "id": "5htcb87cbshse09e",
+              "sourceIds": [
+                "5htcb87cbshse09e",
+                "us39spqfx7fno64z"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/kelsie-whitmore/",
+              "slug": "kelsie-whitmore",
+              "name": "Kelsie Whitmore",
+              "team": "San Francisco Firebells",
+              "teamAbbr": "SF",
+              "position": "P/CF",
+              "g": 6,
+              "ip": "24.0",
+              "era": 5.25,
+              "whip": 1.9166666666666667,
+              "so": 15,
+              "bb": 13,
+              "h": 33,
+              "er": 18
+            }
+          }
+        ]
+      }
+    },
+    "postseason": {
+      "players": {
+        "players": [
+          {
+            "id": "1d8hclall8bo0ux0",
+            "sourceIds": [
+              "1d8hclall8bo0ux0",
+              "y7jb72yw7km8kt54"
+            ],
+            "profileUrl": "https://www.womensprobaseballleague.com/players/alli-schroder/",
+            "slug": "alli-schroder",
+            "name": "Alli Schroder",
+            "team": "Boston Hunters",
+            "teamAbbr": "BOS",
+            "position": "1B",
+            "batting": {
+              "id": "1d8hclall8bo0ux0",
+              "sourceIds": [
+                "1d8hclall8bo0ux0",
+                "y7jb72yw7km8kt54"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/alli-schroder/",
+              "slug": "alli-schroder",
+              "name": "Alli Schroder",
+              "team": "Boston Hunters",
+              "teamAbbr": "BOS",
+              "position": "1B",
+              "g": 2,
+              "pa": 8,
+              "ab": 7,
+              "r": 2,
+              "h": 3,
+              "doubles": 0,
+              "triples": 0,
+              "avg": 0.42857142857142855,
+              "obp": 0.375,
+              "slg": 0.42857142857142855,
+              "ops": 0.8035714285714286,
+              "hr": 0,
+              "rbi": 2,
+              "bb": 0,
+              "so": 0,
+              "sb": 0
+            },
+            "pitching": null
+          },
+          {
+            "id": "4sf1dspa52dw7oew",
+            "sourceIds": [
+              "4sf1dspa52dw7oew",
+              "kjbamn7yjnc3zwa6"
+            ],
+            "profileUrl": "https://www.womensprobaseballleague.com/players/ashton-lansdell/",
+            "slug": "ashton-lansdell",
+            "name": "Ashton Lansdell",
+            "team": "Los Angeles Queens",
+            "teamAbbr": "LA",
+            "position": "3B",
+            "batting": {
+              "id": "4sf1dspa52dw7oew",
+              "sourceIds": [
+                "4sf1dspa52dw7oew",
+                "kjbamn7yjnc3zwa6"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/ashton-lansdell/",
+              "slug": "ashton-lansdell",
+              "name": "Ashton Lansdell",
+              "team": "Los Angeles Queens",
+              "teamAbbr": "LA",
+              "position": "3B",
+              "g": 8,
+              "pa": 35,
+              "ab": 28,
+              "r": 8,
+              "h": 11,
+              "doubles": 3,
+              "triples": 0,
+              "avg": 0.39285714285714285,
+              "obp": 0.5142857142857142,
+              "slg": 0.7142857142857143,
+              "ops": 1.2285714285714286,
+              "hr": 2,
+              "rbi": 11,
+              "bb": 5,
+              "so": 2,
+              "sb": 4
+            },
+            "pitching": null
+          },
+          {
+            "id": "5k1pl6aopao2hedi",
+            "sourceIds": [
+              "5k1pl6aopao2hedi",
+              "ks0hccaq9mqnlmt8"
+            ],
+            "profileUrl": "https://www.womensprobaseballleague.com/players/claire-eccles/",
+            "slug": "claire-eccles",
+            "name": "Claire Eccles",
+            "team": "New York Heights",
+            "teamAbbr": "NY",
+            "position": "CF/P",
+            "batting": {
+              "id": "5k1pl6aopao2hedi",
+              "sourceIds": [
+                "5k1pl6aopao2hedi",
+                "ks0hccaq9mqnlmt8"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/claire-eccles/",
+              "slug": "claire-eccles",
+              "name": "Claire Eccles",
+              "team": "New York Heights",
+              "teamAbbr": "NY",
+              "position": "CF/P",
+              "g": 3,
+              "pa": 11,
+              "ab": 10,
+              "r": 2,
+              "h": 3,
+              "doubles": 1,
+              "triples": 0,
+              "avg": 0.3,
+              "obp": 0.36363636363636365,
+              "slg": 0.4,
+              "ops": 0.7636363636363637,
+              "hr": 0,
+              "rbi": 0,
+              "bb": 1,
+              "so": 0,
+              "sb": 0
+            },
+            "pitching": {
+              "id": "5k1pl6aopao2hedi",
+              "sourceIds": [
+                "5k1pl6aopao2hedi",
+                "ks0hccaq9mqnlmt8"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/claire-eccles/",
+              "slug": "claire-eccles",
+              "name": "Claire Eccles",
+              "team": "New York Heights",
+              "teamAbbr": "NY",
+              "position": "CF/P",
+              "g": 2,
+              "ip": "2.2",
+              "era": 10.5,
+              "whip": 2.25,
+              "so": 0,
+              "bb": 5,
+              "h": 1,
+              "er": 4
+            }
+          },
+          {
+            "id": "6fn9036v8jpxmptb",
+            "sourceIds": [
+              "6fn9036v8jpxmptb",
+              "j5j2kopq545y57gp"
+            ],
+            "profileUrl": "https://www.womensprobaseballleague.com/players/denae-benites/",
+            "slug": "denae-benites",
+            "name": "Denae Benites",
+            "team": "New York Heights",
+            "teamAbbr": "NY",
+            "position": "C",
+            "batting": {
+              "id": "6fn9036v8jpxmptb",
+              "sourceIds": [
+                "6fn9036v8jpxmptb",
+                "j5j2kopq545y57gp"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/denae-benites/",
+              "slug": "denae-benites",
+              "name": "Denae Benites",
+              "team": "New York Heights",
+              "teamAbbr": "NY",
+              "position": "C",
+              "g": 3,
+              "pa": 13,
+              "ab": 10,
+              "r": 5,
+              "h": 8,
+              "doubles": 0,
+              "triples": 0,
+              "avg": 0.8,
+              "obp": 0.8461538461538461,
+              "slg": 1.4,
+              "ops": 2.246153846153846,
+              "hr": 2,
+              "rbi": 6,
+              "bb": 2,
+              "so": 1,
+              "sb": 0
+            },
+            "pitching": null
+          },
+          {
+            "id": "5htcb87cbshse09e",
+            "sourceIds": [
+              "5htcb87cbshse09e",
+              "us39spqfx7fno64z"
+            ],
+            "profileUrl": "https://www.womensprobaseballleague.com/players/kelsie-whitmore/",
+            "slug": "kelsie-whitmore",
+            "name": "Kelsie Whitmore",
+            "team": "San Francisco Firebells",
+            "teamAbbr": "SF",
+            "position": "P/CF",
+            "batting": {
+              "id": "5htcb87cbshse09e",
+              "sourceIds": [
+                "5htcb87cbshse09e",
+                "us39spqfx7fno64z"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/kelsie-whitmore/",
+              "slug": "kelsie-whitmore",
+              "name": "Kelsie Whitmore",
+              "team": "San Francisco Firebells",
+              "teamAbbr": "SF",
+              "position": "CF",
+              "g": 7,
+              "pa": 31,
+              "ab": 24,
+              "r": 8,
+              "h": 7,
+              "doubles": 0,
+              "triples": 0,
+              "avg": 0.2916666666666667,
+              "obp": 0.45161290322580644,
+              "slg": 0.4166666666666667,
+              "ops": 0.8682795698924731,
+              "hr": 1,
+              "rbi": 2,
+              "bb": 7,
+              "so": 4,
+              "sb": 0
+            },
+            "pitching": {
+              "id": "5htcb87cbshse09e",
+              "sourceIds": [
+                "5htcb87cbshse09e",
+                "us39spqfx7fno64z"
+              ],
+              "profileUrl": "https://www.womensprobaseballleague.com/players/kelsie-whitmore/",
+              "slug": "kelsie-whitmore",
+              "name": "Kelsie Whitmore",
+              "team": "San Francisco Firebells",
+              "teamAbbr": "SF",
+              "position": "P/CF",
+              "g": 3,
+              "ip": "12.0",
+              "era": 4.666666666666667,
+              "whip": 2.1666666666666665,
+              "so": 6,
+              "bb": 4,
+              "h": 22,
+              "er": 8
+            }
+          }
+        ]
+      }
+    }
+  }
+}

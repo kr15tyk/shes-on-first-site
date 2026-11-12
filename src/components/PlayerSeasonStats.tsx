@@ -12,7 +12,9 @@ export default function PlayerSeasonStats({
   sourceUrl,
   loading,
   error,
+  expanded = false,
 }: {
+  expanded?: boolean
   period: SeasonPeriod
   stats?: PlayerSeasonRecord
   throughDate?: string
@@ -32,7 +34,7 @@ export default function PlayerSeasonStats({
         {loading && <div className="data-state panel">Loading this player&rsquo;s season snapshot…</div>}
         {error && <div className="data-state panel">{error}</div>}
         {!loading && !error && !stats && (
-          <div className="data-state panel">No completed-game 2026 statistics are currently available for this player.</div>
+          <div className="data-state panel">No completed-game 2026 {periodLabels[period].toLowerCase()} statistics are currently available for this player.</div>
         )}
 
         {stats && (
@@ -51,6 +53,18 @@ export default function PlayerSeasonStats({
                   <Metric label="RBI" value={stats.batting.rbi} />
                   <Metric label="SB" value={stats.batting.sb} />
                 </div>
+                {expanded && <details className="profile-full-stats" key={`batting-${period}`}>
+                  <summary>Full batting statistics</summary>
+                  <StatTable caption={`${periodLabels[period]} batting — 2026 WPBL`} rows={[
+                    ['G', 'Games', stats.batting.g], ['PA', 'Plate appearances', stats.batting.pa],
+                    ['AB', 'At-bats', stats.batting.ab], ['R', 'Runs', stats.batting.r], ['H', 'Hits', stats.batting.h],
+                    ['2B', 'Doubles', stats.batting.doubles], ['3B', 'Triples', stats.batting.triples],
+                    ['HR', 'Home runs', stats.batting.hr], ['RBI', 'Runs batted in', stats.batting.rbi],
+                    ['BB', 'Walks', stats.batting.bb], ['SO', 'Strikeouts', stats.batting.so], ['SB', 'Stolen bases', stats.batting.sb],
+                    ['AVG', 'Batting average', formatRate(stats.batting.avg)], ['OBP', 'On-base percentage', formatRate(stats.batting.obp)],
+                    ['SLG', 'Slugging percentage', formatRate(stats.batting.slg)], ['OPS', 'On-base plus slugging', formatRate(stats.batting.ops)],
+                  ]} />
+                </details>}
               </article>
             )}
             {stats.pitching && (
@@ -63,6 +77,17 @@ export default function PlayerSeasonStats({
                   <Metric label="WHIP" value={stats.pitching.whip?.toFixed(2) ?? '—'} />
                   <Metric label="SO" value={stats.pitching.so} />
                 </div>
+                {expanded && <details className="profile-full-stats" key={`pitching-${period}`}>
+                  <summary>Full pitching statistics</summary>
+                  <StatTable caption={`${periodLabels[period]} pitching — 2026 WPBL`} rows={[
+                    ['G', 'Games', stats.pitching.g], ['IP', 'Innings pitched', stats.pitching.ip],
+                    ['H', 'Hits allowed', stats.pitching.h], ['ER', 'Earned runs', stats.pitching.er],
+                    ['BB', 'Walks', stats.pitching.bb], ['SO', 'Strikeouts', stats.pitching.so],
+                    ['ERA', 'Earned run average', stats.pitching.era?.toFixed(2) ?? '—'],
+                    ['WHIP', 'Walks plus hits per inning pitched', stats.pitching.whip?.toFixed(2) ?? '—'],
+                  ]} />
+                  <p className="data-source">Innings use baseball notation: .1 is one out and .2 is two outs.</p>
+                </details>}
                 {stats.pitching.era === null && (
                   <p className="data-source">ERA and WHIP are not calculated until a pitcher records an out.</p>
                 )}
@@ -81,4 +106,10 @@ export default function PlayerSeasonStats({
       </div>
     </section>
   )
+}
+
+function StatTable({ caption, rows }: { caption: string; rows: [string, string, string | number][] }) {
+  return <table className="profile-stat-table"><caption>{caption}</caption><thead><tr><th scope="col">Statistic</th><th scope="col">Value</th></tr></thead>
+    <tbody>{rows.map(([label, description, value]) => <tr key={label}><th scope="row"><abbr title={description}>{label}</abbr><span>{description}</span></th><td>{value ?? '—'}</td></tr>)}</tbody>
+  </table>
 }

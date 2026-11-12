@@ -27,7 +27,7 @@ function SeasonGame({ game, label }: { game: Game; label: string }) {
 
 export default function Home() {
   const latest = articles.slice(0, 3)
-  const featuredSlugs = ['denae-benites', 'ashton-lansdell', 'kelsie-whitmore', 'alli-schroder', 'claire-eccles']
+  const featuredSlugs = ['denae-benites', 'ashton-lansdell', 'kelsie-whitmore', 'alli-schroder', 'claire-eccles', 'brittany-apgar']
   const showcase = [...featuredSlugs.flatMap(slug => allPlayers.filter(p => p.slug === slug)), ...allPlayers.filter(p => !featuredSlugs.includes(p.slug))].slice(0, 6)
   const { data, error, loading } = useWpblData()
   const nextGame = data?.schedule.games.find((game) => game.status === 'Upcoming' && Date.parse(game.start) >= Date.now())

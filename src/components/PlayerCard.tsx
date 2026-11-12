@@ -9,6 +9,6 @@ export default function PlayerCard({ player: p, captain = false }: { player: Pla
     <div className="pt-photo" style={{ background: playerHero[p.hero] || 'linear-gradient(150deg,#241553,#1c1044)' }}>
       {profile ? <img src={profile.imageSrc} alt={profile.imageAlt} loading="lazy" /> : !p.published && <span className="pt-soon">Season data</span>}
     </div>
-    <div className="pt-body">{captain && <span className="pt-captain">Captain</span>}<h3>{p.name}</h3><span className="meta">{p.position} · {p.team}</span>{profile && <span className="pt-profile-link">Read her profile →</span>}</div>
+    <div className="pt-body">{captain && <span className="pt-captain">Captain</span>}<h3>{p.slug === 'brittany-apgar' && profile ? profile.name : p.name}</h3><span className="meta">{p.position} · {p.team}</span>{profile && <span className="pt-profile-link">Read her profile →</span>}</div>
   </Link>
 }

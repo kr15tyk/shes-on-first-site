@@ -35,3 +35,44 @@
 .public-player-profile .profile-art figcaption { padding:12px 16px; font-size:.75rem; color:#c1bad6; line-height:1.5; }
 
 .public-player-profile .profile-season-stats { scroll-margin-top: 100px; padding-top: 32px; }
+
+/* Shared full-profile presentation. Individual editorial HTML supplies copy only. */
+.public-player-profile .profile-jump-links { display:flex; flex-wrap:wrap; gap:12px; padding-block:20px 0; }
+.public-player-profile .profile-jump-links a { padding:8px 14px; border:1px solid var(--line); border-radius:24px; font-weight:700; }
+.public-player-profile [id] { scroll-margin-top:110px; }
+.public-player-profile .profile-hero > * { min-width:0; }
+.public-player-profile .profile-art img { aspect-ratio:4 / 5; object-fit:contain; }
+.public-player-profile .facts { margin:0; }
+.public-player-profile .fact dt { color:var(--teal); font-size:.8rem; font-weight:800; text-transform:uppercase; margin-bottom:6px; }
+.public-player-profile .fact dd { margin:0; line-height:1.5; }
+.public-player-profile .history-list { list-style:none; padding:0; }
+.public-player-profile .history-row { border-left:3px solid var(--teal); }
+.public-player-profile .eyebrow { margin-bottom:12px; }
+.public-player-profile .story-card p:last-child { margin-bottom:0; }
+.public-player-profile .profile-season-stats { padding-top:0; }
+.public-player-profile .profile-period-control { background:var(--panel); border:1px solid var(--line); border-top:4px solid var(--teal); border-radius:12px; padding:24px; }
+.public-player-profile .profile-period-control h2 { font-size:clamp(1.6rem,4vw,2.3rem); margin:0 0 12px; }
+.public-player-profile .profile-period-control .leader-tabs { margin:0; gap:12px; }
+.public-player-profile .profile-period-control .chip { min-height:48px; padding:12px 22px; border:2px solid var(--lavender); font-size:1rem; }
+.public-player-profile .profile-period-control .chip-on { background:var(--teal); color:#100b2c; border-color:var(--teal); box-shadow:0 0 0 3px #26d7cc30; }
+.public-player-profile .profile-period-control .chip-on::before { content:'✓ '; }
+.public-player-profile .player-stats-head h2 { font-size:clamp(1.5rem,3vw,2rem); }
+.public-player-profile .profile-full-stats { margin-top:24px; border-top:1px solid var(--line); padding-top:16px; }
+.public-player-profile .profile-full-stats summary { cursor:pointer; color:var(--teal); font-weight:800; padding:8px 0; }
+.public-player-profile .profile-stat-table { width:100%; table-layout:fixed; margin-top:12px; }
+.public-player-profile .profile-stat-table caption { text-align:left; color:var(--muted); padding:8px 0; }
+.public-player-profile .profile-stat-table th:first-child { width:75%; }
+.public-player-profile .profile-stat-table th span { display:block; font-size:.8rem; color:var(--muted); font-weight:400; }
+.public-player-profile .profile-stat-table td { font-variant-numeric:tabular-nums; }
+.public-player-profile a:focus-visible, .public-player-profile button:focus-visible, .public-player-profile summary:focus-visible { outline:3px solid var(--teal); outline-offset:4px; }
+@media(max-width:680px) {
+ .public-player-profile .profile-hero { padding-block:24px; }
+ .public-player-profile .profile-art { max-width:360px; margin-inline:auto; }
+ .public-player-profile .profile-period-control { padding:18px; }
+ .public-player-profile .profile-period-control .leader-tabs { display:grid; grid-template-columns:1fr 1fr; }
+ .public-player-profile .profile-period-control .chip { padding:12px 8px; }
+ .public-player-profile .player-stats-head { align-items:flex-start; flex-direction:column; }
+}
+.public-player-profile .player-stat-metrics,
+.public-player-profile .player-stat-metrics.pitching { grid-template-columns:repeat(auto-fit,minmax(70px,1fr)); }
+.public-player-profile .player-stat-card { min-width:0; }
